@@ -259,7 +259,7 @@ This is because, by default, devices own the out-of-band configurations.
     		dot1q {
 				vlan-id [ 2188 ];
           }
-    	}
+      }
 	}
 
 	```
