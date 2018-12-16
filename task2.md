@@ -257,7 +257,7 @@ This is because, by default, devices own the out-of-band configurations.
     	description L_ford_318-L1111318;
     	encapsulation {
         	dot1q {
-            vlan-id [ 2188 ];
+				vlan-id [ 2188 ];
         	}
     	}
 	}
