@@ -59,21 +59,16 @@ capture the input and output parameters.
 
 1.  Edit the auto-generated service yang file, l2vpnreconcile.yang.
 
-> **Option 1: Edit
-> ~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
-> server, using “vi” for example;**
->
-> **Option 2: Copy the file
-> ~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
-> server to window’s jump server using
-> (**![](./media/media/image11.png){width="0.3988221784776903in"
-> height="0.5184689413823272in"}**). Edit the file using editors such as
-> Sublime (**
-> ![](./media/media/image12.tiff){width="0.4463057742782152in"
-> height="0.34611439195100613in"}**),
-> Notepad++(**![](./media/media/image13.png){width="0.3354702537182852in"
-> height="0.34453740157480317in"}**). If you take Option 2, remember
-> copy the file back to NSO server.**
+**Option 1: Edit `~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang` from NSO server,
+using `vi` for example;**
+
+**Option 2: Copy file `~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang` from NSO
+server to jump server using `WinScp`
+(**![](./media/media/scp.png)**). Edit the file using editors such as
+Sublime (** ![](./media/media/sublime.png)**), or
+Notepad++(**![](./media/media/notepad.png)**). If you take Option 2, remember copy
+the file back to NSO server.**
+
 
 1.  Edit l2vpnreconcile.yang . We put the action reconcile-l2vpn under
     container action:
