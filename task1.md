@@ -222,16 +222,15 @@ format. This output is the starting point of the mapping template.
 
 1.  Now let’s complete L2Vpn template file, L2Vpn-template.xml
 
-  **Option 1: Edit ~/packages/L2Vpn/templates/L2Vpn-template.xml from
+    **Option 1: Edit ~/packages/L2Vpn/templates/L2Vpn-template.xml from
  NSO server, using `vi` for example;**
 
-  **Option 2: Copy the file
+    **Option 2: Copy the file
  ~/packages/L2Vpn/templates/L2Vpn-template.xml from NSO server to
   window’s jump server using
   (![](./media/media/scp.png). Edit the file using editors such as
  Sublime 
- ![](./media/media/sublime.png)
-,
+ ![](./media/media/sublime.png),
  Notepad++(![](./media/media/notepad.png). If you take Option 2, remember copy the file back to NSO server.**
 
 1.  Edit file ~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
