@@ -27,18 +27,19 @@ Note, jump start server is shared. You should login with your own user id. Each 
 
 1.  Access lab jump start server via Remote Desk Top. Launch Remote Desk Top, enter credentials (Jump start server, username is
     WEIGANG\\labuser1, WEIGANG\\labuser2, and etc) 
+    
 2.  Access NSO application VM from Jump Start windows server, 
     
     click ![](./media/media/putty.png) from desktop, to open a putty connection, enter NSO VM IP address (172.23.123.211, ....)
     
-  **Make sure you entered the ip address assigned to you.
+    **Make sure you entered the ip address assigned to you.
     (172.23.123.211 for labuser1, 172.23.123.212 for labuser2, ….)**
 
 
-1.  Enter credentials as listed in **Table 2 Lab access information:**
+3.  Enter credentials as listed in **Table 2 Lab access information:**
     (nso/cisco123):
 
-![](./media/media/image9.png)
+  ![](./media/media/image9.png)
 
 ### Validate the setup
 
