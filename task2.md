@@ -237,51 +237,32 @@ This is because, by default, devices own the out-of-band configurations.
 1.  After commit the delete operation, confirm service instance `test1` is
     no longer in cdb of NSO.
 
-  --------------------------------------
-  admin@ncs% show services L2Vpn test1
-  
-  -------------------------------\^
-  
-  syntax error: element does not exist
-  
-  [error]$[2017-05-05 00:44:15]
-  
-  [edit]
-  
-  admin@ncs% commit
-  
-  Commit complete.
-  
-  [ok][2017-04-29 10:04:56]
-  
-  [edit]
-  --------------------------------------
+  	```
+  	admin@ncs% show services L2Vpn test1
+	-------------------------------^
+	syntax error: element does not exist
+	[error][2017-05-05 00:44:15]
+	[edit]
+	admin@ncs%   	
+	```
 
 1.  Although the service instance test1is deleted from NSO, the
     associated Bundle Ether sub-interface 100.2188 **remains** in
     asr9k0. The out-of-band configuration can’t be modified through NSO!
+    
+	```
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.2188
+	Bundle-Ether 100.2188 {
+    	mode        l2transport;
+    	description L_ford_318-L1111318;
+    	encapsulation {
+        dot1q {
+            vlan-id [ 2188 ];
+        }
+    	}
+	}
 
-  ---------------------------------------------------------------------------------------------------------------------
-  admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.2188
-  
-  Bundle-Ether 100.2188 {
-  
-  mode l2transport;
-  
-  description L\_ford\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2188 ];
-  
-  }
-  
-  }
-  
-  }
-  ---------------------------------------------------------------------------------------------------------------------
+	```
 
 You have completed Task 2. You created two L2Vpn service instances to
 match the pre-existing configurations. You also observed that deleting
