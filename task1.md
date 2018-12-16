@@ -430,8 +430,7 @@ service instance.
 	interface Bundle-Ether 100.100 l2transport description ciscolive-123
  	encapsulation dot1q 100
 	exit
-
-   ```
+	```
 
 1.  []{#_Ref484181849 .anchor}Delete service instance “test” from NSO
     CLI (config mode).
