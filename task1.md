@@ -71,14 +71,14 @@ a `Bundle-Ether` port and an `stag` (service tag).
 1.  Inspect the skeleton files, make sure files `Makefile`, `L2Vpn.yang` and
     `L2Vpn-template.xml` are created:
 
- ```
-  [nso@cl-lab-211 L2Vpn]$ ls src  
-  Makefile yang
-  [nso@cl-lab-211 L2Vpn]$ ls src/yang 
-  L2Vpn.yang
-  [nso@cl-lab-211 L2Vpn]$ ls templates/
-  L2Vpn-template.xml
-  ```
+    ```
+    [nso@cl-lab-211 L2Vpn]$ ls src  
+    Makefile yang
+    [nso@cl-lab-211 L2Vpn]$ ls src/yang 
+    L2Vpn.yang
+    [nso@cl-lab-211 L2Vpn]$ ls templates/
+    L2Vpn-template.xml
+    ```
 
 ### Update the auto-generated L2Vpn.yang
 
