@@ -88,13 +88,39 @@ to NSO through ref-count reset.
 
 After re-setting the ref-count, the pre-existing L2VPN is reconciled,
 NSO is managing the lifecycle of the reconciled service instance. In
-this step, you will see the correct behaviour when we delete test2
+this step, you will see the correct behaviour when we delete `test2`
 
-1.  Delete test2, notice the output of “commit dry-run outformat native”
-    contains the correct “no” statement to remove the Bundle Ether
+1.  Delete `test2`, notice the output of `commit dry-run outformat native`
+    contains the correct `no` statement to remove the Bundle Ether
     sub-interface 100.2234.
 
-  -----------------------------------------------------
+   ```
+     admin@ncs% show services L2Vpn test2
+    order-number  L1111318;
+    customer-name L_unitedhealth_318;
+    pe-devices asr9k0 {
+       Bundle-Ether 100;
+       stag         2234;
+    }
+   [ok][2017-04-29 10:04:30]
+
+   [edit]
+   admin@ncs% delete services L2Vpn test2
+   [ok][2017-04-29 11:34:32]
+
+   [edit]
+   admin@ncs% commit dry-run outformat native
+   native {
+      device {
+        name asr9k0
+        data no interface Bundle-Ether 100.2234 l2transport
+      }
+    }
+    [ok][2017-04-29 11:34:39]
+
+    [edit]
+
+    ```
   admin@ncs% show services L2Vpn test2
   
   order-number L1111318;
