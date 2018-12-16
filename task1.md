@@ -100,7 +100,7 @@ the file back to NSO server.**
     You need to update L2Vpn block to add service attributes. Modify the
     generated Yang file, locate the block starts with “list L2Vpn”:
 
-    ![](./media/media/image14.tiff)
+    ![](./media/media/l2vpnyang.tiff)
 
 1.  Change “`name`” to “`sr-name`”:
 
