@@ -7,103 +7,78 @@ LABNMS-2500
 
 Task 1 Create L2VPN Service Package
 ----------------------------
-
+ 
 
 Requirements of the service package:
 
-> A service provider needs to have an orchestration tool to
-> auto-configure L2VPN. The network is shown in **Figure 1**. The
-> service provider decided to use NSO. We need to create a service
-> package for the job. After finalized the requirements, we have **Table
-> 3** lists the parameters of the service package and **Table 4** lists
-> the CLI’s to be configured.
-
-Our job is to create the service package. As shown in **Table 3** and
-**Table 4**, the service gets a list of PE’s. For each PE, it needs to
-create a Layer 2 transport Bundle-Ethernet sub-interface, where the PE
-Port number is to identify the Bundle-Ethernet interface. Service tag
-(stag) is the VLAN id to be encapsulated. stag is also used as
-sub-interface id of Bundle-Ethernet port. Customer name and order number
+* The service gets a list of PE’s. 
+* Each PE contains a Layer 2 transport Bundle-Ethernet sub-interface, where PE
+Port number is to identify the Bundle-Ethernet interface. 
+* Service tag (stag) is the VLAN id to be encapsulated. stag is also used as
+sub-interface id of Bundle-Ethernet port. 
+* Customer name and order number
 need to be put as the description of the sub-interfaces.
+* Service Attributes:
 
-[]{#_Ref484969569 .anchor}Table 3 Service Attributes of L2Vpn
+![](./media/media/service-attr.png)
 
-  Input                Type      Note
-  -------------------- --------- ------------------------------------------------------------------------------------------------
-  PE devices           List      A list of PE devices
-  PE Port Number       String    The Bundle Ether Port number of each PE
-  Service tag (stag)   Integer   The vlan tag for dot1q in encapsulation, it matches the sub-interface id of Bundle Ether Port.
-  Customer Name        String    Customer name of the service.
-  Order Number         String    Order number
 
-[]{#_Ref484972427 .anchor}Table 4 CLI's to be configured on PE for L2VPN
+* CLI's to be configured on PE for L2VPN
 Service
 
-  ------------------------------------------------------------------------
-  interface Bundle-Ether &lt;PE Port number>;.&lt;stag>l2transport
+  ```
+  interface Bundle-Ether <PE Port number>.<stag>l2transport
   
-  description "&lt;customer name>;\_&lt;order number>;"
+  description "<customer name>-<order number>"
   
-  encapsulation dot1q &lt;stag>;
-  ------------------------------------------------------------------------
+  encapsulation dot1q <stag>
+  ```
 
 In this task, you will create a service package skeleton, and a service
-Yang model to capture the service attributes as in **Table 3**. You will
+Yang model to capture the service attributes. You will
 then create service to device mapping to support the configuration of
-CLIs as in **Table 4**. At the end, you will deploy the service package
+CLIs. At the end, you will deploy the service package
 onto your NSO host.
 
-The service model is illustrated in **Figure 2**. As shown in the
-diagram, L2Vpn is modelled as a list of ncs services. “sr-name” is the
-key of the list. Each L2Vpn contains leaf nodes of order-number and
-customer-name. In addition, it contains a list of pe-devices, each with
-a Bundle-Ether port and an stag (service tag).
+The service YANG model:
+![](./media/media/image10.png)
+As shown in the
+diagram, L2Vpn is modelled as a list of ncs services. `sr-name` is the
+key of the list. Each L2Vpn contains leaf nodes of `order-number` and
+`customer-name`. In addition, it contains a list of `pe-devices`, each with
+a `Bundle-Ether` port and an `stag` (service tag).
 
-![](./media/media/image10.png){width="3.1666666666666665in"
-height="4.027777777777778in"}
-
-[]{#_Ref481265451 .anchor}Figure 2 L2VPN Service Model for this lab
 
 ### Create Service Skeleton 
 
 1.  From NSO application VM, create a service skeleton package using
-    “ncs-make-package” command, name it L2Vpn.
+    `ncs-make-package` command, name it `L2Vpn`.
 
-  ---------------------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211]$ mkdir ~/packages
-  
+  ```
+  [nso@cl-lab-211]$ mkdir ~/packages 
   [nso@cl-lab-211 packages]$ cd ~/packages
-  
   [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python-and-template --augment /ncs:services L2Vpn
-  ---------------------------------------------------------------------------------------------------------------------
+  ```
 
-1.  “ncs-make-package” creates a directory structure (L2Vpn), and
-    skeleton of service files.
+1.  “ncs-make-package” creates a directory structure (`L2Vpn`), and skeleton of service files, let's check it out:
 
-  --------------------------------------------------------
+  ```
   [nso@cl-lab-211 packages]$ cd ~/packages/L2Vpn
-  
   [nso@cl-lab-211 L2Vpn]$ ls
-  
   package-meta-data.xml python README src templates test
-  --------------------------------------------------------
+  ```
 
-1.  Inspect the skeleton files, make sure files Makefile, L2Vpn.yang and
-    L2Vpn-template.xml are created:
+1.  Inspect the skeleton files, make sure files `Makefile`, `L2Vpn.yang` and
+    `L2Vpn-template.xml` are created:
 
-  ------------------------------------------
-  [nso@cl-lab-211 L2Vpn]$ ls src
-  
+ ```
+  [nso@cl-lab-211 L2Vpn]$ ls src  
   Makefile yang
-  
-  [nso@cl-lab-211 L2Vpn]$ ls src/yang
-  
+  [nso@cl-lab-211 L2Vpn]$ ls src/yang 
   L2Vpn.yang
-  
   [nso@cl-lab-211 L2Vpn]$ ls templates/
-  
   L2Vpn-template.xml
-  ------------------------------------------
+  ```
 
 ### Update the auto-generated L2Vpn.yang
 
@@ -369,7 +344,7 @@ height="7.9840277777777775in"}
   
   mkdir -p java/src//
   
-  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>;&1 && echo "-a L2Vpn-ann.yang"\` \\
+  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\
   
   -c -o ../load-dir/L2Vpn.fxs yang/L2Vpn.yang
   ----------------------------------------------------------------------------------------------------------
@@ -434,47 +409,47 @@ format. This output is the starting point of the mapping template.
   
   local-node {
   
-  data &lt;devices xmlns="http://tail-f.com/ns/ncs">;
+  data <devices xmlns="http://tail-f.com/ns/ncs">
   
-  &lt;device>;
+  <device>
   
-  &lt;name>;asr9k0&lt;/name>;
+  <name>asr9k0</name>
   
-  &lt;config>;
+  <config>
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
+  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
   
-  &lt;Bundle-Ether-subinterface>;
+  <Bundle-Ether-subinterface>
   
-  &lt;Bundle-Ether>;
+  <Bundle-Ether>
   
-  &lt;id>;100.100&lt;/id>;
+  <id>100.100</id>
   
-  &lt;mode>;l2transport&lt;/mode>;
+  <mode>l2transport</mode>
   
-  &lt;description>;test-desc&lt;/description>;
+  <description>test-desc</description>
   
-  &lt;encapsulation>;
+  <encapsulation>
   
-  &lt;dot1q>;
+  <dot1q>
   
-  &lt;vlan-id>;100&lt;/vlan-id>;
+  <vlan-id>100</vlan-id>
   
-  &lt;/dot1q>;
+  </dot1q>
   
-  &lt;/encapsulation>;
+  </encapsulation>
   
-  &lt;/Bundle-Ether>;
+  </Bundle-Ether>
   
-  &lt;/Bundle-Ether-subinterface>;
+  </Bundle-Ether-subinterface>
   
-  &lt;/interface>;
+  </interface>
   
-  &lt;/config>;
+  </config>
   
-  &lt;/device>;
+  </device>
   
-  &lt;/devices>;
+  </devices>
   
   }
   
@@ -516,7 +491,7 @@ format. This output is the starting point of the mapping template.
 > copy the file back to NSO server.**
 
 1.  Edit file ~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
-    the contents of the block of &lt;config-template
+    the contents of the block of <config-template
     xmlns="http://tail-f.com/ns/config/1.0">with the highlighted
     output from **item 20.**
 
@@ -524,51 +499,51 @@ format. This output is the starting point of the mapping template.
 height="3.5399442257217846in"}
 
   -----------------------------------------------------------------
-  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0">;
+  <config-template xmlns="http://tail-f.com/ns/config/1.0">
   
-  &lt;devices xmlns="http://tail-f.com/ns/ncs">;
+  <devices xmlns="http://tail-f.com/ns/ncs">
   
-  &lt;device>;
+  <device>
   
-  &lt;name>;asr9k0&lt;/name>;
+  <name>asr9k0</name>
   
-  &lt;config>;
+  <config>
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
+  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
   
-  &lt;Bundle-Ether-subinterface>;
+  <Bundle-Ether-subinterface>
   
-  &lt;Bundle-Ether>;
+  <Bundle-Ether>
   
-  &lt;id>;100.100&lt;/id>;
+  <id>100.100</id>
   
-  &lt;description>;test-desc&lt;/description>;
+  <description>test-desc</description>
   
-  &lt;mode>;l2transport&lt;/mode>;
+  <mode>l2transport</mode>
   
-  &lt;encapsulation>;
+  <encapsulation>
   
-  &lt;dot1q>;
+  <dot1q>
   
-  &lt;vlan-id>;100&lt;/vlan-id>;
+  <vlan-id>100</vlan-id>
   
-  &lt;/dot1q>;
+  </dot1q>
   
-  &lt;/encapsulation>;
+  </encapsulation>
   
-  &lt;/Bundle-Ether>;
+  </Bundle-Ether>
   
-  &lt;/Bundle-Ether-subinterface>;
+  </Bundle-Ether-subinterface>
   
-  &lt;/interface>;
+  </interface>
   
-  &lt;/config>;
+  </config>
   
-  &lt;/device>;
+  </device>
   
-  &lt;/devices>;
+  </devices>
   
-  &lt;/config-template>;
+  </config-template>
   -----------------------------------------------------------------
 
 1.  Next you need to plant the service attributes to replace the sample
@@ -594,51 +569,51 @@ following, note the yellow highlighted parts are replaced with service
 attributes:
 
   -------------------------------------------------------------------------
-  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0">;
+  <config-template xmlns="http://tail-f.com/ns/config/1.0">
   
-  &lt;devices xmlns="http://tail-f.com/ns/ncs">;
+  <devices xmlns="http://tail-f.com/ns/ncs">
   
-  &lt;device>;
+  <device>
   
-  &lt;name>;{/pe-devices/device-name}&lt;/name>;
+  <name>{/pe-devices/device-name}</name>
   
-  &lt;config>;
+  <config>
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
+  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
   
-  &lt;Bundle-Ether-subinterface>;
+  <Bundle-Ether-subinterface>
   
-  &lt;Bundle-Ether>;
+  <Bundle-Ether>
   
-  &lt;id>;{./Bundle-Ether}.{./stag}&lt;/id>;
+  <id>{./Bundle-Ether}.{./stag}</id>
   
-  &lt;description>;{/customer-name}-{/order-number}&lt;/description>;
+  <description>{/customer-name}-{/order-number}</description>
   
-  &lt;mode>;l2transport&lt;/mode>;
+  <mode>l2transport</mode>
   
-  &lt;encapsulation>;
+  <encapsulation>
   
-  &lt;dot1q>;
+  <dot1q>
   
-  &lt;vlan-id>;{./stag}&lt;/vlan-id>;
+  <vlan-id>{./stag}</vlan-id>
   
-  &lt;/dot1q>;
+  </dot1q>
   
-  &lt;/encapsulation>;
+  </encapsulation>
   
-  &lt;/Bundle-Ether>;
+  </Bundle-Ether>
   
-  &lt;/Bundle-Ether-subinterface>;
+  </Bundle-Ether-subinterface>
   
-  &lt;/interface>;
+  </interface>
   
-  &lt;/config>;
+  </config>
   
-  &lt;/device>;
+  </device>
   
-  &lt;/devices>;
+  </devices>
   
-  &lt;/config-template>;
+  </config-template>
   -------------------------------------------------------------------------
 
 -   **You can find the solution template file from
@@ -695,13 +670,13 @@ Now you are ready to deploy the service package to NSO application.
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  >;>;>System upgrade is starting.
+  >>>System upgrade is starting.
   
-  >;>;>Sessions in configure mode must exit to operational mode.
+  >>>Sessions in configure mode must exit to operational mode.
   
-  >;>;>No configuration changes can be performed until upgrade has completed.
+  >>>No configuration changes can be performed until upgrade has completed.
   
-  >;>;>System upgrade has completed successfully.
+  >>>System upgrade has completed successfully.
   
   reload-result {
   
@@ -2122,9 +2097,9 @@ attribute mapping example for auto service instance creation
   ------------------------------------------------------------ --------------------------------------------------------------------------------
   interface Bundle-Ether l2transport
   
-  description &lt;*customer name*>;–&lt;*order-number*>;
+  description <*customer name*>–<*order-number*>
   
-  encapsulation dot1q &lt;*stag*>;
+  encapsulation dot1q <*stag*>
   
   exit
 
@@ -2134,11 +2109,11 @@ attribute mapping example for auto service instance creation
 
   device attribute
 
-  id *&lt;id.stag>;*
+  id *<id.stag>*
 
-  description &lt;*customer name*>;–&lt;*order-number*>;
+  description <*customer name*>–<*order-number*>
 
-  dot1aq vlan-id *&lt;stag>;*
+  dot1aq vlan-id *<stag>*
   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 -   **Note: Make sure the green highlighted line is entered as one line.
@@ -2628,7 +2603,7 @@ NSO server.
   
   mkdir -p java/src//
   
-  /home/nso/ncs-5.0.1/bin/ncsc \`ls l2vpnreconcile-ann.yang >/dev/null 2>;&1 && echo "-a l2vpnreconcile-ann.yang"\` \\
+  /home/nso/ncs-5.0.1/bin/ncsc \`ls l2vpnreconcile-ann.yang >/dev/null 2>&1 && echo "-a l2vpnreconcile-ann.yang"\` \\
   
   -c -o ../load-dir/l2vpnreconcile.fxs yang/l2vpnreconcile.yang
   
@@ -2674,13 +2649,13 @@ NSO server.
   
   admin@ncs>request packages reload
   
-  >;>;>System upgrade is starting.
+  >>>System upgrade is starting.
   
-  >;>;>Sessions in configure mode must exit to operational mode.
+  >>>Sessions in configure mode must exit to operational mode.
   
-  >;>;>No configuration changes can be performed until upgrade has completed.
+  >>>No configuration changes can be performed until upgrade has completed.
   
-  >;>;>System upgrade has completed successfully.
+  >>>System upgrade has completed successfully.
   
   reload-result {
   
@@ -2727,7 +2702,7 @@ pre-existing L2VPN services in devices.
   
   [ok][2017-06-03 11:38:21]
   
-  admin@ncs>;
+  admin@ncs>
   
   System message at 2017-06-03 11:38:21...
   

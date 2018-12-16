@@ -136,31 +136,18 @@ Follow the following instruction.
 
   ```
   admin@ncs>request devices sync-from
-  
   sync-result {
-  
   device asr9k0
-  
   result true
-  
   }
-  
   sync-result {
-  
   device asr9k1
-  
   result true
-  
   }
-  
   sync-result {
-  
   device asr9k2
-  
   result true
-  
   }
-  
   [ok][2017-06-11 12:34:12]
   ```
 
