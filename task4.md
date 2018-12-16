@@ -31,28 +31,24 @@ pre-existing L2VPN services through an NSO action.
 In NSO, action callbacks are used to implement arbitrary operations in
 java or python. These operations can be basically anything, e.g.
 downloading a file, performing some test, resetting alarms, etc. We will
-create an action package, l2vpnreconcile, to perform L2Vpn service
+create an action package, `l2vpnreconcile`, to perform L2Vpn service
 discovery. Although it can be easily extended, for simplicity, this lab
 designs the action to perform service discovery from one PE device.
 
-Similar to what we did at Step 3, you will create the package skeleton
+Similar to what we did at Task 1, you will create the package skeleton
 first.
 
-1.  []{#_Ref484277028 .anchor}From NSO VM, create a skeleton package,
-    name it l2vpnreconcile
-
-  ----------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211]$ cd ~/packages
-  
-  [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python --action-example l2vpnreconcile
-  
-  [nso@cl-lab-211 packages]$ cd l2vpnreconcile
-  
-  [nso@cl-lab-211 l2vpnreconcile]$ ls
-  
-  package-meta-data.xml python README src templates test
-  ----------------------------------------------------------------------------------------------------------
-
+1. From NSO VM, create a skeleton package,
+    name it `l2vpnreconcile`
+    
+   ```
+   [nso@cl-lab-211]$ cd ~/packages
+   [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python --action-example l2vpnreconcile
+   [nso@cl-lab-211 packages]$ cd l2vpnreconcile
+   [nso@cl-lab-211 l2vpnreconcile]$ ls
+   package-meta-data.xml python README src templates test
+   
+   ```
 ### Update l2vpnreconcile.yang file
 
 Action l2vpnreconcile has one input parameter, the PE that we wish to
