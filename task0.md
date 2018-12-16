@@ -71,31 +71,9 @@ Follow the following instruction.
 
 1.  Check pre-loaded packages in your NSO application.
 
-   ```
-   [nso@cl-lab-211 ncs-run]$ ncs_cli -u admin
-  
-   admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-   admin@ncs>show packages package package-version
-  
-   PACKAGE
-  
-  NAME VERSION
-  
-  -------------------------
-  
-  cisco-iosxr-cli-6.6 6.6.0.1
-  
-  [ok][2017-04-28 07:12:36]
-  
-  admin@ncs>show packages package oper-status
-  
-  packages package cisco-iosxr-cli-6.6
-  
-  oper-status up
-  
-   [ok][2017-06-11 06:35:51]
-   ```
+    ```
+   
+    ```
 
    **Make sure the version of cisco-iosxr-cli-6.6 is 6.6.0.1 and the
     oper-status is up**
