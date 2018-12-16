@@ -82,66 +82,52 @@ a `Bundle-Ether` port and an `stag` (service tag).
 
 ### Update the auto-generated L2Vpn.yang
 
-The skeleton of L2Vpn.yang file is auto-generated as part of
-ncs-make-package command. In this step, you will update the
-auto-generated Yang file, L2Vpn.yang to model the L2Vpn service as
-illustrated in **Table 3** and **Figure 2.**
+The skeleton of `L2Vpn.yang` file is auto-generated as part of
+`ncs-make-package` command. In this step, you will update the
+auto-generated Yang file, `L2Vpn.yang` to model the L2Vpn service.
 
-**Option 1: Edit ~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO server,
-using “vi” for example;**
+**Option 1: Edit `~/packages/L2Vpn/src/yang/L2Vpn.yang` from NSO server,
+using `vi` for example;**
 
-**Option 2: Copy the file ~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO
-server to window’s jump server using
-(**![](./media/media/image11.png){width="0.3988221784776903in"
-height="0.5184689413823272in"}**). Edit the file using editors such as
-Sublime (** ![](./media/media/image12.tiff){width="0.4463057742782152in"
-height="0.34611439195100613in"}**),
-Notepad++(**![](./media/media/image13.png){width="0.3354702537182852in"
-height="0.34453740157480317in"}**). If you take Option 2, remember copy
+**Option 2: Copy file `~/packages/L2Vpn/src/yang/L2Vpn.yang` from NSO
+server to jump server using `WinScp`
+(**![](./media/media/scp.png)**). Edit the file using editors such as
+Sublime (** ![](./media/media/sublime.png)**), or
+Notepad++(**![](./media/media/notepad.png)**). If you take Option 2, remember copy
 the file back to NSO server.**
 
-1.  The auto-generated L2Vpn.yang file contains several skeleton blocks.
+1.  The auto-generated `L2Vpn.yang` file contains several skeleton blocks.
     You need to update L2Vpn block to add service attributes. Modify the
     generated Yang file, locate the block starts with “list L2Vpn”:
 
-![](./media/media/image14.tiff){width="6.268055555555556in"
-height="7.9840277777777775in"}
+ ![](./media/media/image14.tiff)
 
-1.  Change “name” to “sr-name”:
+1.  Change “`name`” to “`sr-name`”:
 
-    .
+    
 
-  ------------------------------------------------
+  ```
+  ...
   revision 2016-01-01 {
-  
-  description
-  
-  "Initial revision.";
-  
+  	description
+  	"Initial revision.";
   }
-  
   augment /ncs:services {
+  	list L2Vpn {
+  		description "This is an RFS skeleton service";
+  		key sr-name;
+  		leaf sr-name {
+  			tailf:info "Unique service name";
+  			tailf:cli-allow-range;
+  			type string;
   
-  list L2Vpn {
+  		}
   
-  description "This is an RFS skeleton service";
+  	uses ncs:service-data;
   
-  key sr-name;
-  
-  leaf sr-name {
-  
-  tailf:info "Unique service name";
-  
-  tailf:cli-allow-range;
-  
-  type string;
-  
-  }
-  
-  uses ncs:service-data;
-  
-  ncs:servicepoint L2Vpn-servicepoint;
-  ------------------------------------------------
+  	ncs:servicepoint L2Vpn-servicepoint;
+  	...
+  ```
 
 1.  Add other service attributes: order-number, customer-name, and
     pe-devices after sr-name block. Note, attribute pe-devices is a list
