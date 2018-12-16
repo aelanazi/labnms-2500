@@ -235,145 +235,68 @@ admin@ncs> exit
  Notepad++(![](./media/media/notepad.png). If you take Option 2, remember copy the file back to NSO server.**
 
 1.  Edit file ~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
-    the contents of the block of <config-template
-    xmlns="http://tail-f.com/ns/config/1.0">with the highlighted
-    output from **item 20.**
+    the contents of the block of `<config-template
+    xmlns="http://tail-f.com/ns/config/1.0">` with the output of `commit
+    dry run outformat xml` command  at the previous step:
 
-![](./media/media/image15.tiff)
+ ![](./media/media/image15.tiff)
 
-  -----------------------------------------------------------------
-  <config-template xmlns="http://tail-f.com/ns/config/1.0">
-  
-  <devices xmlns="http://tail-f.com/ns/ncs">
-  
-  <device>
-  
-  <name>asr9k0</name>
-  
-  <config>
-  
-  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
-  
-  <Bundle-Ether-subinterface>
-  
-  <Bundle-Ether>
-  
-  <id>100.100</id>
-  
-  <description>test-desc</description>
-  
-  <mode>l2transport</mode>
-  
-  <encapsulation>
-  
-  <dot1q>
-  
-  <vlan-id>100</vlan-id>
-  
-  </dot1q>
-  
-  </encapsulation>
-  
-  </Bundle-Ether>
-  
-  </Bundle-Ether-subinterface>
-  
-  </interface>
-  
-  </config>
-  
-  </device>
-  
-  </devices>
-  
-  </config-template>
-  -----------------------------------------------------------------
+ ![](./media/media/template.png)
+
 
 1.  Next you need to plant the service attributes to replace the sample
     parameters used to create the Bundle Ether sub-interface
     (sub-interface 100.100, with vlan id 100). The service attributes
     are identified as an xpath from service root L2vpn, with proper
-    syntax (inside {}) and context, summarized in **Table 5:**
-
-[[]{#_Ref485414926 .anchor}]{#_Ref485840156 .anchor}Table 5 NSO Ned
-(cisco-iosxr) to L2Vpn attribute mapping
-
-  The ncs cli command
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --------------------------------- ---------------------------------
-  set devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100 mode l2transport description test-desc encapsulation dot1q vlan-id 100
-  cisco-iosxr Ned parameter
-  device asr9k0
-  id 100.100
-  description test-desc
-  vlan-id 100
-
-The final template file L2Vpn-template.xml should look like the
-following, note the yellow highlighted parts are replaced with service
-attributes:
-
-  -------------------------------------------------------------------------
-  <config-template xmlns="http://tail-f.com/ns/config/1.0">
-  
+    syntax (inside {}) and context, summarized:
+    
+ ![](./media/media/xml-attr.png)
+    
+ The final template file L2Vpn-template.xml should look like the following: 
+ 
+ ```
+ <config-template xmlns="http://tail-f.com/ns/config/1.0">
   <devices xmlns="http://tail-f.com/ns/ncs">
-  
-  <device>
-  
-  <name>{/pe-devices/device-name}</name>
-  
-  <config>
-  
-  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
-  
-  <Bundle-Ether-subinterface>
-  
-  <Bundle-Ether>
-  
-  <id>{./Bundle-Ether}.{./stag}</id>
-  
-  <description>{/customer-name}-{/order-number}</description>
-  
-  <mode>l2transport</mode>
-  
-  <encapsulation>
-  
-  <dot1q>
-  
-  <vlan-id>{./stag}</vlan-id>
-  
-  </dot1q>
-  
-  </encapsulation>
-  
-  </Bundle-Ether>
-  
-  </Bundle-Ether-subinterface>
-  
-  </interface>
-  
-  </config>
-  
-  </device>
-  
+    <device>
+      <name>{/pe-devices/device-name}</name>
+      <config>
+        <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <Bundle-Ether-subinterface>
+            <Bundle-Ether>
+              <id>{./Bundle-Ether}.{./stag}</id>
+              <description>{/customer-name}-{/order-number}</description>
+              <mode>l2transport</mode>
+              <encapsulation>
+                <dot1q>
+                  <vlan-id>{./stag}</vlan-id>
+                </dot1q>
+              </encapsulation>
+            </Bundle-Ether>
+          </Bundle-Ether-subinterface>
+        </interface>
+      </config>
+    </device>
   </devices>
-  
-  </config-template>
-  -------------------------------------------------------------------------
+</config-template>
 
--   **You can find the solution template file from
-    ~/solution/L2Vpn/templates of your NSO server, for your
+ ```
+ Complete tempalte file is available at [L2Vpn-template.xml](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/templates/L2Vpn-template.xml)
+ 
+   **You can find the solution template file from
+    `~/solution/L2Vpn/templates` of your NSO server, for your
     reference.**
 
-1.  Save L2Vpn-template.xlm. If you edit the file from the windows
+1.  Save `L2Vpn-template.xlm`. If you edit the file from the windows
     jumpstart server, remember to copy the file to NSO server, to
-    ~/packages/L2Vpn/templates/
+    `~/packages/L2Vpn/templates/`
 
 ### Deploy the service package L2Vpn
 
 Now you are ready to deploy the service package to NSO application.
 
 1.  At NSO server, check current packages in your NSO installation, make
-    sure cisco-iosxr ned (highlighted line) appear under
-    ncs-run/packages:
+    sure cisco-iosxr ned appear under
+    `ncs-run/packages`:
 
   -----------------------------------------------------------------------------------------------------------------------
   [nso@cl-lab-211]$ ls –l ~/ncs-run/packages
