@@ -82,9 +82,9 @@ Follow the following instruction.
     cisco-iosxr-cli-6.6  6.6.0.1
     [ok][2017-04-28 07:12:36]
     admin@ncs> show packages package oper-status
-packages package cisco-iosxr-cli-6.6
+    packages package cisco-iosxr-cli-6.6
     oper-status up
-   [ok][2017-06-11 06:35:51]  
+    [ok][2017-06-11 06:35:51]  
     ```
 
     **Make sure the version of cisco-iosxr-cli-6.6 is 6.6.0.1 and the
