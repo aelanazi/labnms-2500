@@ -48,15 +48,13 @@ Follow the following instruction.
 1.  Check NSO version.
 
     ```
-  [nso@cl-lab-211]$ cd ncs-run
+    [nso@cl-lab-211]$ cd ncs-run
+    [nso@cl-lab-211 ncs-run]$ pwd
   
-  [nso@cl-lab-211 ncs-run]$ pwd
+    /home/nso/ncs-run
   
-  /home/nso/ncs-run
-  
-  [nso@cl-lab-211 ncs-run]$ ncs --version
-  
-  5.0.20181016.1
+    [nso@cl-lab-211 ncs-run]$ ncs --version
+    5.0.20181016.1
      ```
 
 1.  Make sure NSO is running, if you get “connection refused”, start NSO application:
