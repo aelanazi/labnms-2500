@@ -47,10 +47,8 @@ to NSO through ref-count reset.
 
 	```
 	admin@ncs% request services L2Vpn test2 re-deploy reconcile
-   [ok][2017-11-26 11:42:19]
- 
+	[ok][2017-11-26 11:42:19]
   	[edit]
-
 	```
   
 
