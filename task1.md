@@ -433,45 +433,34 @@ service instance.
 	exit
 	```
 
-1.  []{#_Ref484181849 .anchor}Delete service instance “test” from NSO
+1.  Delete service instance “test” from NSO
     CLI (config mode).
 
--   Note: you can get back to nso cli config mode by “ncs_cli –u admin”
-    followed by “config” from your NSO’s VM, linux prompt.
+	 Note: you can get back to nso cli config mode by `ncs_cli –u admin`
+    followed by `config` from your NSO’s VM, linux prompt.
 
-  ----------------------------------------------------
-  admin@ncs% delete service L2Vpn test
-  
-  [ok][2017-04-29 08:42:24]
-  
-  admin@ncs% commit dry-run outformat native
-  
-  native {
-  
-  device {
-  
-  name asr9k0
-  
-  data no interface Bundle-Ether 100.100 l2transport
-  
-  }
-  
-  }
-  
-  [ok][2017-04-29 08:42:24]
-  
-  [edit]
-  
-  admin@ncs% commit
-  
-  Commit complete.
-  
-  [ok][2017-04-29 08:42:31]
-  
-  [edit]
-  
-  admin@ncs%
-  ----------------------------------------------------
+	 ```
+	 admin@ncs% delete service L2Vpn test
+	 [ok][2017-04-29 08:42:24]
+
+	 admin@ncs% commit dry-run outformat native
+	 native {
+    	device {
+        name asr9k0
+        data no interface Bundle-Ether 100.100 l2transport
+    	}
+	 }
+	 [ok][2017-04-29 08:42:24]
+
+	 [edit]
+	 admin@ncs% commit
+	 Commit complete.
+	 [ok][2017-04-29 08:42:31]
+
+	 [edit]
+	 admin@ncs%
+
+  	 ```
 
 1.  Check device configuration to confirm that Bundle-Ether
     sub-interface 100.100 created through service instance test is
