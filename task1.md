@@ -213,12 +213,12 @@ format. This output is the starting point of the mapping template.
 1.  We don’t want to commit the above changes to devices. Exit from ncs
     cli without committing:
 
-  ```
-  admin@ncs% exit no
-[ok][2017-06-02 01:47:29]
-admin@ncs> exit
-[nso@cl-lab-211 src]$
-  ```
+    ```
+    admin@ncs% exit no
+    [ok][2017-06-02 01:47:29]
+    admin@ncs> exit
+    [nso@cl-lab-211 src]$
+    ```
 
 1.  Now let’s complete L2Vpn template file, L2Vpn-template.xml
 
