@@ -54,11 +54,11 @@ a `Bundle-Ether` port and an `stag` (service tag).
 1.  From NSO application VM, create a service skeleton package using
     `ncs-make-package` command, name it `L2Vpn`.
 
-   ```
+    ```
    [nso@cl-lab-211]$ mkdir ~/packages 
    [nso@cl-lab-211 packages]$ cd ~/packages
    [nso@cl-lab-211 packages]$ ncs-make-package -- service-skeleton python-and-template --augment /ncs:services L2Vpn
-   ```
+    ```
 
 1.  “ncs-make-package” creates a directory structure (`L2Vpn`), and skeleton of service files, let's check it out:
 
