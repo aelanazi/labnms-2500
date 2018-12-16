@@ -322,34 +322,34 @@ Now you are ready to deploy the service package to NSO application.
 1.  From NSO cli (ncs_cli), reload packages to complete the package
     deployment process.
 
-  **Make sure the reload result is true. If you see errors, check the
+    **Make sure the reload result is true. If you see errors, check the
     solution from ~/packages/solution directory for reference.**
 
-  ```
-  [nso@cl-lab-211 ~]$ ncs_cli -u admin
+    ```
+    [nso@cl-lab-211 ~]$ ncs_cli -u admin
 
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
->>> System upgrade is starting.
->>> Sessions in configure mode must exit to operational mode.
->>> No configuration changes can be performed until upgrade has completed.
->>> System upgrade has completed successfully.
-reload-result {
-    package L2Vpn
-    result true
-}
-reload-result {
-    package cisco-iosxr-cli-6.6
-    result true
-}
-admin@ncs> show packages package package-version
+    admin connected from 128.107.235.22 using ssh on cl-lab-211
+    >>> System upgrade is starting.
+    >>> Sessions in configure mode must exit to operational mode.
+    >>> No configuration changes can be performed until upgrade has completed.
+    >>> System upgrade has completed successfully.
+    reload-result {
+    	package L2Vpn
+    	result true
+	}
+	reload-result {
+    	package cisco-iosxr-cli-6.6
+    	result true
+	}
+	admin@ncs> show packages package package-version
                      PACKAGE
-NAME                 VERSION
-------------------------------
-L2Vpn                1.0
-cisco-iosxr-cli-6.6  6.6.0.1
-[ok][2018-12-09 08:23:00]
+	NAME                 VERSION
+	------------------------------
+	L2Vpn                1.0
+	cisco-iosxr-cli-6.6  6.6.0.1
+	[ok][2018-12-09 08:23:00]
 
-  ```
+    ```
 
 ### Test the service package
 
