@@ -79,27 +79,27 @@ NSO’s device model through `sync-from` operation.
     	mode        l2transport;
     	description L_ford_318-L1111318;
     	encapsulation {
-        dot1q {
+        	dot1q {
             vlan-id [ 2188 ];
-        }
+        	}
     	}
 	}
 	Bundle-Ether 100.2234 {
     	mode        l2transport;
     	description L_unitedhealth_318-L1111318;
     	encapsulation {
-        dot1q {
+        	dot1q {
             vlan-id [ 2234 ];
-        }
+        	}
     	}
 	}
 	Bundle-Ether 100.2291 {
     	mode        l2transport;
     	description L_mckesson_318-L1111318;
     	encapsulation {
-        dot1q {
+        	dot1q {
             vlan-id [ 2291 ];
-        }
+        	}
     	}
 	}
 	………
@@ -258,7 +258,7 @@ This is because, by default, devices own the out-of-band configurations.
     	encapsulation {
         	dot1q {
             vlan-id [ 2188 ];
-        }
+        	}
     	}
 	}
 
