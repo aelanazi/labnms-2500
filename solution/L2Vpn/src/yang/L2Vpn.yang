@@ -1,0 +1,51 @@
+module L2Vpn {
+    namespace "http://example.com/L2Vpn";
+    prefix L2Vpn;
+    import ietf-inet-types { prefix inet; }
+    import tailf-common { prefix tailf; }
+    import tailf-ncs { prefix ncs; }
+
+    description
+        "Bla bla...";
+    revision 2016-01-01 {
+        description
+                "Initial revision.";
+    }
+
+    //AUGMENT_BEGIN
+    augment /ncs:services {
+        list L2Vpn {
+            description "This is an RFS skeleton service";
+            uses ncs:service-data;
+            ncs:servicepoint L2Vpn-servicepoint;
+            key sr-name;
+            leaf sr-name {
+                tailf:info "Unique service name";
+                tailf:cli-allow-range;
+                type string;
+            }
+            leaf order-number {
+                type string;
+            }
+            leaf customer-name {
+                type string;
+            }
+            list pe-devices {
+                key device-name;
+                leaf device-name {
+                    type leafref {
+                        path "/ncs:devices/ncs:device/ncs:name";
+                    }
+                }
+                leaf Bundle-Ether {
+                    type string;
+                }
+                leaf stag {
+                    type uint16 {
+                        range 1..4095;
+                    }
+                }
+            }
+        }
+    }
+}

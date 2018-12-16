@@ -110,71 +110,14 @@ the file back to NSO server.**
     `pe-devices` after `sr-name` block. Note, attribute `pe-devices` is a list
     with `device-name` as the key. We use leaf reference (`leafref`) points
     to NSO’s device model: (`/ncs:devices/ncs:device/ncs:name`)
-
-  ```
-  list L2Vpn {
-  	description "This is an RFS skeleton service";
-  	
-  	key sr-name;
-  	
-  	leaf sr-name {
-  		tailf:info "Unique service name";  
-  		tailf:cli-allow-range; 
-  		type string;  
-  	}
+   ![](./media/media/other-attr.png)
   
-  	leaf order-number {
-  		type string;
-  	}
-  
-  	leaf customer-name {
-  		type string; 
-  	}
-  
-  	list pe-devices {
-  		key device-name;
-  		
-  		leaf device-name {  
-  			type leafref {
-  			path “/ncs:devices/ncs:device/ncs:name”;
-  
-  		}
-  
-  }
-  ```
-
 1.  Continue adding attributes of pe-device element. (inside the list
     pe-devices block)
 
-  ```
-  list pe-devices {
-  	key device-name;
-  
-  	leaf device-name {  
-  		type leafref { 
-  		path "/ncs:devices/ncs:device/ncs:name";
-  		}
-  	}
-  
-  	leaf Bundle-Ether {
-  		type string;
-  	}
-  
-  leaf stag { 
-  	type uint16 {
-  		range 1..4095;
-  
-  	}
-  }
-  }
-  }
-  }
-  }
-  
+   ![](./media/media/pe-attr.png)  
 
-1.  The contents after block revision 2016-01-01 (
-
-    should look like the following, make sure all the braces are closed.
+1.  Complete content of [L2Vpn.yang]
 
 -   **Note: You can find the solution of the L2Vpn.yang from NSO server,
     at /home/nso/solution/L2Vpn/src/yang/ for your reference. **
