@@ -279,9 +279,9 @@ format. This output is the starting point of the mapping template.
     </config-template>
   
     ```
- Complete tempalte file is available at [L2Vpn-template.xml](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/templates/L2Vpn-template.xml)
+    Complete tempalte file is available at [L2Vpn-template.xml](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/templates/L2Vpn-template.xml)
  
-   **You can find the solution template file from
+    **You can find the solution template file from
     `~/solution/L2Vpn/templates` of your NSO server, for your
     reference.**
 
