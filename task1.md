@@ -427,9 +427,7 @@ service instance.
 
 	admin connected from 128.107.235.22 using ssh on cl-lab-211
 	cl-lab-211# show running-config interface Bundle-Ether 100.100
-	
 	interface Bundle-Ether 100.100 l2transport
-	
 	   description ciscolive-123
  	   encapsulation dot1q 100
 	exit
