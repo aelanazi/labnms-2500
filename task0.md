@@ -58,7 +58,7 @@ Follow the following instruction.
 1.  Make sure NSO is running, if you get “connection refused”, start NSO application:
 
     ```
-  [nso@cl-lab-211 ncs-run]$ ncs --status
+    [nso@cl-lab-211 ncs-run]$ ncs --status
   connection refused (status)
   [nso@cl-lab-211]$ cd ncs-run
   [nso@cl-lab-211 ncs-run]$ pwd
