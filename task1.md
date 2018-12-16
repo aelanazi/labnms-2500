@@ -464,15 +464,15 @@ service instance.
 
 1.  Check device configuration to confirm that Bundle-Ether
     sub-interface 100.100 created through service instance test is
-    removed. (from the putty terminal, you opened at **item 32**):
+    removed. (from the putty terminal, you opened at **4**):
 
-  -----------------------------------------------------------------
-  cl-lab-211\# show running-config interface Bundle-Ether 100.100
+	```
+	cl-lab-211\# show running-config interface Bundle-Ether 100.100
   
-  ------------------------------------------------------------\^
+  	------------------------------------------------------------\^
   
-  syntax error: "100.100" is not a valid value.
-  -----------------------------------------------------------------
+  	syntax error: "100.100" is not a valid value.
+  	```
 
 You have completed Task1. In this task, you created, deployed and tested
 L2Vpn service package. Next, you will learn service discovery and
