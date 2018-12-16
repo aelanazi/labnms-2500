@@ -109,22 +109,22 @@ Follow the following instruction.
 1.  Sync up the devices to bring the PE devices configuration into NSO’s
     device model.
 
-  ```
-  admin@ncs>request devices sync-from
-  sync-result {
-  device asr9k0
-  result true
-  }
-  sync-result {
-  device asr9k1
-  result true
-  }
-  sync-result {
-  device asr9k2
-  result true
-  }
-  [ok][2017-06-11 12:34:12]
-  ```
+     ```
+     admin@ncs> request devices sync-from
+     sync-result {
+    	device asr9k0
+    	result true
+	  }
+	  sync-result {
+    	device asr9k1
+    	result true
+     }
+     sync-result {
+    	device asr9k2
+    	result true
+	  }
+
+     ```
 
 You have finished Task 0: Verify Lab Setup. Now you are ready to move on
 to the next Task: Create a service package.
