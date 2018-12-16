@@ -251,14 +251,13 @@ This is because, by default, devices own the out-of-band configurations.
     asr9k0. The out-of-band configuration can’t be modified through NSO!
     
 	```
-	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface
-	Bundle-Ether 100.2188
-		Bundle-Ether 100.2188 {
-    		mode        l2transport;
-    		description L_ford_318-L1111318;
-    		encapsulation {
-    			dot1q {
-					vlan-id [ 2188 ];
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.2188
+	Bundle-Ether 100.2188 {
+    	mode        l2transport;
+    	description L_ford_318-L1111318;
+    	encapsulation {
+    		dot1q {
+				vlan-id [ 2188 ];
         	}
     	}
 	}
