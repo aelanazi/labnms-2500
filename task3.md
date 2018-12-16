@@ -135,10 +135,10 @@ this step, you will see the correct behaviour when we delete `test2`
    ```
    admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.2234
    ----------------------------------------------------- ------------------------------------------------------\^
-  syntax error: element does not exist
-  [error]$[2017-04-29 11:40:54]
+   syntax error: element does not exist
+   [error]$[2017-04-29 11:40:54]
   
-  [edit]
+   [edit]
    ```
 
 Congratulations! You have successfully finished all the tasks of this
