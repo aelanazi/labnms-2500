@@ -393,37 +393,27 @@ service instance.
   	```
 1.  Commit the service instance test. After commit, the service instance
     test is persistent in NSO’s in memory database cdb, and the
-    highlighted cli’s from above are committed to asr9k0.
+    cli’s from above are committed to asr9k0.
 
-  -------------------------------------
-  admin@ncs% commit
-  
-  Commit complete.
-  
-  [ok][2017-04-29 08:21:18]
-  
-  [edit]
-  
-  admin@ncs% show services L2Vpn test
-  
-  order-number 123;
-  
-  customer-name ciscolive;
-  
-  pe-devices asr9k0 {
-  
-  Bundle-Ether 100;
-  
-  stag 100;
-  
-  }
-  
-  [ok][2017-04-29 08:21:33]
-  
-  [edit]
-  
-  admin@ncs%
-  -------------------------------------
+  	```
+  	admin@ncs% commit
+	Commit complete.
+	[ok][2017-04-29 08:21:18]
+
+	[edit]
+	admin@ncs% show services L2Vpn test
+	order-number  123;
+	customer-name ciscolive;
+	pe-devices asr9k0 {
+    	Bundle-Ether 100;
+    	stag         100;
+	}
+	[ok][2017-04-29 08:21:33]
+
+	[edit]
+	admin@ncs%
+
+  	```
 
 1.  []{#_Ref486056152 .anchor}Check device configuration to see the
     intended CLI’s are configured at asr9k0. Open another putty
