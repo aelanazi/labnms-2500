@@ -238,7 +238,7 @@ format. This output is the starting point of the mapping template.
     xmlns="http://tail-f.com/ns/config/1.0">` with the output of `commit
     dry run outformat xml` command  at the previous step:
 
-    ![](./media/media/image15.tiff)
+    ![](./media/media/xml.png)
 
     ![](./media/media/template.png)
 
