@@ -59,16 +59,11 @@ Follow the following instruction.
 
   ```
   [nso@cl-lab-211 ncs-run]$ ncs --status
-  
   connection refused (status)
-  
-  [nso@cl-lab-211]$ cd ncs-run
-  
-  [nso@cl-lab-211 ncs-run]$ pwd
-  
-  /home/nso/ncs-run
-  
-  [nso@cl-lab-211 ncs-run]$ ncs
+[nso@cl-lab-211]$ cd ncs-run
+[nso@cl-lab-211 ncs-run]$ pwd
+/home/nso/ncs-run
+[nso@cl-lab-211 ncs-run]$ ncs
   ```
 
   **Note: If you get errors for “ncs” command, make sure you are in
