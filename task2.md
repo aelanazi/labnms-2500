@@ -69,74 +69,44 @@ NSO’s device model through `sync-from` operation.
 1.  Check NSO’s device model to view pre-existing Bundel-Ether
     sub-interfaces
 
-  -----------------------------------------------------------------------------------------------
-  [nso@cl-lab-211 ~]$ ncs_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs>conf
-  
-  admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface
-  
-  Bundle-Ether 100.2188 {
-  
-  mode l2transport;
-  
-  description L\_ford\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2188 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  Bundle-Ether 100.2234 {
-  
-  mode l2transport;
-  
-  description L\_unitedhealth\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2234 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  Bundle-Ether 100.2291 {
-  
-  mode l2transport;
-  
-  description L\_mckesson\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2291 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  ……….
-  
-  ……….
-  -----------------------------------------------------------------------------------------------
+	```
+	[nso@cl-lab-211 ~]$ ncs_cli -u admin
 
+	admin connected from 128.107.235.22 using ssh on cl-lab-211
+	admin@ncs> conf
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface
+	Bundle-Ether 100.2188 {
+    	mode        l2transport;
+    	description L_ford_318-L1111318;
+    	encapsulation {
+        dot1q {
+            vlan-id [ 2188 ];
+        }
+    	}
+	}
+	Bundle-Ether 100.2234 {
+    	mode        l2transport;
+    	description L_unitedhealth_318-L1111318;
+    	encapsulation {
+        dot1q {
+            vlan-id [ 2234 ];
+        }
+    	}
+	}
+	Bundle-Ether 100.2291 {
+    	mode        l2transport;
+    	description L_mckesson_318-L1111318;
+    	encapsulation {
+        dot1q {
+            vlan-id [ 2291 ];
+        }
+    	}
+	}
+	……….
+	……….
+
+	```
+  
 ### Create L2Vpn service instances for pre-existing configuration
 
 As shown in *Table 6 Pre-existing L2Vpn configuration in PE devices*,
