@@ -80,7 +80,7 @@ NSO’s device model through `sync-from` operation.
     	description L_ford_318-L1111318;
     	encapsulation {
         	dot1q {
-            	vlan-id [ 2188 ];
+            vlan-id [ 2188 ];
         	}
     	}
 	}
@@ -89,7 +89,7 @@ NSO’s device model through `sync-from` operation.
     	description L_unitedhealth_318-L1111318;
     	encapsulation {
         	dot1q {
-            	vlan-id [ 2234 ];
+            vlan-id [ 2234 ];
         	}
     	}
 	}
@@ -98,7 +98,7 @@ NSO’s device model through `sync-from` operation.
     	description L_mckesson_318-L1111318;
     	encapsulation {
         	dot1q {
-            	vlan-id [ 2291 ];
+            vlan-id [ 2291 ];
         	}
     	}
 	}
@@ -257,7 +257,7 @@ This is because, by default, devices own the out-of-band configurations.
     	description L_ford_318-L1111318;
     	encapsulation {
         	dot1q {
-            	vlan-id [ 2188 ];
+            vlan-id [ 2188 ];
         	}
     	}
 	}
