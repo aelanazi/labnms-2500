@@ -256,7 +256,7 @@ This is because, by default, devices own the out-of-band configurations.
     	mode        l2transport;
     	description L_ford_318-L1111318;
     	encapsulation {
-        dot1q {
+        	dot1q {
             vlan-id [ 2188 ];
         }
     	}
