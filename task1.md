@@ -376,34 +376,21 @@ service instance.
 1.  Operation “Commit dry run” shows the CLI’s to be configured to
     asr9k0:
 
-  -------------------------------------------------
-  admin@ncs% commit dry-run outformat native
-  
-  native {
-  
-  device {
-  
-  name asr9k0
-  
-  data interface Bundle-Ether 100.100 l2transport
-  
-  description "ciscolive-123"
-  
-  encapsulation dot1q 100
-  
-  exit
-  
-  }
-  
-  }
-  
-  [ok][2017-04-29 08:21:08]
-  
-  [edit]
-  
-  admin@ncs%
-  -------------------------------------------------
-
+  	```
+  	admin@ncs% commit dry-run outformat native
+	native {
+    	device {
+        name asr9k0
+        data interface Bundle-Ether 100.100 l2transport
+              description "ciscolive-123"
+              encapsulation dot1q 100
+             exit
+    	}
+	}
+	[ok][2017-04-29 08:21:08]
+	[edit]
+	admin@ncs%  
+  	```
 1.  Commit the service instance test. After commit, the service instance
     test is persistent in NSO’s in memory database cdb, and the
     highlighted cli’s from above are committed to asr9k0.
