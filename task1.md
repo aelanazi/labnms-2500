@@ -104,7 +104,7 @@ the file back to NSO server.**
 
 1.  Change “`name`” to “`sr-name`”:
 
- ![](./media/media/sr-name.png)
+    ![](./media/media/sr-name.png)
 
 1.  Add other service attributes: `order-number`, `customer-name`, and
     `pe-devices` after `sr-name` block. Note, attribute `pe-devices` is a list
