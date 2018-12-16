@@ -249,9 +249,9 @@ format. This output is the starting point of the mapping template.
     are identified as an xpath from service root L2vpn, with proper
     syntax (inside {}) and context, summarized:
     
- ![](./media/media/xml-attr.png)
+    ![](./media/media/xml-attr.png)
     
- The final template file L2Vpn-template.xml should look like the following: 
+    The final template file L2Vpn-template.xml should look like the following: 
  
  ```
  <config-template xmlns="http://tail-f.com/ns/config/1.0">
