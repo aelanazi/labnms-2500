@@ -135,7 +135,7 @@ the file back to NSO server.**
     mkdir -p java/src//
     /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\  
     -c -o ../load-dir/L2Vpn.fxs yang/L2Vpn.yang
-  ```
+    ```
     **Note: Make sure there is no compilation errors. Check `L2Vpn.yang`
     from /home/nso/solution/L2Vpn/src/yang/ for your reference**.
 
