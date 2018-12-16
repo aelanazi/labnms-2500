@@ -29,59 +29,6 @@ pre-existing L2VPN services that are configured out-of-band. They are synced to 
 
 ![Pre-existing L2VPN configuration on PE devices](./media/media/preconfig.png)
 
-[[]{#_Ref485404657 .anchor}]{#_Ref484979822 .anchor}Table 6 Pre-existing
-L2Vpn configuration in PE devices
-
-  ---------------------------------------------
-  interface Bundle-Ether 100.2188 l2transport
-  
-  description L\_ford\_318-L1111318
-  
-  encapsulation dot1q 2188
-  
-  exit
-  
-  interface Bundle-Ether 100.2234 l2transport
-  
-  description L\_unitedhealth\_318-L1111318
-  
-  encapsulation dot1q 2234
-  
-  exit
-  
-  interface Bundle-Ether 100.2291 l2transport
-  
-  description L\_mckesson\_318-L1111318
-  
-  encapsulation dot1q 2291
-  
-  exit
-  
-  interface Bundle-Ether 100.2386 l2transport
-  
-  description L\_att\_318-L1111318
-  
-  encapsulation dot1q 2386
-  
-  exit
-  
-  interface Bundle-Ether 100.268 l2transport
-  
-  description L\_comcast\_318-L1111318
-  
-  encapsulation dot1q 268
-  
-  exit
-  
-  interface Bundle-Ether 100.276 l2transport
-  
-  description L\_3m\_318-L1111318
-  
-  encapsulation dot1q 276
-  
-  exit
-  ---------------------------------------------
-
 In this task, you will create L2Vpn service instances to match the
 pre-existing configurations. You will also observe service lifecycle
 management issues without transferring the ownership of the pre-existing
@@ -90,49 +37,35 @@ configuration.
 ### Check device model for pre-existing L2VPN configurations
 
 As mentioned, the pre-existing L2VPN configurations are brought in to
-NSO’s device model through sync-from operation.
+NSO’s device model through `sync-from` operation.
 
-1.  []{#_Ref484181275 .anchor}Perform a sync-from to bring the
+1.  Perform a sync-from to bring the
     pre-existing configurations to NSO’s device model
 
-  -------------------------------------------------------------
-  [nso@cl-lab-211 ~]$ ncs_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs>conf
-  
-  admin@ncs% request devices sync-from
-  
-  sync-result {
-  
-  device asr9k0
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k1
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k2
-  
-  result true
-  
-  }
-  
-  [ok][2017-04-29 09:20:11]
-  
-  [edit]
-  -------------------------------------------------------------
+	```
+	[nso@cl-lab-211 ~]$ ncs_cli -u admin
 
+	admin connected from 128.107.235.22 using ssh on cl-lab-211
+	admin@ncs> conf
+	admin@ncs% request devices sync-from
+	sync-result {
+    	device asr9k0
+    	result true
+	}
+	sync-result {
+    	device asr9k1
+    	result true
+	}
+	sync-result {
+    	device asr9k2
+    	result true
+	}
+	[ok][2017-04-29 09:20:11]
+
+	[edit]
+
+	```
+  
 1.  Check NSO’s device model to view pre-existing Bundel-Ether
     sub-interfaces
 
