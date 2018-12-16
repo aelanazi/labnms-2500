@@ -84,7 +84,7 @@ to NSO through ref-count reset.
 	![](./media/media/refcount2.png)
   
 
-### Try to delete the service instance created `test2`
+### Try to delete the service instance created (`test2`)
 
 After re-setting the ref-count, the pre-existing L2VPN is reconciled,
 NSO is managing the lifecycle of the reconciled service instance. In
