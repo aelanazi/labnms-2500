@@ -4,7 +4,7 @@ LABNMS-2500
 ===========
 
 
-(Extra Credit) Create an NSO action to discover pre-existing L2VPN service instances automatically. 
+Task 4(Extra Credit): Create an NSO action to discover pre-existing L2VPN service instances automatically. 
 ----------------------------------------------------------------------------------------------------
 
 In the previous two tasks, Task 2 and Task3, you learned to discover
@@ -23,7 +23,7 @@ programmatically.
 In this task, you will learn how to create an NSO action to discover
 pre-existing L2VPN services through an NSO action.
 
--   **Note: This task requires python programming, and knowledge of NSO
+   **Note: This task requires python programming, and knowledge of NSO
     maagic and maapi API’s**.
 
 ### Create package skeleton for reconcile action
