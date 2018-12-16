@@ -102,48 +102,25 @@ NSO’s device model through `sync-from` operation.
         }
     	}
 	}
-	……….
-	……….
+	………
+	………
 
 	```
   
 ### Create L2Vpn service instances for pre-existing configuration
 
-As shown in *Table 6 Pre-existing L2Vpn configuration in PE devices*,
+As part of L2Vpn servivce discovery, 
 one L2Vpn service instance should be created to match each pre-existing
 Bundle-Ether sub-interface. In this step, you will manually create two
 L2Vpn service instances to match two pre-existing Bundle-Ether
 sub-interfaces, through NSO cli.
 
 Recall what we have done at *Task 1:* Create L2VPN Service Package*,*
-this is reverse mapping of device model to service model. Similar to
+service instance creation is to reverse map device model to service model. Similar to
 Table 5, let’s build device attribute to service attribute mapping
 example table, **Table 7**
 
-[[]{#_Ref499559853 .anchor}]{#_Ref499559168 .anchor}Table 7 NSO Ned
-(cisco-iosxr) to L2Vpn attribute mapping example
-
-  ------------------------------------------------------------------------------------------------------------
-  Pre-existing Bundle Ether sub-interface configuration
-  ------------------------------------------------------- ----------------------------------------------------
-  interface Bundle-Ether 100.2188 l2transport
-  
-  description L\_ford\_318-L1111318
-  
-  encapsulation dot1q 2188
-  
-  exit
-
-  device attribute
-
-  name asr9k0
-
-  id 100.2188
-
-  description L\_ford\_318-L1111318
-
-  dot1aq vlan-id 2188
-  ------------------------------------------------------------------------------------------------------------
+![NSO Ned (cisco-iosxr) to L2Vpn attribute mapping example](./media/media/reverse.png)
 
 1.  []{#_Ref499560801 .anchor}Create two service instances, name them as
     test1 and test2 to match two pre-existing configurations (refer
