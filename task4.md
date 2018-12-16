@@ -57,8 +57,6 @@ success (boolean) and message (string), for discovery result, and a
 message associated with. You will modify the auto-generated yang file to
 capture the input and output parameters.
 
-1.  Edit the auto-generated service yang file, l2vpnreconcile.yang.
-
 **Option 1: Edit `~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang` from NSO server,
 using `vi` for example;**
 
@@ -68,7 +66,6 @@ server to jump server using `WinScp`
 Sublime (** ![](./media/media/sublime.png)**), or
 Notepad++(**![](./media/media/notepad.png)**). If you take Option 2, remember copy
 the file back to NSO server.**
-
 
 1.  Edit l2vpnreconcile.yang . We put the action reconcile-l2vpn under
     container action:
