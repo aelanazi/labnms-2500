@@ -73,13 +73,13 @@ to NSO through ref-count reset.
 
 	```
 
-1.  Now let’s check ref-count. Notice the value of ref-count attached
-    with Bundle-Ether 100.2234 is 1, backpointer to test2.
+1.  Now let’s check ref-count. 
 	
 	```
 	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
 	```
-	Sample output displays the reference count and backpointer of `test2` after reconciliation:
+	Sample output displays the reference count and backpointer of `test2` after reconciliation. Note the value of ref-count attached
+    with `Bundle-Ether 100.2234` is 1, backpointer to `test2`:
 	
 	![](./media/media/refcount2.png)
   
