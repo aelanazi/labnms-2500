@@ -27,10 +27,8 @@ need to be put as the description of the sub-interfaces.
 Service
 
   ```
-  interface Bundle-Ether <PE Port number>.<stag>l2transport
-  
+  interface Bundle-Ether <PE Port number>.<stag>l2transport 
   description "<customer name>-<order number>"
-  
   encapsulation dot1q <stag>
   ```
 
@@ -41,7 +39,9 @@ CLIs. At the end, you will deploy the service package
 onto your NSO host.
 
 The service YANG model:
+
 ![](./media/media/image10.png)
+
 As shown in the
 diagram, L2Vpn is modelled as a list of ncs services. `sr-name` is the
 key of the list. Each L2Vpn contains leaf nodes of `order-number` and
