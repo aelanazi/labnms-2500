@@ -30,7 +30,9 @@ discovery/reconcile through resetting the reference count (ref-count).
     owner of the configuration.
 
 	```
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
 	```
+	![Sample output display the reference count and backpointer](./media/media/refcount1.png)
   admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
   
   Bundle-Ether 100.2188 {
