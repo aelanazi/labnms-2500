@@ -110,11 +110,11 @@ the file back to NSO server.**
     `pe-devices` after `sr-name` block. Note, attribute `pe-devices` is a list
     with `device-name` as the key. We use leaf reference (`leafref`) points
     to NSO’s device model: (`/ncs:devices/ncs:device/ncs:name`)
-   ![](./media/media/other-attr.png)
+    ![](./media/media/other-attr.png)
   
 1.  Continue adding attributes of pe-device element. (inside the list `pe-devices` block)
 
-   ![](./media/media/pe-attr.png)  
+    ![](./media/media/pe-attr.png)  
 
 1.  Complete content of the file is available at [L2Vpn.yang](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/src/yang/L2Vpn.yang)
 
