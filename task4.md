@@ -88,36 +88,17 @@ the file back to NSO server.**
 
 1.  Save l2vpnreconcile.yang. If you edit the file from the windows jump
     start server, make sure you copy the file back to NSO server, to
-    /home/nso/packages/l2vpnreconcile/src/yang/
+    `/home/nso/packages/l2vpnreconcile/src/yang/`
 
 ### Clean up generated python script
 
-The package l2vpnreconcile is auto generated as a service skeleton at
-**item 50**. Auto-generated python file main.py contains snips of
+The package l2vpnreconcile is auto generated as a service skeleton. Auto-generated python file `main.py` contains snips of
 service call back class, which we don’t need. In addition, we want to
-rename the generic default action class DoubleAction to Reconcile.
+rename the generic default action class `DoubleAction` to `Reconcile`.
 
 1.  Edit python file,
-    /home/nso/packages/l2vpnreconcile/python/l2vpnreconcile/main.py to
-    remove service related python script.
-
-> **Option 1: Edit
-> ~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
-> server, using “vi” for example;**
->
-> **Option 2: Copy the file
-> ~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
-> server to window’s jump server using
-> (**![](./media/media/image11.png){width="0.3988221784776903in"
-> height="0.5184689413823272in"}**). Edit the file using editors such as
-> Sublime (**
-> ![](./media/media/image12.tiff){width="0.4463057742782152in"
-> height="0.34611439195100613in"}**),
-> Notepad++(**![](./media/media/image13.png){width="0.3354702537182852in"
-> height="0.34453740157480317in"}**). If you take Option 2, remember
-> copy the file back to NSO server.**
-
-1.  Delete the highlighted “Service Call Back Example” class (make sure
+    `/home/nso/packages/l2vpnreconcile/python/l2vpnreconcile/main.py` to
+    remove service related python script.Delete the  `Service Call Back Example` class (make sure
     the whole class ServiceCallbacks is deleted)
 
 ![](./media/media/image17.tiff){width="6.268055555555556in"
