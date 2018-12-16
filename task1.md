@@ -127,16 +127,16 @@ the file back to NSO server.**
 
 2.  Compile project L2Vpn at your NSO server.
 
-  ```
-  [nso@cl-lab-211 ncs-run]$ cd ~/packages/L2Vpn/src
-  [nso@cl-lab-211 src]$ make clean all
-  rm -rf ../load-dir java/src//
-  mkdir -p ../load-dir
-  mkdir -p java/src//
-  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\  
+    ```
+    [nso@cl-lab-211 ncs-run]$ cd ~/packages/L2Vpn/src
+    [nso@cl-lab-211 src]$ make clean all
+    rm -rf ../load-dir java/src//
+    mkdir -p ../load-dir
+    mkdir -p java/src//
+    /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\  
   -c -o ../load-dir/L2Vpn.fxs yang/L2Vpn.yang
   ```
-  **Note: Make sure there is no compilation errors. Check `L2Vpn.yang`
+    **Note: Make sure there is no compilation errors. Check `L2Vpn.yang`
     from /home/nso/solution/L2Vpn/src/yang/ for your reference**.
 
 ### Complete l2vpn template to map service model to device model mapping
