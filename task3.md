@@ -42,7 +42,7 @@ At this step, you will transfer the configuration ownership from device
 to NSO through ref-count reset.
 
 1.  Reset ref-count of Bundel-Ether 100.2234 through the cli operation
-    `service L2Vpn re-deploy reconcile`. This resets the ref-count, service instance `test2` will then be the sole owner of the
+    `service L2Vpn re-deploy reconcile`. This resets the ref-count, NSO service instance `test2` will then be the sole owner of the
     configurations.
 
 	```
@@ -52,110 +52,37 @@ to NSO through ref-count reset.
 	```
   
 
-1.  Perform a device sync-from.
+1. Perform a device sync-from.
+	```
+	admin@ncs% request devices sync-from
+	sync-result {
+    	device asr9k0
+    	result true
+	}
+	sync-result {
+    	device asr9k1
+    	result true
+	}
+	sync-result {
+    	device asr9k2
+    	result true
+	}
+	[ok][2017-04-29 09:20:11]
 
-  --------------------------------------
-  admin@ncs% request devices sync-from
-  
-  sync-result {
-  
-  device asr9k0
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k1
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k2
-  
-  result true
-  
-  }
-  
-  [ok][2017-11-26 11:57:52]
-  --------------------------------------
+	[edit]
+
+	```
 
 1.  Now let’s check ref-count. Notice the value of ref-count attached
     with Bundle-Ether 100.2234 is 1, backpointer to test2.
-
-  ---------------------------------------------------------------------------------------------------------------------------
-  admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
+	
+	```
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
+	```
+	Sample output displays the reference count and backpointer of `test2` after reconciliation:
+	
+	![](./media/media/refcount2.png)
   
-  Bundle-Ether 100.2188 {
-  
-  mode l2transport;
-  
-  description L\_ford\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2188 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  /\* Refcount: 1 \*/
-  
-  /\* Backpointer: [ /ncs:services/L2Vpn:L2Vpn[L2Vpn:sr-name='test2'] ] \*/
-  
-  Bundle-Ether 100.2234 {
-  
-  /\* Refcount: 1 \*/
-  
-  mode l2transport;
-  
-  /\* Refcount: 1 \*/
-  
-  description L\_unitedhealth\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2234 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  Bundle-Ether 100.2291 {
-  
-  mode l2transport;
-  
-  description L\_mckesson\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2291 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  ………
-  
-  ……..
-  ---------------------------------------------------------------------------------------------------------------------------
 
 ### Try to delete the service instance created at Step 10
 
