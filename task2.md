@@ -115,68 +115,56 @@ Bundle-Ether sub-interface. In this step, you will manually create two
 L2Vpn service instances to match two pre-existing Bundle-Ether
 sub-interfaces, through NSO cli.
 
-Recall what we have done at *Task 1:* Create L2VPN Service Package*,*
-service instance creation is to reverse map device model to service model. Similar to
-Table 5, let’s build device attribute to service attribute mapping
-example table, **Table 7**
+Compare to what we have done at *Task 1:*,
+service instance creation is reverse mapping device model to service model. The following is the device attribute to service attribute mapping
+example table:
 
 ![NSO Ned (cisco-iosxr) to L2Vpn attribute mapping example](./media/media/reverse.png)
 
-1.  []{#_Ref499560801 .anchor}Create two service instances, name them as
-    test1 and test2 to match two pre-existing configurations (refer
-    **Table 7)**:
 
--   **Note: Since you are creating L2Vpn service instances to match the
+1.  Create two service instances, name them as
+    test1 and test2 to match two pre-existing configurations 
+    **Note: Since you are creating L2Vpn service instances to match the
     pre-existing configurations, make sure the service attributes
-    (highlighted) match exactly to what appear in device configuration.
+    match exactly to what appear in device configuration.
     **
 
-  -------------------------------------------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211 ncs-run]$ ncs_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs>conf
-  
-  Entering configuration mode private
-  
-  Current configuration users:
-  
-  admin ssh (cli from 128.107.235.22) on since 2017-04-29 09:17:58 private mode
-  
-  [ok][2017-04-29 09:35:29]
-  
-  [edit]
-  
-  admin@ncs% set services L2Vpn test1 order-number L1111318 customer-name L\_ford\_318 pe-devices asr9k0 Bundle-Ether 100 stag 2188
-  
-  [ok][2017-04-29 09:36:33]
-  
-  [edit]
-  
-  admin@ncs% set services L2Vpn test2 order-number L1111318 customer-name L\_unitedhealth\_318 pe-devices asr9k0 Bundle-Ether 100 stag 2234
-  
-  [ok][2017-04-29 09:39:25]
-  
-  [edit]
-  -------------------------------------------------------------------------------------------------------------------------------------------
+	 ```
+	 [nso@cl-lab-211 ncs-run]$ ncs_cli -u admin
 
-1.  Confirm “commit dry-run” output is empty.
+	admin connected from 128.107.235.22 using ssh on cl-lab-211
+	admin@ncs> conf
+	Entering configuration mode private
+	Current configuration users:
+	admin ssh (cli from 128.107.235.22) on since 	2017-04-29 09:17:58 private mode
+	[ok][2017-04-29 09:35:29]
 
--   **Make sure you are still in ncs cli’s config mode**, **if “commit
+	[edit]
+	admin@ncs% set services L2Vpn test1 order-number 	L1111318 customer-name L_ford_318 pe-devices asr9k0 Bundle-Ether 100 stag 2188
+	[ok][2017-04-29 09:36:33]
+
+	[edit]
+	admin@ncs% set services L2Vpn test2 order-number L1111318 customer-name L_unitedhealth_318 pe-devices asr9k0 Bundle-Ether 100 stag 2234
+	[ok][2017-04-29 09:39:25]
+
+	[edit]
+
+	 ```
+  
+1. Confirm “commit dry-run” output is empty.
+	
+
+   **Make sure you are still in ncs cli’s config mode**, **if “commit
     dry-run” output is not empty, do not continue. Check the attribute
     values at the previous step.**
 
-  --------------------------------------------
-  admin@ncs% commit dry-run outformat native
-  
-  native {
-  
-  }
-  
-  [ok][2017-04-29 09:39:30]
-  --------------------------------------------
+	```
+	admin@ncs% commit dry-run outformat native                                                            
+	native {
+	}
+	[ok][2017-04-29 09:39:30]
 
+	```
 1.  After confirm the output of “commit dry-run outformat native” does
     not contain any CLI, continue commit the service instances, and then
     exit from ncs cli. We will commit with option “no-networking”, this
