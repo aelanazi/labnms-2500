@@ -24,9 +24,10 @@ out-of-band service configurations. After the service instances are
 created, we need to transfer the ownership of the configuration to NSO.
 
 In this lab, the PE devices (asr9k0, asr9k1 and asr9k2) all have
-pre-existing L2VPN services that are configured out-of-band. **Table 6**
-lists part of them. They are synced to NSO’s device model via NSO’s
-“sync-from” operation.
+pre-existing L2VPN services that are configured out-of-band. They are synced to NSO’s device model via NSO’s
+`sync-from` operation.
+
+![Pre-existing L2VPN configuration on PE devices](./media/media/preconfig.png)
 
 [[]{#_Ref485404657 .anchor}]{#_Ref484979822 .anchor}Table 6 Pre-existing
 L2Vpn configuration in PE devices
