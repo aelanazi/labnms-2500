@@ -253,32 +253,32 @@ format. This output is the starting point of the mapping template.
     
     The final template file L2Vpn-template.xml should look like the following: 
  
- ```
- <config-template xmlns="http://tail-f.com/ns/config/1.0">
-  <devices xmlns="http://tail-f.com/ns/ncs">
-    <device>
-      <name>{/pe-devices/device-name}</name>
-      <config>
-        <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
-          <Bundle-Ether-subinterface>
-            <Bundle-Ether>
-              <id>{./Bundle-Ether}.{./stag}</id>
-              <description>{/customer-name}-{/order-number}</description>
-              <mode>l2transport</mode>
-              <encapsulation>
-                <dot1q>
-                  <vlan-id>{./stag}</vlan-id>
-                </dot1q>
-              </encapsulation>
-            </Bundle-Ether>
-          </Bundle-Ether-subinterface>
-        </interface>
-      </config>
-    </device>
-  </devices>
-</config-template>
-
- ```
+    ```
+    <config-template xmlns="http://tail-f.com/ns/config/1.0">
+     <devices xmlns="http://tail-f.com/ns/ncs">
+       <device>
+         <name>{/pe-devices/device-name}</name>
+         <config>
+           <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+            <Bundle-Ether-subinterface>
+              <Bundle-Ether>
+                <id>{./Bundle-Ether}.{./stag}</id>
+                <description>{/customer-name}-{/order-number}</description>
+                <mode>l2transport</mode>
+                <encapsulation>
+                  <dot1q>
+                    <vlan-id>{./stag}</vlan-id>
+                  </dot1q>
+                </encapsulation>
+              </Bundle-Ether>
+            </Bundle-Ether-subinterface>
+          </interface>
+        </config>
+      </device>
+    </devices>
+    </config-template>
+  
+    ```
  Complete tempalte file is available at [L2Vpn-template.xml](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/templates/L2Vpn-template.xml)
  
    **You can find the solution template file from
