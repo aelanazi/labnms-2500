@@ -178,10 +178,10 @@ format. This output is the starting point of the mapping template.
     dry run outformat xml`. This command will show the configuration
     changes to be sent to device as xml format.
 
-  ```
-  admin@ncs% commit dry-run outformat xml
-result-xml {
-    local-node {
+    ```
+    admin@ncs% commit dry-run outformat xml
+    result-xml {
+      local-node {
         data <devices xmlns="http://tail-f.com/ns/ncs">
                <device>
                  <name>asr9k0</name>
@@ -203,12 +203,12 @@ result-xml {
                  </config>
                </device>
              </devices>
+      }
     }
-}
-[ok][2017-04-29 03:09:22]
-[edit]
+    [ok][2017-04-29 03:09:22]
+    [edit]
 
-  ```
+    ```
 
 1.  We don’t want to commit the above changes to devices. Exit from ncs
     cli without committing:
