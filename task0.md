@@ -50,9 +50,7 @@ Follow the following instruction.
     ```
     [nso@cl-lab-211]$ cd ncs-run
     [nso@cl-lab-211 ncs-run]$ pwd
-  
     /home/nso/ncs-run
-  
     [nso@cl-lab-211 ncs-run]$ ncs --version
     5.0.20181016.1
      ```
