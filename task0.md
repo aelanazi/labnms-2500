@@ -93,25 +93,18 @@ Follow the following instruction.
 1.  Check the NSO instance contains 3 PE devices, asr9k0, asr9k1,
     asr9k2.
 
-  ```
-  [nso@cl-lab-218 ~]$ ncs_cli -u admin
-  
-  admin connected from 172.23.123.13 using ssh on cl-lab-218
-  
-  admin@ncs>show devices brief
-  
-  NAME ADDRESS DESCRIPTION NED ID
-  
-  --------------------------------------------
-  
-  asr9k0 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  asr9k1 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  asr9k2 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  [ok][2017-06-11 12:30:02]
-  ```
+    ```
+    [nso@cl-lab-218 ~]$ ncs_cli -u admin
+
+    admin connected from 172.23.123.13 using ssh on cl-lab-218
+    admin@ncs> show devices brief
+    NAME    ADDRESS    DESCRIPTION  NED ID
+    --------------------------------------------
+    asr9k0  127.0.0.1  -            cisco-iosxr-cli-6.6
+    asr9k1  127.0.0.1  -            cisco-iosxr-cli-6.6
+    asr9k2  127.0.0.1  -            cisco-iosxr-cli-6.6 
+    [ok][2017-06-11 12:30:02]
+    ```
 
 1.  Sync up the devices to bring the PE devices configuration into NSO’s
     device model.
