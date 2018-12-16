@@ -70,86 +70,19 @@ the file back to NSO server.**
 1.  Edit l2vpnreconcile.yang . We put the action reconcile-l2vpn under
     container action:
 
-![](./media/media/image16.tiff){width="6.268055555555556in"
-height="5.48125in"}
+![](./media/media/action.png)
 
 1.  Change the generated generic action name “double” to
-    “reconcile-l2vpn”, and action point “l2vpnreconcile-action” to
+    `reconcile-l2vpn`, and action point `l2vpnreconcile-action` to
     “reconcile”. In addition, as specified above, replace the default
-    input parameter “number” with “device-name” , and the default output
-    parameter “result” with “success” and “message”.
+    input parameter `number` with `device-name`, and the default output
+    parameter `result1 with `success` and `message`.
 
-    The contents of l2vpnreconcile.yang should look like the following:
+    The contents of l2vpnreconcile.yang should look like the following, available at [l2vpnreconcile.yang](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang)
+    
+    ![](./media/media/actionyang.png)
 
-  ------------------------------------------------
-  module l2vpnreconcile {
-  
-  namespace "http://example.com/l2vpnreconcile";
-  
-  prefix l2vpnreconcile;
-  
-  import ietf-inet-types { prefix inet; }
-  
-  import tailf-common { prefix tailf; }
-  
-  import tailf-ncs { prefix ncs; }
-  
-  description
-  
-  "L2Vpn Reconcile Action";
-  
-  revision 2016-01-01 {
-  
-  description
-  
-  "Initial revision.";
-  
-  }
-  
-  container action {
-  
-  tailf:action reconcile-l2vpn {
-  
-  tailf:actionpoint reconcile;
-  
-  input {
-  
-  leaf device-name {
-  
-  type leafref {
-  
-  path "/ncs:devices/ncs:device/ncs:name" ;
-  
-  }
-  
-  }
-  
-  }
-  
-  output {
-  
-  leaf message {
-  
-  type string;
-  
-  }
-  
-  leaf success {
-  
-  type boolean;
-  
-  }
-  
-  }
-  
-  }
-  
-  }
-  
-  }
-  ------------------------------------------------
-
--   **Note: Check
+    **Note: Check
     ~/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang for
     reference.**
 
