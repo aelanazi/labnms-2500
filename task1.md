@@ -161,18 +161,18 @@ format. This output is the starting point of the mapping template.
     sub-interface 100.100 to the PE device asr9k0 through nsc cli.
     
 
-  ```
-  [nso@cl-lab-211 src]$ ncs_cli -u admin
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  admin@ncs>conf
-  Entering configuration mode private 
-  [ok][2017-04-29 03:05:47]
-  [edit]
-  admin@ncs% set devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100 mode l2transport description test-desc encapsulation dot1q vlan-id 100
-  [ok][2017-04-29 03:07:44]
-  [edit] 
-  admin@ncs%
-  ```
+    ```
+    [nso@cl-lab-211 src]$ ncs_cli -u admin
+    admin connected from 128.107.235.22 using ssh on cl-lab-211
+    admin@ncs>conf
+    Entering configuration mode private 
+    [ok][2017-04-29 03:05:47]
+    [edit]
+    admin@ncs% set devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100 mode l2transport description test-desc encapsulation dot1q vlan-id 100
+    [ok][2017-04-29 03:07:44]
+    [edit] 
+    admin@ncs%
+    ```
 
 1.  From ncs cli config mode, issue `commit
     dry run outformat xml`. This command will show the configuration
