@@ -3,305 +3,11 @@
 LABNMS-2500
 ===========
 
-NSO: Dealing with Brownfield, Deploy, Discover and Reconcile L2VPN Services
-----
 
 
-Weigang Huang – Business Developer Manager
-----
-
-Andrew Bond – Software Architecture
-----
-
-
-
-
-# Introduction
-
-Learning Objectives
-===================
-
-Upon completion of this lab, you will be able to:
-
--   Use Cisco Network Services Orchestrator (NSO) to create, deploy and
-    test a service package (L2VPN).
-
--   Understand the brownfield service deployment challenges.
-
--   Discover and reconcile pre-existing L2VPN services manually
-
--   Create an action to discover and reconcile the pre-existing L2VPN
-    services automatically.
-
-Pre-requisite
-=============
-
--   Basic understanding of network orchestration, NETCONF/Yang
-
--   Basic knowledge of Cisco Network Services Orchestrator (NSO)
-
-Overview
-========
-
-As an industry leading orchestration platform, NSO is widely used to
-provide service lifecycle orchestration for hybrid networks. While new
-services are deployed using NSO service packages, service providers
-normally have brownfield network, in which there are pre-existing
-configuration in the network orchestrated by legacy tools. For
-brownfield network, NSO needs to discover and reconcile pre-existing
-services.
-
-In this lab, you will create a simple L2VPN service package to configure
-Layer 2 Transport encapsulation on Bundle Ethernet sub-interfaces; you
-will also discover and reconcile pre-existing L2VPN services from the
-network.
-
-Figure 1 illustrates the network topology. The network is composed of
-simulated NSO NETSIM ASR devices (Cisco IOS-XR). You will create L2VPN
-services from CE-PE. This lab focuses on PE configuration. To simulate
-the brownfield network, the PE devices are populated with pre-existing
-L2VPN services.
-
-![](./media/media/image3.tiff){width="4.779075896762905in"
-height="3.312594050743657in"}
-
- {#section .orghead2}
-
-[]{#_Ref484889939 .anchor}Figure 1 L2VPN network Topology
-
-NSO application is pre-installed on Linux VM, with the details as in
-**Table 1**. NSO runtime directory is set to /home/nso/ncs-run (NSO
-runtime directory is to keep NSO’s database, state files, logs and other
-files. At any time if you need to start NSO, make sure that you are
-situated at NSO runtime directory)
-
-[]{#_Ref485393329 .anchor}Table 1 NSO server installation and setup
-details
-
-  Installed                          Details
-  ---------------------------------- ------------------------
-  NSO                                version 5.0.1
-  NSO Install type                   local
-  NSO Install location               /home/nso/ncs-5.0.1
-  NSO runtime directory              /home/nso/ncs-run
-  NSO packages: cisco-iosxr          version 6.6
-  Devices added to NSO application   asr9k0, asr9k1, asr9k2
-
-The lab contains 5 tasks.
-
--   Task 0: Verify lab set-up.
-
--   Task 1: Create NSO service package for L2VPN.
-
--   Task 2 and Task 3: Discover/reconcile pre-existing L2VPN services,
-    manually. Task 2 is to create L2VPN service instances for
-    pre-existing configuration. Task 3 is to complete the service
-    discovery by resetting the reference count.
-
--   Task 4: Discover/reconcile pre-existing L2VPN services,
-    automatically, through NSO’s northbound api MAAPI (Management Agent
-    API), and Maggic API.
-
-You can choose to do all the tasks, or:
-
--   Task0 and Task1: (\~60 minutes)
-
--   Task0 and Task2 and Task3 (\~60 minutes)
-
--   Task0 and Task4 (\~80 minutes)
-
--   All (\~180 minutes)
-
-Verify Lab Setup
-----------------
-
-In this task, you will verify that you can access lab setup via jump
-start server. **Table 2** lists the access information for each lab
-user. Jump Start Server is shared. You should login with your own user
-id. Each lab user will have his/her own NSO application VM.
-
-[[]{#_Ref485414555 .anchor}]{#_Ref485414585 .anchor}Table 2 Lab access
-information
-
-  user          Jump start server (RDP)   Jump Start Server credential    nso application host   nso application server credential
-  ------------- ------------------------- ------------------------------- ---------------------- -----------------------------------
-  Lab user 1    128.107.235.22            WEIGANG\\labuser1/c1sco123\#    172.23.123.211         nso/cisco123
-  Lab user 2                              WEIGANG\\labuser2/c1sco123\#    172.23.123.212         
-  Lab user 3                              WEIGANG\\labuser3/c1sco123\#    172.23.123.213         
-  Lab user 4                              WEIGANG\\labuser4/c1sco123\#    172.23.123.214         
-  Lab user 5                              WEIGANG\\labuser5/c1sco123\#    172.23.123.215         
-  Lab user 6                              WEIGANG\\labuser6/c1sco123\#    172.23.123.216         
-  Lab user 7                              WEIGANG\\labuser7/c1sco123\#    172.23.123.217         
-  Lab user 8                              WEIGANG\\labuser8/c1sco123\#    172.23.123.218         
-  Lab user 9                              WEIGANG\\labuser9/c1sco123\#    172.23.123.219         
-  Lab user 10                             WEIGANG\\labuser10/c1sco123\#   172.23.123.220         
-  Lab user 11                             WEIGANG\\labuser11/c1sco123\#   172.23.123.221         
-  Lab user 12                             WEIGANG\\labuser12/c1sco123\#   172.23.123.222         
-  Lab user 13                             WEIGANG\\labuser13/c1sco123\#   172.23.123.223         
-  Lab user 14                             WEIGANG\\labuser14/c1sco123\#   172.23.123.224         
-  Lab user 15                             WEIGANG\\labuser15/c1sco123\#   172.23.123.225         
-  Lab user 16                             WEIGANG\\labuser16/c1sco123\#   172.23.123.226         
-  Lab user 17                             WEIGANG\\labuser17/c1sco123\#   172.23.123.227         
-  Lab user 18                             WEIGANG\\labuser18/c1sco123\#   172.23.123.228         
-  Lab user 19                             WEIGANG\\labuser19/c1sco123\#   172.23.123.229         
-  Lab user 20                             WEIGANG\\labuser20/c1sco123\#   172.23.123.230         
-
-### Access Lab Setup. 
-
-1.  Access lab jump start server via Remote Desk Top. Launch Remote Desk
-    Top, enter credentials (Jump start server, username is
-    WEIGANG\\labuser1, WEIGANG\\labuser2, and etc) as **Table 2 Lab
-    access information**.
-
-2.  Access NSO application VM from Jump Start windows server. From jump
-    start server, click
-    ![](./media/media/image7.png){width="0.3879232283464567in"
-    height="0.4623195538057743in"} from desktop, to open a putty
-    connection, enter IP address as listed in **Table 2 Lab access
-    information**.
-
--   **Make sure you entered the ip address assigned to you.
-    (172.23.123.211 for labuser1, 172.23.123.212 for labuser2, ….)**
-
-![](./media/media/image8.png){width="4.408146325459318in"
-height="4.143931539807524in"}
-
-1.  Enter credentials as listed in **Table 2 Lab access information:**
-    (nso/cisco123):
-
-![](./media/media/image9.png){width="5.121813210848644in"
-height="3.183967629046369in"}
-
-### Validate the setup
-
-Follow the following instruction. Pay attention to highlighted output.
-
-1.  Check NSO version.
-
-  --------------------------------------------
-  \[nso@cl-lab-211\]\$ cd ncs-run
-  
-  \[nso@cl-lab-211 ncs-run\]\$ pwd
-  
-  /home/nso/ncs-run
-  
-  \[nso@cl-lab-211 ncs-run\]\$ ncs --version
-  
-  5.0.20181016.1
-  --------------------------------------------
-
-1.  Make sure NSO is running, if you get “connection refused” as the
-    following, start NSO application:
-
-  -------------------------------------------
-  \[nso@cl-lab-211 ncs-run\]\$ ncs --status
-  
-  connection refused (status)
-  
-  \[nso@cl-lab-211\]\$ cd ncs-run
-  
-  \[nso@cl-lab-211 ncs-run\]\$ pwd
-  
-  /home/nso/ncs-run
-  
-  \[nso@cl-lab-211 ncs-run\]\$ ncs
-  -------------------------------------------
-
--   **Note: If you get errors for “ncs” command, make sure you are in
-    your nso runtime directory: /home/nso/ncs-run**
-
-1.  Check pre-loaded packages in your NSO application.
-
-  -------------------------------------------------------------
-  \[nso@cl-lab-211 ncs-run\]\$ ncs\_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs&gt; show packages package package-version
-  
-  PACKAGE
-  
-  NAME VERSION
-  
-  -------------------------
-  
-  cisco-iosxr-cli-6.6 6.6.0.1
-  
-  \[ok\]\[2017-04-28 07:12:36\]
-  
-  admin@ncs&gt; show packages package oper-status
-  
-  packages package cisco-iosxr-cli-6.6
-  
-  oper-status up
-  
-  \[ok\]\[2017-06-11 06:35:51\]
-  -------------------------------------------------------------
-
--   **Make sure the version of cisco-iosxr-cli-6.6 is 6.6.0.1 and the
-    oper-status is up**
-
-1.  Check the NSO instance contains 3 PE devices, asr9k0, asr9k1,
-    asr9k2.
-
-  ------------------------------------------------------------
-  \[nso@cl-lab-218 \~\]\$ ncs\_cli -u admin
-  
-  admin connected from 172.23.123.13 using ssh on cl-lab-218
-  
-  admin@ncs&gt; show devices brief
-  
-  NAME ADDRESS DESCRIPTION NED ID
-  
-  --------------------------------------------
-  
-  asr9k0 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  asr9k1 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  asr9k2 127.0.0.1 - cisco-iosxr-cli-6.6
-  
-  \[ok\]\[2017-06-11 12:30:02\]
-  ------------------------------------------------------------
-
-1.  Sync up the devices to bring the PE devices configuration into NSO’s
-    device model.
-
-  -----------------------------------------
-  admin@ncs&gt; request devices sync-from
-  
-  sync-result {
-  
-  device asr9k0
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k1
-  
-  result true
-  
-  }
-  
-  sync-result {
-  
-  device asr9k2
-  
-  result true
-  
-  }
-  
-  \[ok\]\[2017-06-11 12:34:12\]
-  -----------------------------------------
-
-You have finished Task 0: Verify Lab Setup. Now you are ready to move on
-to the next Task: Create a service package.
-
-Create L2VPN Service Package
+Task 1 Create L2VPN Service Package
 ----------------------------
+
 
 Requirements of the service package:
 
@@ -334,11 +40,11 @@ need to be put as the description of the sub-interfaces.
 Service
 
   ------------------------------------------------------------------------
-  interface Bundle-Ether &lt;PE Port number&gt;.&lt;stag&gt; l2transport
+  interface Bundle-Ether &lt;PE Port number>;.&lt;stag>l2transport
   
-  description "&lt;customer name&gt;\_&lt;order number&gt;"
+  description "&lt;customer name>;\_&lt;order number>;"
   
-  encapsulation dot1q &lt;stag&gt;
+  encapsulation dot1q &lt;stag>;
   ------------------------------------------------------------------------
 
 In this task, you will create a service package skeleton, and a service
@@ -364,20 +70,20 @@ height="4.027777777777778in"}
     “ncs-make-package” command, name it L2Vpn.
 
   ---------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211\]\$ mkdir \~/packages
+  [nso@cl-lab-211]$ mkdir ~/packages
   
-  \[nso@cl-lab-211 packages\]\$ cd \~/packages
+  [nso@cl-lab-211 packages]$ cd ~/packages
   
-  \[nso@cl-lab-211 packages\]\$ ncs-make-package --service-skeleton python-and-template --augment /ncs:services L2Vpn
+  [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python-and-template --augment /ncs:services L2Vpn
   ---------------------------------------------------------------------------------------------------------------------
 
 1.  “ncs-make-package” creates a directory structure (L2Vpn), and
     skeleton of service files.
 
   --------------------------------------------------------
-  \[nso@cl-lab-211 packages\]\$ cd \~/packages/L2Vpn
+  [nso@cl-lab-211 packages]$ cd ~/packages/L2Vpn
   
-  \[nso@cl-lab-211 L2Vpn\]\$ ls
+  [nso@cl-lab-211 L2Vpn]$ ls
   
   package-meta-data.xml python README src templates test
   --------------------------------------------------------
@@ -386,15 +92,15 @@ height="4.027777777777778in"}
     L2Vpn-template.xml are created:
 
   ------------------------------------------
-  \[nso@cl-lab-211 L2Vpn\]\$ ls src
+  [nso@cl-lab-211 L2Vpn]$ ls src
   
   Makefile yang
   
-  \[nso@cl-lab-211 L2Vpn\]\$ ls src/yang
+  [nso@cl-lab-211 L2Vpn]$ ls src/yang
   
   L2Vpn.yang
   
-  \[nso@cl-lab-211 L2Vpn\]\$ ls templates/
+  [nso@cl-lab-211 L2Vpn]$ ls templates/
   
   L2Vpn-template.xml
   ------------------------------------------
@@ -406,10 +112,10 @@ ncs-make-package command. In this step, you will update the
 auto-generated Yang file, L2Vpn.yang to model the L2Vpn service as
 illustrated in **Table 3** and **Figure 2.**
 
-**Option 1: Edit \~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO server,
+**Option 1: Edit ~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO server,
 using “vi” for example;**
 
-**Option 2: Copy the file \~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO
+**Option 2: Copy the file ~/packages/L2Vpn/src/yang/L2Vpn.yang from NSO
 server to window’s jump server using
 (**![](./media/media/image11.png){width="0.3988221784776903in"
 height="0.5184689413823272in"}**). Edit the file using editors such as
@@ -653,9 +359,9 @@ height="7.9840277777777775in"}
 2.  Compile project L2Vpn at your NSO server.
 
   ----------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 ncs-run\]\$ cd \~/packages/L2Vpn/src
+  [nso@cl-lab-211 ncs-run]$ cd ~/packages/L2Vpn/src
   
-  \[nso@cl-lab-211 src\]\$ make clean all
+  [nso@cl-lab-211 src]$ make clean all
   
   rm -rf ../load-dir java/src//
   
@@ -663,7 +369,7 @@ height="7.9840277777777775in"}
   
   mkdir -p java/src//
   
-  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang &gt; /dev/null 2&gt;&1 && echo "-a L2Vpn-ann.yang"\` \\
+  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>;&1 && echo "-a L2Vpn-ann.yang"\` \\
   
   -c -o ../load-dir/L2Vpn.fxs yang/L2Vpn.yang
   ----------------------------------------------------------------------------------------------------------
@@ -696,23 +402,23 @@ format. This output is the starting point of the mapping template.
 -   **Make sure the green highlighted is entered as one line:**
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 src\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 src]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   Entering configuration mode private
   
-  \[ok\]\[2017-04-29 03:05:47\]
+  [ok][2017-04-29 03:05:47]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% set devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100 mode l2transport description test-desc encapsulation dot1q vlan-id 100
   
-  \[ok\]\[2017-04-29 03:07:44\]
+  [ok][2017-04-29 03:07:44]
   
-  \[edit\]
+  [edit]
   
   admin@ncs%
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -728,55 +434,55 @@ format. This output is the starting point of the mapping template.
   
   local-node {
   
-  data &lt;devices xmlns="http://tail-f.com/ns/ncs"&gt;
+  data &lt;devices xmlns="http://tail-f.com/ns/ncs">;
   
-  &lt;device&gt;
+  &lt;device>;
   
-  &lt;name&gt;asr9k0&lt;/name&gt;
+  &lt;name>;asr9k0&lt;/name>;
   
-  &lt;config&gt;
+  &lt;config>;
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr"&gt;
+  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
   
-  &lt;Bundle-Ether-subinterface&gt;
+  &lt;Bundle-Ether-subinterface>;
   
-  &lt;Bundle-Ether&gt;
+  &lt;Bundle-Ether>;
   
-  &lt;id&gt;100.100&lt;/id&gt;
+  &lt;id>;100.100&lt;/id>;
   
-  &lt;mode&gt;l2transport&lt;/mode&gt;
+  &lt;mode>;l2transport&lt;/mode>;
   
-  &lt;description&gt;test-desc&lt;/description&gt;
+  &lt;description>;test-desc&lt;/description>;
   
-  &lt;encapsulation&gt;
+  &lt;encapsulation>;
   
-  &lt;dot1q&gt;
+  &lt;dot1q>;
   
-  &lt;vlan-id&gt;100&lt;/vlan-id&gt;
+  &lt;vlan-id>;100&lt;/vlan-id>;
   
-  &lt;/dot1q&gt;
+  &lt;/dot1q>;
   
-  &lt;/encapsulation&gt;
+  &lt;/encapsulation>;
   
-  &lt;/Bundle-Ether&gt;
+  &lt;/Bundle-Ether>;
   
-  &lt;/Bundle-Ether-subinterface&gt;
+  &lt;/Bundle-Ether-subinterface>;
   
-  &lt;/interface&gt;
+  &lt;/interface>;
   
-  &lt;/config&gt;
+  &lt;/config>;
   
-  &lt;/device&gt;
+  &lt;/device>;
   
-  &lt;/devices&gt;
-  
-  }
+  &lt;/devices>;
   
   }
   
-  \[ok\]\[2017-04-29 03:09:22\]
+  }
   
-  \[edit\]
+  [ok][2017-04-29 03:09:22]
+  
+  [edit]
   --------------------------------------------------------------
 
 1.  We don’t want to commit the above changes to devices. Exit from ncs
@@ -785,20 +491,20 @@ format. This output is the starting point of the mapping template.
   -------------------------------
   admin@ncs% exit no
   
-  \[ok\]\[2017-06-02 01:47:29\]
+  [ok][2017-06-02 01:47:29]
   
-  admin@ncs&gt; exit
+  admin@ncs>exit
   
-  \[nso@cl-lab-211 src\]\$
+  [nso@cl-lab-211 src]$
   -------------------------------
 
 1.  Now let’s complete L2Vpn template file, L2Vpn-template.xml
 
-> **Option 1: Edit \~/packages/L2Vpn/templates/L2Vpn-template.xml from
+> **Option 1: Edit ~/packages/L2Vpn/templates/L2Vpn-template.xml from
 > NSO server, using “vi” for example;**
 >
 > **Option 2: Copy the file
-> \~/packages/L2Vpn/templates/L2Vpn-template.xml from NSO server to
+> ~/packages/L2Vpn/templates/L2Vpn-template.xml from NSO server to
 > window’s jump server using
 > (**![](./media/media/image11.png){width="0.3988221784776903in"
 > height="0.5184689413823272in"}**). Edit the file using editors such as
@@ -809,60 +515,60 @@ format. This output is the starting point of the mapping template.
 > height="0.34453740157480317in"}**). If you take Option 2, remember
 > copy the file back to NSO server.**
 
-1.  Edit file \~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
+1.  Edit file ~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
     the contents of the block of &lt;config-template
-    xmlns="http://tail-f.com/ns/config/1.0"&gt; with the highlighted
+    xmlns="http://tail-f.com/ns/config/1.0">with the highlighted
     output from **item 20.**
 
 ![](./media/media/image15.tiff){width="6.021774934383202in"
 height="3.5399442257217846in"}
 
   -----------------------------------------------------------------
-  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0"&gt;
+  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0">;
   
-  &lt;devices xmlns="http://tail-f.com/ns/ncs"&gt;
+  &lt;devices xmlns="http://tail-f.com/ns/ncs">;
   
-  &lt;device&gt;
+  &lt;device>;
   
-  &lt;name&gt;asr9k0&lt;/name&gt;
+  &lt;name>;asr9k0&lt;/name>;
   
-  &lt;config&gt;
+  &lt;config>;
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr"&gt;
+  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
   
-  &lt;Bundle-Ether-subinterface&gt;
+  &lt;Bundle-Ether-subinterface>;
   
-  &lt;Bundle-Ether&gt;
+  &lt;Bundle-Ether>;
   
-  &lt;id&gt;100.100&lt;/id&gt;
+  &lt;id>;100.100&lt;/id>;
   
-  &lt;description&gt;test-desc&lt;/description&gt;
+  &lt;description>;test-desc&lt;/description>;
   
-  &lt;mode&gt;l2transport&lt;/mode&gt;
+  &lt;mode>;l2transport&lt;/mode>;
   
-  &lt;encapsulation&gt;
+  &lt;encapsulation>;
   
-  &lt;dot1q&gt;
+  &lt;dot1q>;
   
-  &lt;vlan-id&gt;100&lt;/vlan-id&gt;
+  &lt;vlan-id>;100&lt;/vlan-id>;
   
-  &lt;/dot1q&gt;
+  &lt;/dot1q>;
   
-  &lt;/encapsulation&gt;
+  &lt;/encapsulation>;
   
-  &lt;/Bundle-Ether&gt;
+  &lt;/Bundle-Ether>;
   
-  &lt;/Bundle-Ether-subinterface&gt;
+  &lt;/Bundle-Ether-subinterface>;
   
-  &lt;/interface&gt;
+  &lt;/interface>;
   
-  &lt;/config&gt;
+  &lt;/config>;
   
-  &lt;/device&gt;
+  &lt;/device>;
   
-  &lt;/devices&gt;
+  &lt;/devices>;
   
-  &lt;/config-template&gt;
+  &lt;/config-template>;
   -----------------------------------------------------------------
 
 1.  Next you need to plant the service attributes to replace the sample
@@ -888,60 +594,60 @@ following, note the yellow highlighted parts are replaced with service
 attributes:
 
   -------------------------------------------------------------------------
-  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0"&gt;
+  &lt;config-template xmlns="http://tail-f.com/ns/config/1.0">;
   
-  &lt;devices xmlns="http://tail-f.com/ns/ncs"&gt;
+  &lt;devices xmlns="http://tail-f.com/ns/ncs">;
   
-  &lt;device&gt;
+  &lt;device>;
   
-  &lt;name&gt;{/pe-devices/device-name}&lt;/name&gt;
+  &lt;name>;{/pe-devices/device-name}&lt;/name>;
   
-  &lt;config&gt;
+  &lt;config>;
   
-  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr"&gt;
+  &lt;interface xmlns="http://tail-f.com/ned/cisco-ios-xr">;
   
-  &lt;Bundle-Ether-subinterface&gt;
+  &lt;Bundle-Ether-subinterface>;
   
-  &lt;Bundle-Ether&gt;
+  &lt;Bundle-Ether>;
   
-  &lt;id&gt;{./Bundle-Ether}.{./stag}&lt;/id&gt;
+  &lt;id>;{./Bundle-Ether}.{./stag}&lt;/id>;
   
-  &lt;description&gt;{/customer-name}-{/order-number}&lt;/description&gt;
+  &lt;description>;{/customer-name}-{/order-number}&lt;/description>;
   
-  &lt;mode&gt;l2transport&lt;/mode&gt;
+  &lt;mode>;l2transport&lt;/mode>;
   
-  &lt;encapsulation&gt;
+  &lt;encapsulation>;
   
-  &lt;dot1q&gt;
+  &lt;dot1q>;
   
-  &lt;vlan-id&gt;{./stag}&lt;/vlan-id&gt;
+  &lt;vlan-id>;{./stag}&lt;/vlan-id>;
   
-  &lt;/dot1q&gt;
+  &lt;/dot1q>;
   
-  &lt;/encapsulation&gt;
+  &lt;/encapsulation>;
   
-  &lt;/Bundle-Ether&gt;
+  &lt;/Bundle-Ether>;
   
-  &lt;/Bundle-Ether-subinterface&gt;
+  &lt;/Bundle-Ether-subinterface>;
   
-  &lt;/interface&gt;
+  &lt;/interface>;
   
-  &lt;/config&gt;
+  &lt;/config>;
   
-  &lt;/device&gt;
+  &lt;/device>;
   
-  &lt;/devices&gt;
+  &lt;/devices>;
   
-  &lt;/config-template&gt;
+  &lt;/config-template>;
   -------------------------------------------------------------------------
 
 -   **You can find the solution template file from
-    \~/solution/L2Vpn/templates of your NSO server, for your
+    ~/solution/L2Vpn/templates of your NSO server, for your
     reference.**
 
 1.  Save L2Vpn-template.xlm. If you edit the file from the windows
     jumpstart server, remember to copy the file to NSO server, to
-    \~/packages/L2Vpn/templates/
+    ~/packages/L2Vpn/templates/
 
 ### Deploy the service package L2Vpn
 
@@ -952,9 +658,9 @@ Now you are ready to deploy the service package to NSO application.
     ncs-run/packages:
 
   -----------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211\]\$ ls –l \~/ncs-run/packages
+  [nso@cl-lab-211]$ ls –l ~/ncs-run/packages
   
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 -&gt; /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
   -----------------------------------------------------------------------------------------------------------------------
 
 1.  Make package L2Vpn available for NSO. Creating a symbolic link to
@@ -962,40 +668,40 @@ Now you are ready to deploy the service package to NSO application.
     (/home/nso/ncs-run/packages):
 
   -----------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211\]\$ cd \~/ncs-run/packages
+  [nso@cl-lab-211]$ cd ~/ncs-run/packages
   
-  \[nso@cl-lab-211 packages\]\$ ln -s /home/nso/packages/L2Vpn/
+  [nso@cl-lab-211 packages]$ ln -s /home/nso/packages/L2Vpn/
   
-  \[nso@cl-lab-211 packages\]\$ ls -l
+  [nso@cl-lab-211 packages]$ ls -l
   
   total 0
   
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 -&gt; /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
   
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn -&gt; /home/nso/packages/L2Vpn/
+  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
   -----------------------------------------------------------------------------------------------------------------------
 
 -   **Note: Make sure you are creating the symbolic link at
-    \~/ncs-run/packages directory.**
+    ~/ncs-run/packages directory.**
 
-1.  From NSO cli (ncs\_cli), reload packages to complete the package
+1.  From NSO cli (ncs_cli), reload packages to complete the package
     deployment process.
 
 -   **Make sure the reload result is true. If you see errors, check the
-    solution from \~/packages/solution directory for reference.**
+    solution from ~/packages/solution directory for reference.**
 
   -------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 \~\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 ~]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  &gt;&gt;&gt; System upgrade is starting.
+  >;>;>System upgrade is starting.
   
-  &gt;&gt;&gt; Sessions in configure mode must exit to operational mode.
+  >;>;>Sessions in configure mode must exit to operational mode.
   
-  &gt;&gt;&gt; No configuration changes can be performed until upgrade has completed.
+  >;>;>No configuration changes can be performed until upgrade has completed.
   
-  &gt;&gt;&gt; System upgrade has completed successfully.
+  >;>;>System upgrade has completed successfully.
   
   reload-result {
   
@@ -1013,7 +719,7 @@ Now you are ready to deploy the service package to NSO application.
   
   }
   
-  admin@ncs&gt; show packages package package-version
+  admin@ncs>show packages package package-version
   
   PACKAGE
   
@@ -1025,7 +731,7 @@ Now you are ready to deploy the service package to NSO application.
   
   cisco-iosxr-cli-6.6 6.6.0.1
   
-  \[ok\]\[2018-12-09 08:23:00\]
+  [ok][2018-12-09 08:23:00]
   -------------------------------------------------------------------------------------
 
 ### Test the service package
@@ -1039,23 +745,23 @@ service instance.
     addition, set pe-devices as asr9k0, Bundle-Ether 100, and stag 100 :
 
   -------------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 \~\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 ~]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   Entering configuration mode private
   
-  \[ok\]\[2017-04-29 08:20:16\]
+  [ok][2017-04-29 08:20:16]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% set services L2Vpn test customer-name ciscolive order-number 123 pe-devices asr9k0 Bundle-Ether 100 stag 100
   
-  \[ok\]\[2017-04-29 08:21:00\]
+  [ok][2017-04-29 08:21:00]
   
-  \[edit\]
+  [edit]
   -------------------------------------------------------------------------------------------------------------------------
 
 1.  Operation “Commit dry run” shows the CLI’s to be configured to
@@ -1082,9 +788,9 @@ service instance.
   
   }
   
-  \[ok\]\[2017-04-29 08:21:08\]
+  [ok][2017-04-29 08:21:08]
   
-  \[edit\]
+  [edit]
   
   admin@ncs%
   -------------------------------------------------
@@ -1098,9 +804,9 @@ service instance.
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 08:21:18\]
+  [ok][2017-04-29 08:21:18]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% show services L2Vpn test
   
@@ -1116,9 +822,9 @@ service instance.
   
   }
   
-  \[ok\]\[2017-04-29 08:21:33\]
+  [ok][2017-04-29 08:21:33]
   
-  \[edit\]
+  [edit]
   
   admin@ncs%
   -------------------------------------
@@ -1131,9 +837,9 @@ service instance.
     created with the correct customer name, order number and vlan tag:
 
   -----------------------------------------------------------------
-  \[nso@cl-lab-211\]\$ cd \~/ncs-run
+  [nso@cl-lab-211]$ cd ~/ncs-run
   
-  \[nso@cl-lab-211 ncs-run\]\$ ncs-netsim cli-c asr9k0
+  [nso@cl-lab-211 ncs-run]$ ncs-netsim cli-c asr9k0
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
@@ -1151,13 +857,13 @@ service instance.
 1.  []{#_Ref484181849 .anchor}Delete service instance “test” from NSO
     CLI (config mode).
 
--   Note: you can get back to nso cli config mode by “ncs\_cli –u admin”
+-   Note: you can get back to nso cli config mode by “ncs_cli –u admin”
     followed by “config” from your NSO’s VM, linux prompt.
 
   ----------------------------------------------------
   admin@ncs% delete service L2Vpn test
   
-  \[ok\]\[2017-04-29 08:42:24\]
+  [ok][2017-04-29 08:42:24]
   
   admin@ncs% commit dry-run outformat native
   
@@ -1173,17 +879,17 @@ service instance.
   
   }
   
-  \[ok\]\[2017-04-29 08:42:24\]
+  [ok][2017-04-29 08:42:24]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 08:42:31\]
+  [ok][2017-04-29 08:42:31]
   
-  \[edit\]
+  [edit]
   
   admin@ncs%
   ----------------------------------------------------
@@ -1296,11 +1002,11 @@ NSO’s device model through sync-from operation.
     pre-existing configurations to NSO’s device model
 
   -------------------------------------------------------------
-  \[nso@cl-lab-211 \~\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 ~]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   admin@ncs% request devices sync-from
   
@@ -1328,20 +1034,20 @@ NSO’s device model through sync-from operation.
   
   }
   
-  \[ok\]\[2017-04-29 09:20:11\]
+  [ok][2017-04-29 09:20:11]
   
-  \[edit\]
+  [edit]
   -------------------------------------------------------------
 
 1.  Check NSO’s device model to view pre-existing Bundel-Ether
     sub-interfaces
 
   -----------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 \~\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 ~]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface
   
@@ -1355,7 +1061,7 @@ NSO’s device model through sync-from operation.
   
   dot1q {
   
-  vlan-id \[ 2188 \];
+  vlan-id [ 2188 ];
   
   }
   
@@ -1373,7 +1079,7 @@ NSO’s device model through sync-from operation.
   
   dot1q {
   
-  vlan-id \[ 2234 \];
+  vlan-id [ 2234 ];
   
   }
   
@@ -1391,7 +1097,7 @@ NSO’s device model through sync-from operation.
   
   dot1q {
   
-  vlan-id \[ 2291 \];
+  vlan-id [ 2291 ];
   
   }
   
@@ -1452,11 +1158,11 @@ example table, **Table 7**
     **
 
   -------------------------------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 ncs-run\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 ncs-run]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   Entering configuration mode private
   
@@ -1464,21 +1170,21 @@ example table, **Table 7**
   
   admin ssh (cli from 128.107.235.22) on since 2017-04-29 09:17:58 private mode
   
-  \[ok\]\[2017-04-29 09:35:29\]
+  [ok][2017-04-29 09:35:29]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% set services L2Vpn test1 order-number L1111318 customer-name L\_ford\_318 pe-devices asr9k0 Bundle-Ether 100 stag 2188
   
-  \[ok\]\[2017-04-29 09:36:33\]
+  [ok][2017-04-29 09:36:33]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% set services L2Vpn test2 order-number L1111318 customer-name L\_unitedhealth\_318 pe-devices asr9k0 Bundle-Ether 100 stag 2234
   
-  \[ok\]\[2017-04-29 09:39:25\]
+  [ok][2017-04-29 09:39:25]
   
-  \[edit\]
+  [edit]
   -------------------------------------------------------------------------------------------------------------------------------------------
 
 1.  Confirm “commit dry-run” output is empty.
@@ -1494,7 +1200,7 @@ example table, **Table 7**
   
   }
   
-  \[ok\]\[2017-04-29 09:39:30\]
+  [ok][2017-04-29 09:39:30]
   --------------------------------------------
 
 1.  After confirm the output of “commit dry-run outformat native” does
@@ -1511,17 +1217,17 @@ example table, **Table 7**
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 09:42:50\]
+  [ok][2017-04-29 09:42:50]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% exit
   
-  \[ok\]\[2017-06-02 07:58:37\]
+  [ok][2017-06-02 07:58:37]
   
-  admin@ncs&gt; exit
+  admin@ncs>exit
   
-  \[nso@cl-lab-211 packages\]\$
+  [nso@cl-lab-211 packages]$
   ---------------------------------
 
 ###  {#section-1 .ListParagraph}
@@ -1536,17 +1242,17 @@ This is because, by default, devices own the out-of-band configurations.
 1.  Try to delete instance test1.
 
   ------------------------------------------------------------
-  \[nso@cl-lab-211 packages\]\$ ncs\_cli -u admin
+  [nso@cl-lab-211 packages]$ ncs_cli -u admin
   
   admin connected from 172.23.123.13 using ssh on cl-lab-211
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   Entering configuration mode private
   
-  \[ok\]\[2017-06-02 07:59:37\]
+  [ok][2017-06-02 07:59:37]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% show services L2Vpn test1
   
@@ -1562,15 +1268,15 @@ This is because, by default, devices own the out-of-band configurations.
   
   }
   
-  \[ok\]\[2017-04-29 10:04:30\]
+  [ok][2017-04-29 10:04:30]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% delete services L2Vpn test1
   
-  \[ok\]\[2017-04-29 10:04:40\]
+  [ok][2017-04-29 10:04:40]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit dry-run outformat native
   
@@ -1578,17 +1284,17 @@ This is because, by default, devices own the out-of-band configurations.
   
   }
   
-  \[ok\]\[2017-04-29 10:04:47\]
+  [ok][2017-04-29 10:04:47]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 10:04:56\]
+  [ok][2017-04-29 10:04:56]
   
-  \[edit\]
+  [edit]
   ------------------------------------------------------------
 
 1.  After commit the delete operation, confirm service instance test1 is
@@ -1601,17 +1307,17 @@ This is because, by default, devices own the out-of-band configurations.
   
   syntax error: element does not exist
   
-  \[error\]\[2017-05-05 00:44:15\]
+  [error]$[2017-05-05 00:44:15]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 10:04:56\]
+  [ok][2017-04-29 10:04:56]
   
-  \[edit\]
+  [edit]
   --------------------------------------
 
 1.  Although the service instance test1is deleted from NSO, the
@@ -1631,7 +1337,7 @@ This is because, by default, devices own the out-of-band configurations.
   
   dot1q {
   
-  vlan-id \[ 2188 \];
+  vlan-id [ 2188 ];
   
   }
   
@@ -1688,7 +1394,7 @@ discovery/reconcile through resetting the reference count (ref-count).
   
   dot1q {
   
-  vlan-id \[ 2188 \];
+  vlan-id [ 2188 ];
   
   }
   
@@ -1698,7 +1404,7 @@ discovery/reconcile through resetting the reference count (ref-count).
   
   /\* Refcount: 2 \*/
   
-  /\* Backpointer: \[ /ncs:services/L2Vpn:L2Vpn\[L2Vpn:sr-name='test2'\] \] \*/
+  /\* Backpointer: [ /ncs:services/L2Vpn:L2Vpn[L2Vpn:sr-name='test2'] ] \*/
   
   Bundle-Ether 100.2234 {
   
@@ -1718,7 +1424,7 @@ discovery/reconcile through resetting the reference count (ref-count).
   
   dot1q {
   
-  vlan-id \[ 2234 \];
+  vlan-id [ 2234 ];
   
   }
   
@@ -1736,7 +1442,7 @@ discovery/reconcile through resetting the reference count (ref-count).
   
   dot1q {
   
-  vlan-id \[ 2291 \];
+  vlan-id [ 2291 ];
   
   }
   
@@ -1758,9 +1464,9 @@ to NSO through ref-count reset.
   -------------------------------------------------------------
   admin@ncs% request services L2Vpn test2 re-deploy reconcile
   
-  \[ok\]\[2017-11-26 11:42:19\]
+  [ok][2017-11-26 11:42:19]
   
-  \[edit\]
+  [edit]
   -------------------------------------------------------------
 
 1.  Perform a device sync-from.
@@ -1792,7 +1498,7 @@ to NSO through ref-count reset.
   
   }
   
-  \[ok\]\[2017-11-26 11:57:52\]
+  [ok][2017-11-26 11:57:52]
   --------------------------------------
 
 1.  Now let’s check ref-count. Notice the value of ref-count attached
@@ -1811,7 +1517,7 @@ to NSO through ref-count reset.
   
   dot1q {
   
-  vlan-id \[ 2188 \];
+  vlan-id [ 2188 ];
   
   }
   
@@ -1821,7 +1527,7 @@ to NSO through ref-count reset.
   
   /\* Refcount: 1 \*/
   
-  /\* Backpointer: \[ /ncs:services/L2Vpn:L2Vpn\[L2Vpn:sr-name='test2'\] \] \*/
+  /\* Backpointer: [ /ncs:services/L2Vpn:L2Vpn[L2Vpn:sr-name='test2'] ] \*/
   
   Bundle-Ether 100.2234 {
   
@@ -1837,7 +1543,7 @@ to NSO through ref-count reset.
   
   dot1q {
   
-  vlan-id \[ 2234 \];
+  vlan-id [ 2234 ];
   
   }
   
@@ -1855,7 +1561,7 @@ to NSO through ref-count reset.
   
   dot1q {
   
-  vlan-id \[ 2291 \];
+  vlan-id [ 2291 ];
   
   }
   
@@ -1893,15 +1599,15 @@ this step, you will see the correct behaviour when we delete test2
   
   }
   
-  \[ok\]\[2017-04-29 10:04:30\]
+  [ok][2017-04-29 10:04:30]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% delete services L2Vpn test2
   
-  \[ok\]\[2017-04-29 11:34:32\]
+  [ok][2017-04-29 11:34:32]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit dry-run outformat native
   
@@ -1917,9 +1623,9 @@ this step, you will see the correct behaviour when we delete test2
   
   }
   
-  \[ok\]\[2017-04-29 11:34:39\]
+  [ok][2017-04-29 11:34:39]
   
-  \[edit\]
+  [edit]
   -----------------------------------------------------
 
 1.  Commit after confirm the dry-run output
@@ -1929,9 +1635,9 @@ this step, you will see the correct behaviour when we delete test2
   
   Commit complete.
   
-  \[ok\]\[2017-04-29 11:34:47\]
+  [ok][2017-04-29 11:34:47]
   
-  \[edit\]
+  [edit]
   -------------------------------
 
 1.  Now check device model to see Bundle-Ether 100.2234 no longer exists
@@ -1944,9 +1650,9 @@ this step, you will see the correct behaviour when we delete test2
   
   syntax error: element does not exist
   
-  \[error\]\[2017-04-29 11:40:54\]
+  [error]$[2017-04-29 11:40:54]
   
-  \[edit\]
+  [edit]
   ---------------------------------------------------------------------------------------------------------------------
 
 Congratulations! You have successfully finished all the tasks of this
@@ -2004,13 +1710,13 @@ first.
     name it l2vpnreconcile
 
   ----------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211\]\$ cd \~/packages
+  [nso@cl-lab-211]$ cd ~/packages
   
-  \[nso@cl-lab-211 packages\]\$ ncs-make-package --service-skeleton python --action-example l2vpnreconcile
+  [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python --action-example l2vpnreconcile
   
-  \[nso@cl-lab-211 packages\]\$ cd l2vpnreconcile
+  [nso@cl-lab-211 packages]$ cd l2vpnreconcile
   
-  \[nso@cl-lab-211 l2vpnreconcile\]\$ ls
+  [nso@cl-lab-211 l2vpnreconcile]$ ls
   
   package-meta-data.xml python README src templates test
   ----------------------------------------------------------------------------------------------------------
@@ -2026,11 +1732,11 @@ capture the input and output parameters.
 1.  Edit the auto-generated service yang file, l2vpnreconcile.yang.
 
 > **Option 1: Edit
-> \~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
+> ~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
 > server, using “vi” for example;**
 >
 > **Option 2: Copy the file
-> \~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
+> ~/packages/l2vpnreconcile/src/yang/l2vpnreconcile.yang from NSO
 > server to window’s jump server using
 > (**![](./media/media/image11.png){width="0.3988221784776903in"
 > height="0.5184689413823272in"}**). Edit the file using editors such as
@@ -2124,7 +1830,7 @@ height="5.48125in"}
   ------------------------------------------------
 
 -   **Note: Check
-    \~/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang for
+    ~/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang for
     reference.**
 
 1.  Save l2vpnreconcile.yang. If you edit the file from the windows jump
@@ -2143,11 +1849,11 @@ rename the generic default action class DoubleAction to Reconcile.
     remove service related python script.
 
 > **Option 1: Edit
-> \~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
+> ~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
 > server, using “vi” for example;**
 >
 > **Option 2: Copy the file
-> \~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
+> ~/packages/l2vpnreconcile/python/l2vpnreconcile/main.py from NSO
 > server to window’s jump server using
 > (**![](./media/media/image11.png){width="0.3988221784776903in"
 > height="0.5184689413823272in"}**). Edit the file using editors such as
@@ -2340,7 +2046,7 @@ Continue editing file main.py.
   
   pe\_device = ''
   
-  srs = \[\]
+  srs = []
   
   with ncs.maapi.Maapi() as m:
   
@@ -2372,7 +2078,7 @@ Continue editing file main.py.
   
   pe\_device = ''
   
-  srs = \[\]
+  srs = []
   
   with ncs.maapi.Maapi() as m:
   
@@ -2386,7 +2092,7 @@ Continue editing file main.py.
   
   pe\_device = self.getDevice(input.device\_name, root);
   
-  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input\["device-name"\]
+  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
   
   if t.exists(int\_path):
   
@@ -2416,9 +2122,9 @@ attribute mapping example for auto service instance creation
   ------------------------------------------------------------ --------------------------------------------------------------------------------
   interface Bundle-Ether l2transport
   
-  description &lt;*customer name*&gt;–&lt;*order-number*&gt;
+  description &lt;*customer name*>;–&lt;*order-number*>;
   
-  encapsulation dot1q &lt;*stag*&gt;
+  encapsulation dot1q &lt;*stag*>;
   
   exit
 
@@ -2428,11 +2134,11 @@ attribute mapping example for auto service instance creation
 
   device attribute
 
-  id *&lt;id.stag&gt;*
+  id *&lt;id.stag>;*
 
-  description &lt;*customer name*&gt;–&lt;*order-number*&gt;
+  description &lt;*customer name*>;–&lt;*order-number*>;
 
-  dot1aq vlan-id *&lt;stag&gt;*
+  dot1aq vlan-id *&lt;stag>;*
   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 -   **Note: Make sure the green highlighted line is entered as one line.
@@ -2512,9 +2218,9 @@ description is not populated properly.
   
   pe\_path = sr\_path + '/pe-devices'
   
-  pes\_node = ncs.maagic.get\_node(t,pe\_path)
+  pes_node = ncs.maagic.get\_node(t,pe\_path)
   
-  pe\_obj = pes\_node.create(input.device\_name)
+  pe\_obj = pes_node.create(input.device\_name)
   
   pe\_obj.stag = bstag
   
@@ -2529,7 +2235,7 @@ description is not populated properly.
     empty. Function isDryRunEmpty is defined later.
 
   ------------------------------------------------------------------------
-  if len(srs) &gt; 0:
+  if len(srs) >0:
   
   if not self.isDryRunEmpty(root):
   
@@ -2539,7 +2245,7 @@ description is not populated properly.
   
   return
   
-  t.apply(flags=\_ncs.maapi.COMMIT\_NCS\_NO\_NETWORKING)
+  t.apply(flags=\_ncs.maapi.COMMIT\_NCs_NO\_NETWORKING)
   ------------------------------------------------------------------------
 
 1.  Now we are ready to reset the reference count as we have done at
@@ -2645,7 +2351,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   for sr in srs:
   
-  action = root.services.L2Vpn\[sr\].re\_deploy
+  action = root.services.L2Vpn[sr].re\_deploy
   
   input = action.get\_input()
   
@@ -2701,7 +2407,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   for sr in srs:
   
-  \# action = root.services.L2Vpn\[sr\].un\_deploy
+  \# action = root.services.L2Vpn[sr].un\_deploy
   
   \# self.log.info('undeploy %s' %sr)
   
@@ -2711,7 +2417,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   \# output = action(ignore)
   
-  action = root.services.L2Vpn\[sr\].re\_deploy
+  action = root.services.L2Vpn[sr].re\_deploy
   
   input = action.get\_input()
   
@@ -2743,7 +2449,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   pe\_device = ''
   
-  srs = \[\]
+  srs = []
   
   self.log.info('start reconcile')
   
@@ -2769,7 +2475,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   message = pe\_device.sync\_from()
   
-  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input\["device-name"\]
+  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
   
   if t.exists(int\_path):
   
@@ -2843,9 +2549,9 @@ In this step, we are defining the three functions used in cb\_action .
   
   pe\_path = sr\_path + '/pe-devices'
   
-  pes\_node = ncs.maagic.get\_node(t,pe\_path)
+  pes_node = ncs.maagic.get\_node(t,pe\_path)
   
-  pe\_obj = pes\_node.create(input.device\_name)
+  pe\_obj = pes_node.create(input.device\_name)
   
   pe\_obj.stag = bstag
   
@@ -2853,7 +2559,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   srs.append(sr\_name)
   
-  if len(srs) &gt; 0:
+  if len(srs) >0:
   
   if not self.isDryRunEmpty(root):
   
@@ -2861,7 +2567,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   output.message = 'commit dry-run output not empty, stop reconcilation'
   
-  t.apply(flags=\_ncs.maapi.COMMIT\_NCS\_NO\_NETWORKING)
+  t.apply(flags=\_ncs.maapi.COMMIT\_NCs_NO\_NETWORKING)
   
   message = pe\_device.sync\_from()
   
@@ -2897,7 +2603,7 @@ In this step, we are defining the three functions used in cb\_action .
   -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -   **Note: The complete main.py file is available under
-    \~/solution/l2vpnreconcile/python/l2vpnreconcile/ for your
+    ~/solution/l2vpnreconcile/python/l2vpnreconcile/ for your
     reference.**
 
 1.  Save main.py. If you edit the file from windows jump start server,
@@ -2912,9 +2618,9 @@ NSO server.
 1.  Compile package l2vpnreconcile.
 
   ----------------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 packages\]\$ cd \~/packages/l2vpnreconcile/src
+  [nso@cl-lab-211 packages]$ cd ~/packages/l2vpnreconcile/src
   
-  \[nso@cl-lab-211 src\]\$ make clean all
+  [nso@cl-lab-211 src]$ make clean all
   
   rm -rf ../load-dir java/src//
   
@@ -2922,59 +2628,59 @@ NSO server.
   
   mkdir -p java/src//
   
-  /home/nso/ncs-5.0.1/bin/ncsc \`ls l2vpnreconcile-ann.yang &gt; /dev/null 2&gt;&1 && echo "-a l2vpnreconcile-ann.yang"\` \\
+  /home/nso/ncs-5.0.1/bin/ncsc \`ls l2vpnreconcile-ann.yang >/dev/null 2>;&1 && echo "-a l2vpnreconcile-ann.yang"\` \\
   
   -c -o ../load-dir/l2vpnreconcile.fxs yang/l2vpnreconcile.yang
   
-  \[nso@cl-lab-211 src\]\$
+  [nso@cl-lab-211 src]$
   ----------------------------------------------------------------------------------------------------------------------------
 
-1.  Add a symbolic link to l2vpnreconcile at \~/ncs-run/packages/, and
+1.  Add a symbolic link to l2vpnreconcile at ~/ncs-run/packages/, and
     reload packages from ncs cli.
 
 -   **Note: Make sure there is no compilation errors, nor packages
     reload errors. Final version of files l2vpnreconcile.yang and
-    main.py are available at \~/solution/l2vpnreconcile directory for
+    main.py are available at ~/solution/l2vpnreconcile directory for
     your reference.
-    (\~/solution/l2vpnreconcile/src/yang/l2reconcile.yang, and
-    \~/solution/l2vpnreconcile/python/l2vpnreconcile/main.py)**
+    (~/solution/l2vpnreconcile/src/yang/l2reconcile.yang, and
+    ~/solution/l2vpnreconcile/python/l2vpnreconcile/main.py)**
 
   -----------------------------------------------------------------------------------------------------------------------
-  \[nso@cl-lab-211 src\]\$ cd \~/ncs-run/packages
+  [nso@cl-lab-211 src]$ cd ~/ncs-run/packages
   
-  \[nso@cl-lab-211 packages\]\$ ls -l
-  
-  total 0
-  
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 -&gt; /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-  
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn -&gt; /home/nso/packages/L2Vpn/
-  
-  \[nso@cl-lab-211 packages\]\$ ln –s /home/nso/packages/l2vpnreconcile/
+  [nso@cl-lab-211 packages]$ ls -l
   
   total 0
   
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 -&gt; /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
   
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn -&gt; /home/nso/packages/L2Vpn/
+  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
   
-  lrwxrwxrwx. 1 nso nso 34 Dec 9 09:14 l2vpnreconcile -&gt; /home/nso/packages/l2vpnreconcile/
+  [nso@cl-lab-211 packages]$ ln –s /home/nso/packages/l2vpnreconcile/
   
-  \[nso@cl-lab-211 packages\]\$
+  total 0
   
-  \[nso@cl-lab-211 packages\]\$ ncs\_cli -u admin
+  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+  
+  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
+  
+  lrwxrwxrwx. 1 nso nso 34 Dec 9 09:14 l2vpnreconcile ->/home/nso/packages/l2vpnreconcile/
+  
+  [nso@cl-lab-211 packages]$
+  
+  [nso@cl-lab-211 packages]$ ncs_cli -u admin
   
   admin connected from 128.107.235.22 using ssh on cl-lab-211
   
-  admin@ncs&gt; request packages reload
+  admin@ncs>request packages reload
   
-  &gt;&gt;&gt; System upgrade is starting.
+  >;>;>System upgrade is starting.
   
-  &gt;&gt;&gt; Sessions in configure mode must exit to operational mode.
+  >;>;>Sessions in configure mode must exit to operational mode.
   
-  &gt;&gt;&gt; No configuration changes can be performed until upgrade has completed.
+  >;>;>No configuration changes can be performed until upgrade has completed.
   
-  &gt;&gt;&gt; System upgrade has completed successfully.
+  >;>;>System upgrade has completed successfully.
   
   reload-result {
   
@@ -3000,7 +2706,7 @@ NSO server.
   
   }
   
-  \[ok\]\[2018-12-09 09:16:12\]
+  [ok][2018-12-09 09:16:12]
   -----------------------------------------------------------------------------------------------------------------------
 
 ### Test the action script to discover all pre-existing L2VPN services
@@ -3013,15 +2719,15 @@ pre-existing L2VPN services in devices.
 -   Note: It takes about 1 to 2 minutes to finish the whole process.
 
   -----------------------------------------------------------------
-  admin@ncs&gt; request action reconcile-l2vpn device-name asr9k0
+  admin@ncs>request action reconcile-l2vpn device-name asr9k0
   
   message Successfully created the services.
   
   success true
   
-  \[ok\]\[2017-06-03 11:38:21\]
+  [ok][2017-06-03 11:38:21]
   
-  admin@ncs&gt;
+  admin@ncs>;
   
   System message at 2017-06-03 11:38:21...
   
@@ -3032,7 +2738,7 @@ pre-existing L2VPN services in devices.
     creation code, we set description as the service instance name:
 
   -----------------------------------------------------------
-  admin@ncs&gt; show services L2Vpn ?
+  admin@ncs>show services L2Vpn ?
   
   Possible completions:
   
@@ -3048,7 +2754,7 @@ pre-existing L2VPN services in devices.
   
   ………
   
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   admin@ncs% show services L2Vpn L\_3m\_318-L1111318-asr9k0
   
@@ -3064,28 +2770,28 @@ pre-existing L2VPN services in devices.
   
   }
   
-  \[ok\]\[2018-12-09 09:43:31\]
+  [ok][2018-12-09 09:43:31]
   
-  \[edit\]
+  [edit]
   -----------------------------------------------------------
 
 1.  Try to delete one of them to confirm that NSO is managing the
     lifecycle of reconciled services correctly.
 
   -------------------------------------------------------------
-  admin@ncs&gt; conf
+  admin@ncs>conf
   
   Entering configuration mode private
   
-  \[ok\]\[2017-06-05 06:17:35\]
+  [ok][2017-06-05 06:17:35]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% delete services L2Vpn L\_3m\_318-L1111318-asr9k0
   
-  \[ok\]\[2017-06-05 06:17:50\]
+  [ok][2017-06-05 06:17:50]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% commit dry-run outformat native
   
@@ -3101,9 +2807,9 @@ pre-existing L2VPN services in devices.
   
   }
   
-  \[ok\]\[2017-06-05 06:17:57\]
+  [ok][2017-06-05 06:17:57]
   
-  \[edit\]
+  [edit]
   -------------------------------------------------------------
 
 1.  Commit the above delete operation. After that, we can see the device
@@ -3114,9 +2820,9 @@ pre-existing L2VPN services in devices.
   
   Commit complete.
   
-  \[ok\]\[2017-04-30 13:12:49\]
+  [ok][2017-04-30 13:12:49]
   
-  \[edit\]
+  [edit]
   
   admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.276
   
@@ -3124,9 +2830,9 @@ pre-existing L2VPN services in devices.
   
   syntax error: element does not exist
   
-  \[error\]\[2017-04-30 13:13:22\]
+  [error]$[2017-04-30 13:13:22]
   
-  \[edit\]
+  [edit]
   --------------------------------------------------------------------------------------------------------------------
 
 **Congratulations! You have successfully finished this lab.**
