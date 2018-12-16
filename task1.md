@@ -357,29 +357,21 @@ At this step, you will test the service package L2Vpn. The NSO running
 on the application server has 3 PE devices. You will create a test L2Vpn
 service instance.
 
-1.  []{#_Ref481266233 .anchor}Create an L2Vpn service instance, name it
+1.  Create an L2Vpn service instance, name it
     “test”, set customer name as ciscolive, and order-number 123. In
     addition, set pe-devices as asr9k0, Bundle-Ether 100, and stag 100 :
 
-  -------------------------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211 ~]$ ncs_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs>conf
-  
-  Entering configuration mode private
-  
-  [ok][2017-04-29 08:20:16]
-  
-  [edit]
-  
-  admin@ncs% set services L2Vpn test customer-name ciscolive order-number 123 pe-devices asr9k0 Bundle-Ether 100 stag 100
-  
-  [ok][2017-04-29 08:21:00]
-  
-  [edit]
-  -------------------------------------------------------------------------------------------------------------------------
+    ```
+  	[nso@cl-lab-211 ~]$ ncs_cli -u admin
+  	admin connected from 128.107.235.22 using ssh on cl-lab-211
+  	admin@ncs>conf
+  	Entering configuration mode private
+  	[ok][2017-04-29 08:20:16] 
+  	[edit] 
+  	admin@ncs% set services L2Vpn test customer-name ciscolive order-number 123 pe-devices asr9k0 Bundle-Ether 100 stag 100
+  	[ok][2017-04-29 08:21:00]
+  	[edit]
+	```
 
 1.  Operation “Commit dry run” shows the CLI’s to be configured to
     asr9k0:
