@@ -165,101 +165,76 @@ example table:
 	[ok][2017-04-29 09:39:30]
 
 	```
-1.  After confirm the output of “commit dry-run outformat native” does
+1.  After confirm the output of `commit dry-run outformat native` does
     not contain any CLI, continue commit the service instances, and then
-    exit from ncs cli. We will commit with option “no-networking”, this
+    exit from ncs cli. We will commit with option `no-networking`, this
     option makes sure the instances are committed to cdb without
     changing the configuration of network devices.
 
--   **Make sure you are still in ncs cli’s config mode**. With option
-    “no-networking”, NSO is committing the changes only to cdb.
+    **Make sure you are still in ncs cli’s config mode**. With option
+    `no-networking`, NSO is committing the changes only to cdb.
 
-  ---------------------------------
-  admin@ncs% commit no-networking
-  
-  Commit complete.
-  
-  [ok][2017-04-29 09:42:50]
-  
-  [edit]
-  
-  admin@ncs% exit
-  
-  [ok][2017-06-02 07:58:37]
-  
-  admin@ncs>exit
-  
-  [nso@cl-lab-211 packages]$
-  ---------------------------------
+	```
+	admin@ncs% commit no-networking
+	Commit complete.
+	[ok][2017-04-29 09:42:50]
 
-###  {#section-1 .ListParagraph}
+	[edit]
+	admin@ncs% exit
+	[ok][2017-06-02 07:58:37]
+	admin@ncs> exit
+	[nso@cl-lab-211 packages]$
 
+	 ```
+  
 ### Observe the issues 
 
-As mentioned, although the service instances (test1 and test2) matching
+As mentioned, although the service instances (`test1` and `test2`) matching the
 two pre-existing Bundle-Ether sub-interfaces are committed in NSO, NSO
 is not able to modify or delete the associated device configuration.
 This is because, by default, devices own the out-of-band configurations.
 
-1.  Try to delete instance test1.
+1. Try to delete instance `test1`.
 
-  ------------------------------------------------------------
-  [nso@cl-lab-211 packages]$ ncs_cli -u admin
-  
-  admin connected from 172.23.123.13 using ssh on cl-lab-211
-  
-  admin@ncs>conf
-  
-  Entering configuration mode private
-  
-  [ok][2017-06-02 07:59:37]
-  
-  [edit]
-  
-  admin@ncs% show services L2Vpn test1
-  
-  order-number L1111318;
-  
-  customer-name L\_ford\_318;
-  
-  pe-devices asr9k0 {
-  
-  Bundle-Ether 100;
-  
-  stag 2188;
-  
-  }
-  
-  [ok][2017-04-29 10:04:30]
-  
-  [edit]
-  
-  admin@ncs% delete services L2Vpn test1
-  
-  [ok][2017-04-29 10:04:40]
-  
-  [edit]
-  
-  admin@ncs% commit dry-run outformat native
-  
-  native {
-  
-  }
-  
-  [ok][2017-04-29 10:04:47]
-  
-  [edit]
-  
-  admin@ncs% commit
-  
-  Commit complete.
-  
-  [ok][2017-04-29 10:04:56]
-  
-  [edit]
-  ------------------------------------------------------------
+	```
+	[nso@cl-lab-211 packages]$ ncs_cli -u admin
 
-1.  After commit the delete operation, confirm service instance test1 is
+	admin connected from 172.23.123.13 using ssh on cl-lab-211
+	admin@ncs> conf
+	Entering configuration mode private
+	[ok][2017-06-02 07:59:37]
+
+	[edit]
+
+	admin@ncs% show services L2Vpn test1
+	order-number  L1111318;
+	customer-name L_ford_318;
+	pe-devices asr9k0 {
+    Bundle-Ether 100;
+    stag         2188;
+	}
+	[ok][2017-04-29 10:04:30]
+
+	[edit]
+	admin@ncs% delete services L2Vpn test1
+	[ok][2017-04-29 10:04:40]
+
+	[edit]
+	admin@ncs% commit dry-run outformat native
+	native {
+	}
+	[ok][2017-04-29 10:04:47]
+
+	[edit]
+	admin@ncs% commit
+	Commit complete.
+	[ok][2017-04-29 10:04:56]
+
+	[edit]
+
+	``` 
+
+1.  After commit the delete operation, confirm service instance `test1` is
     no longer in cdb of NSO.
 
   --------------------------------------
