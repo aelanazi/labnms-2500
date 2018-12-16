@@ -32,95 +32,27 @@ discovery/reconcile through resetting the reference count (ref-count).
 	```
 	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
 	```
-	Sample output display the reference count and backpointer:
+	Sample output displays the reference count and backpointer:
 	
 	![](./media/media/refcount1.png)
-  admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface | display service-meta-data
-  
-  Bundle-Ether 100.2188 {
-  
-  mode l2transport;
-  
-  description L\_ford\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2188 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  /\* Refcount: 2 \*/
-  
-  /\* Backpointer: [ /ncs:services/L2Vpn:L2Vpn[L2Vpn:sr-name='test2'] ] \*/
-  
-  Bundle-Ether 100.2234 {
-  
-  /\* Refcount: 2 \*/
-  
-  /\* Originalvalue: l2transport \*/
-  
-  mode l2transport;
-  
-  /\* Refcount: 2 \*/
-  
-  /\* Originalvalue: L\_unitedhealth\_318-L1111318 \*/
-  
-  description L\_unitedhealth\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2234 ];
-  
-  }
-  
-  }
-  
-  }
-  
-  Bundle-Ether 100.2291 {
-  
-  mode l2transport;
-  
-  description L\_mckesson\_318-L1111318;
-  
-  encapsulation {
-  
-  dot1q {
-  
-  vlan-id [ 2291 ];
-  
-  }
-  
-  }
-  
-  }
-  ---------------------------------------------------------------------------------------------------------------------------
-
+	
 ### Reset the ref-count of L2VPN configuration
 
 At this step, you will transfer the configuration ownership from device
 to NSO through ref-count reset.
 
-1.  Reset ref-count of Bundel-Ether 100.2234 through the operation
-    “service L2Vpn re-deploy reconcile”. This reset the value of
-    ref-count, service instance test2 will then be the sole owner of the
+1.  Reset ref-count of Bundel-Ether 100.2234 through the cli operation
+    `service L2Vpn re-deploy reconcile`. This resets the ref-count, service instance `test2` will then be the sole owner of the
     configurations.
 
-  -------------------------------------------------------------
-  admin@ncs% request services L2Vpn test2 re-deploy reconcile
+	```
+	admin@ncs% request services L2Vpn test2 re-deploy reconcile
+   [ok][2017-11-26 11:42:19]
+ 
+  	[edit]
+
+	```
   
-  [ok][2017-11-26 11:42:19]
-  
-  [edit]
-  -------------------------------------------------------------
 
 1.  Perform a device sync-from.
 
