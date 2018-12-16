@@ -140,7 +140,7 @@ example table:
 	[ok][2017-04-29 09:35:29]
 
 	[edit]
-	admin@ncs% set services L2Vpn test1 order-number 	L1111318 customer-name L_ford_318 pe-devices asr9k0 Bundle-Ether 100 stag 2188
+	admin@ncs% set services L2Vpn test1 order-number L1111318 customer-name L_ford_318 pe-devices asr9k0 Bundle-Ether 100 stag 2188
 	[ok][2017-04-29 09:36:33]
 
 	[edit]
