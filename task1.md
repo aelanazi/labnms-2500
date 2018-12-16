@@ -298,82 +298,60 @@ Now you are ready to deploy the service package to NSO application.
     sure cisco-iosxr ned appear under
     `ncs-run/packages`:
 
-  -----------------------------------------------------------------------------------------------------------------------
+  ```
   [nso@cl-lab-211]$ ls –l ~/ncs-run/packages
   
   lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-  -----------------------------------------------------------------------------------------------------------------------
+  ```
 
 1.  Make package L2Vpn available for NSO. Creating a symbolic link to
-    L2Vpn at the packages directory of your NSO runtime
-    (/home/nso/ncs-run/packages):
+    `L2Vpn` at the `packages` directory of your NSO runtime
+    (`/home/nso/ncs-run/packages`):
 
-  -----------------------------------------------------------------------------------------------------------------------
+  ```
   [nso@cl-lab-211]$ cd ~/ncs-run/packages
-  
-  [nso@cl-lab-211 packages]$ ln -s /home/nso/packages/L2Vpn/
-  
-  [nso@cl-lab-211 packages]$ ls -l
-  
-  total 0
-  
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-  
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
-  -----------------------------------------------------------------------------------------------------------------------
+[nso@cl-lab-211 packages]$ ln -s /home/nso/packages/L2Vpn/
+[nso@cl-lab-211 packages]$ ls -l
+total 0
+lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
 
--   **Note: Make sure you are creating the symbolic link at
-    ~/ncs-run/packages directory.**
+  ```
+
+   **Note: Make sure you are creating the symbolic link at
+    `~/ncs-run/packages directory`.**
 
 1.  From NSO cli (ncs_cli), reload packages to complete the package
     deployment process.
 
--   **Make sure the reload result is true. If you see errors, check the
+  **Make sure the reload result is true. If you see errors, check the
     solution from ~/packages/solution directory for reference.**
 
-  -------------------------------------------------------------------------------------
+  ```
   [nso@cl-lab-211 ~]$ ncs_cli -u admin
-  
+
   admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  >>>System upgrade is starting.
-  
-  >>>Sessions in configure mode must exit to operational mode.
-  
-  >>>No configuration changes can be performed until upgrade has completed.
-  
-  >>>System upgrade has completed successfully.
-  
-  reload-result {
-  
-  package L2Vpn
-  
-  result true
-  
-  }
-  
-  reload-result {
-  
-  package cisco-iosxr-cli-6.6
-  
-  result true
-  
-  }
-  
-  admin@ncs>show packages package package-version
-  
-  PACKAGE
-  
-  NAME VERSION
-  
-  ------------------------------
-  
-  L2Vpn 1.0
-  
-  cisco-iosxr-cli-6.6 6.6.0.1
-  
-  [ok][2018-12-09 08:23:00]
-  -------------------------------------------------------------------------------------
+>>> System upgrade is starting.
+>>> Sessions in configure mode must exit to operational mode.
+>>> No configuration changes can be performed until upgrade has completed.
+>>> System upgrade has completed successfully.
+reload-result {
+    package L2Vpn
+    result true
+}
+reload-result {
+    package cisco-iosxr-cli-6.6
+    result true
+}
+admin@ncs> show packages package package-version
+                     PACKAGE
+NAME                 VERSION
+------------------------------
+L2Vpn                1.0
+cisco-iosxr-cli-6.6  6.6.0.1
+[ok][2018-12-09 08:23:00]
+
+  ```
 
 ### Test the service package
 
