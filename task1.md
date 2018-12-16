@@ -112,271 +112,134 @@ the file back to NSO server.**
     to NSO’s device model: (`/ncs:devices/ncs:device/ncs:name`)
    ![](./media/media/other-attr.png)
   
-1.  Continue adding attributes of pe-device element. (inside the list
-    pe-devices block)
+1.  Continue adding attributes of pe-device element. (inside the list `pe-devices` block)
 
    ![](./media/media/pe-attr.png)  
 
-1.  Complete content of [L2Vpn.yang]
+1.  Complete content of the file is available at [L2Vpn.yang](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/src/yang/L2Vpn.yang)
 
--   **Note: You can find the solution of the L2Vpn.yang from NSO server,
-    at /home/nso/solution/L2Vpn/src/yang/ for your reference. **
-
-  ------------------------------------------------
-  revision 2016-01-01 {
-  
-  description
-  
-  "Initial revision.";
-  
-  }
-  
-  //AUGMENT\_BEGIN
-  
-  augment /ncs:services {
-  
-  list L2Vpn {
-  
-  description "This is an RFS skeleton service";
-  
-  key sr-name;
-  
-  leaf sr-name {
-  
-  tailf:info "Unique service name";
-  
-  tailf:cli-allow-range;
-  
-  type string;
-  
-  }
-  
-  uses ncs:service-data;
-  
-  ncs:servicepoint L2Vpn-servicepoint;
-  
-  leaf order-number {
-  
-  type string;
-  
-  }
-  
-  leaf customer-name {
-  
-  type string;
-  
-  }
-  
-  list pe-devices {
-  
-  key device-name;
-  
-  leaf device-name {
-  
-  type leafref {
-  
-  path "/ncs:devices/ncs:device/ncs:name";
-  
-  }
-  
-  }
-  
-  leaf Bundle-Ether {
-  
-  type string;
-  
-  }
-  
-  leaf stag {
-  
-  type uint16 {
-  
-  range 1..4095;
-  
-  }
-  
-  }
-  
-  }
-  
-  }
-  
-  }
-  
-  }
-  ------------------------------------------------
+    **Note: You can find the solution of the L2Vpn.yang from NSO server,
+    at `/home/nso/solution/L2Vpn/src/yang/` for your reference.**
 
 1.  Save the updated L2Vpn.yang file. If you edit the file at jump start
     server, remember to copy back to NSO server
-    (![](./media/media/image11.png){width="0.3988221784776903in"
-    height="0.5184689413823272in"}).
+    (![](./media/media/scp.png).
 
 2.  Compile project L2Vpn at your NSO server.
 
-  ----------------------------------------------------------------------------------------------------------
+  ```
   [nso@cl-lab-211 ncs-run]$ cd ~/packages/L2Vpn/src
-  
   [nso@cl-lab-211 src]$ make clean all
-  
   rm -rf ../load-dir java/src//
-  
   mkdir -p ../load-dir
-  
   mkdir -p java/src//
-  
-  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\
-  
+  /home/nso/ncs-4.3.1/bin/ncsc \`ls L2Vpn-ann.yang >/dev/null 2>&1 && echo "-a L2Vpn-ann.yang"\` \\  
   -c -o ../load-dir/L2Vpn.fxs yang/L2Vpn.yang
-  ----------------------------------------------------------------------------------------------------------
-
--   **Note: Make sure there is no compilation errors. Check L2Vpn.yang
+  ```
+  **Note: Make sure there is no compilation errors. Check `L2Vpn.yang`
     from /home/nso/solution/L2Vpn/src/yang/ for your reference**.
 
 ### Complete l2vpn template to map service model to device model mapping
 
 You have created the service model in the previous step. Next, L2Vpn
-service needs to send the proper CLI’s (as in **Table 4**) to PE
+service needs to send the proper CLI’s to PE
 devices. In NSO term, this is called service model to device model
 mapping.
 
 In most cases, the service to device mapping can be easily implemented
 through xml template. You will use this approach for L2Vpn. The skeleton
-of mapping template xml file, L2Vpn-template.xml is auto generated. In
+of mapping template xml file, `L2Vpn-template.xml` is auto generated. In
 this step, you will add the contents.
 
 We start with creating a sample Bundle Ether sub-interface
 (sub-interface 100.100, with vlan id 100) to a PE through NSO CLI. NSO’s
-operation “commit dry-run” will have NSO’s cisco-iosxr Ned calculate the
-device CLI’s. “commit dry-run outformat xml” displays the output in xml
+operation `commit dry-run` will have NSO’s cisco-iosxr Ned calculate the
+device CLI’s. `commit dry-run outformat xml` displays the output in xml
 format. This output is the starting point of the mapping template.
 
-1.  []{#_Ref484161704 .anchor}At NSO server, configure a Bundle Ether
+1.  At NSO server, configure a Bundle Ether
     sub-interface 100.100 to the PE device asr9k0 through nsc cli.
-    (refer **Table 4**.).
+    
 
--   **Make sure the green highlighted is entered as one line:**
-
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ```
   [nso@cl-lab-211 src]$ ncs_cli -u admin
-  
   admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
   admin@ncs>conf
-  
-  Entering configuration mode private
-  
+  Entering configuration mode private 
   [ok][2017-04-29 03:05:47]
-  
   [edit]
-  
   admin@ncs% set devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100 mode l2transport description test-desc encapsulation dot1q vlan-id 100
-  
   [ok][2017-04-29 03:07:44]
-  
-  [edit]
-  
+  [edit] 
   admin@ncs%
-  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ```
 
-1.  []{#_Ref486054200 .anchor}From ncs cli config mode, issue “commit
-    dry run outformat xml”. This command will show the configuration
+1.  From ncs cli config mode, issue `commit
+    dry run outformat xml`. This command will show the configuration
     changes to be sent to device as xml format.
 
-  --------------------------------------------------------------
+  ```
   admin@ncs% commit dry-run outformat xml
-  
-  result-xml {
-  
-  local-node {
-  
-  data <devices xmlns="http://tail-f.com/ns/ncs">
-  
-  <device>
-  
-  <name>asr9k0</name>
-  
-  <config>
-  
-  <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
-  
-  <Bundle-Ether-subinterface>
-  
-  <Bundle-Ether>
-  
-  <id>100.100</id>
-  
-  <mode>l2transport</mode>
-  
-  <description>test-desc</description>
-  
-  <encapsulation>
-  
-  <dot1q>
-  
-  <vlan-id>100</vlan-id>
-  
-  </dot1q>
-  
-  </encapsulation>
-  
-  </Bundle-Ether>
-  
-  </Bundle-Ether-subinterface>
-  
-  </interface>
-  
-  </config>
-  
-  </device>
-  
-  </devices>
-  
-  }
-  
-  }
-  
-  [ok][2017-04-29 03:09:22]
-  
-  [edit]
-  --------------------------------------------------------------
+result-xml {
+    local-node {
+        data <devices xmlns="http://tail-f.com/ns/ncs">
+               <device>
+                 <name>asr9k0</name>
+                 <config>
+                   <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+                     <Bundle-Ether-subinterface>
+                       <Bundle-Ether>
+                         <id>100.100</id>
+                         <mode>l2transport</mode>
+                         <description>test-desc</description>
+                         <encapsulation>
+                           <dot1q>
+                             <vlan-id>100</vlan-id>
+                           </dot1q>
+                         </encapsulation>
+                       </Bundle-Ether>
+                     </Bundle-Ether-subinterface>
+                   </interface>
+                 </config>
+               </device>
+             </devices>
+    }
+}
+[ok][2017-04-29 03:09:22]
+[edit]
+
+  ```
 
 1.  We don’t want to commit the above changes to devices. Exit from ncs
     cli without committing:
 
-  -------------------------------
+  ```
   admin@ncs% exit no
-  
-  [ok][2017-06-02 01:47:29]
-  
-  admin@ncs>exit
-  
-  [nso@cl-lab-211 src]$
-  -------------------------------
+[ok][2017-06-02 01:47:29]
+admin@ncs> exit
+[nso@cl-lab-211 src]$
+  ```
 
 1.  Now let’s complete L2Vpn template file, L2Vpn-template.xml
 
-> **Option 1: Edit ~/packages/L2Vpn/templates/L2Vpn-template.xml from
-> NSO server, using “vi” for example;**
->
-> **Option 2: Copy the file
-> ~/packages/L2Vpn/templates/L2Vpn-template.xml from NSO server to
-> window’s jump server using
-> (**![](./media/media/image11.png){width="0.3988221784776903in"
-> height="0.5184689413823272in"}**). Edit the file using editors such as
-> Sublime (**
-> ![](./media/media/image12.tiff){width="0.4463057742782152in"
-> height="0.34611439195100613in"}**),
-> Notepad++(**![](./media/media/image13.png){width="0.3354702537182852in"
-> height="0.34453740157480317in"}**). If you take Option 2, remember
-> copy the file back to NSO server.**
+  **Option 1: Edit ~/packages/L2Vpn/templates/L2Vpn-template.xml from
+ NSO server, using `vi` for example;**
+
+  **Option 2: Copy the file
+ ~/packages/L2Vpn/templates/L2Vpn-template.xml from NSO server to
+  window’s jump server using
+  (![](./media/media/scp.png). Edit the file using editors such as
+ Sublime 
+ ![](./media/media/sublime.png)
+,
+ Notepad++(![](./media/media/notepad.png). If you take Option 2, remember copy the file back to NSO server.**
 
 1.  Edit file ~/packages/L2Vpn/templates/L2Vpn-template.xml. Replace
     the contents of the block of <config-template
     xmlns="http://tail-f.com/ns/config/1.0">with the highlighted
     output from **item 20.**
 
-![](./media/media/image15.tiff){width="6.021774934383202in"
-height="3.5399442257217846in"}
+![](./media/media/image15.tiff)
 
   -----------------------------------------------------------------
   <config-template xmlns="http://tail-f.com/ns/config/1.0">
