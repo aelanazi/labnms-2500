@@ -58,17 +58,15 @@ a `Bundle-Ether` port and an `stag` (service tag).
     [nso@cl-lab-211 packages]$ cd ~/packages
     [nso@cl-lab-211 packages]$ ncs-make-package --service-skeleton python-and-template --augment /ncs:services L2Vpn
 
-    ```
-
-      
+    ```     
 
 1.  “ncs-make-package” creates a directory structure (`L2Vpn`), and skeleton of service files, let's check it out:
 
-  ```
-  [nso@cl-lab-211 packages]$ cd ~/packages/L2Vpn
-  [nso@cl-lab-211 L2Vpn]$ ls
-  package-meta-data.xml python README src templates test
-  ```
+    ```
+    [nso@cl-lab-211 packages]$ cd ~/packages/L2Vpn
+    [nso@cl-lab-211 L2Vpn]$ ls
+    package-meta-data.xml python README src templates test
+    ```
 
 1.  Inspect the skeleton files, make sure files `Makefile`, `L2Vpn.yang` and
     `L2Vpn-template.xml` are created:
