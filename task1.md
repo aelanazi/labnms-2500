@@ -299,7 +299,6 @@ Now you are ready to deploy the service package to NSO application.
 
     ```
     [nso@cl-lab-211]$ ls –l ~/ncs-run/packages
-  
     lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
     ```
 
@@ -307,17 +306,17 @@ Now you are ready to deploy the service package to NSO application.
     `L2Vpn` at the `packages` directory of your NSO runtime
     (`/home/nso/ncs-run/packages`):
 
-  ```
-  [nso@cl-lab-211]$ cd ~/ncs-run/packages
-[nso@cl-lab-211 packages]$ ln -s /home/nso/packages/L2Vpn/
-[nso@cl-lab-211 packages]$ ls -l
-total 0
-lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
+    ```
+    [nso@cl-lab-211]$ cd ~/ncs-run/packages
+    [nso@cl-lab-211 packages]$ ln -s /home/nso/packages/L2Vpn/
+    [nso@cl-lab-211 packages]$ ls -l
+    total 0
+    lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+    lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
 
-  ```
+    ```
 
-   **Note: Make sure you are creating the symbolic link at
+    **Note: Make sure you are creating the symbolic link at
     `~/ncs-run/packages directory`.**
 
 1.  From NSO cli (ncs_cli), reload packages to complete the package
