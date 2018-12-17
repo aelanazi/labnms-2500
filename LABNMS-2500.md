@@ -1,12 +1,12 @@
 ![](./media/media/image2.png)
 
-#LABNMS-2500
+# LABNMS-2500
 
-##NSO: Dealing with Brownfield, Deploy, Discover and Reconcile L2VPN Services
+## NSO: Dealing with Brownfield, Deploy, Discover and Reconcile L2VPN Services
 
-###Weigang Huang – Business Developer Manager
+### Weigang Huang – Business Developer Manager
 
-###Andrew Bond – Software Architecture
+### Andrew Bond – Software Architecture
 
 
 
@@ -59,8 +59,11 @@ the brownfield network, the PE devices are populated with pre-existing
 L2VPN services.
 
 ![](./media/media/topology.png)
+
 NSO application is pre-installed on Linux VM, with the details as following:
+
 ![](./media/media/nso.png)
+
 NSO runtime directory is set to `/home/nso/ncs-run` (NSO
 runtime directory is to keep NSO’s database, state files, logs and other
 files. At any time if you need to start NSO, make sure that you are
@@ -92,10 +95,11 @@ You can choose to do all the tasks, or:
 
 -   All (\~180 minutes)
 
+To start the lab, click the following links
 
-[Task0 Verify Lab Setup](https://github.com/weiganghuang/labnms-2500/blob/master/task0.md)
+ [Task0 Verify Lab Setup](https://github.com/weiganghuang/labnms-2500/blob/master/task0.md)
 -----------------------------------
-[Task1 Create L2VPN Service Package](https://github.com/weiganghuang/labnms-2500/blob/master/task1.md)
+ [Task1 Create L2VPN Service Package](https://github.com/weiganghuang/labnms-2500/blob/master/task1.md)
 -------------------------------------
 
 [Task2 Service discovery and reconciliation A: Create L2Vpn service instances from pre-existing configuration](https://github.com/weiganghuang/labnms-2500/blob/master/task2.md)
