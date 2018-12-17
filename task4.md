@@ -151,40 +151,23 @@ will take several steps to go through the implementation.
 Flow of reconcile L2Vpn services
 
   ```
-  1.  Start write transaction of cdb
-  
+  1.  Start write transaction of cdb 
   2.  From cdb device model, get all Bundle-Ether-subinterfaces of the pe-device (passed in as input parameter of the action)
-  
   3.  For each Bundle-Ether-subinterface:
-  
       a.  Get the Bundle-Ether-subinterface id (formate as x.y, where x is Bundle-Ether port y represents the sub-interface id)
-  
       b.  Parse the Bundle-Ether-subinterface id to get Bundle-Ether port number (x) and Bundle-Ether sub-interface id (y)
-  
-      c.  Get description, this will be used for L2Vpn service instance name.
-  
+      c.  Get description, this will be used for L2Vpn service instance name. 
       d.  Parse description to get customer name and order number
-  
       e.  Get encapsulation dot1q vlan id
-  
       f.  Create a L2Vpn service instance with:
-  
-          i.  sr-name: description
-  
+          i.  sr-name: description-pedevice
           ii. pe-devices: the pe-device
-  
           iii. pe-device port number: x
-  
           iv. pe-device port stag: y
-  
           v.  customer: customer name
-  
-          vi. order-number: order number
-  
+          vi. order-number: order number 
   4.  Commit dry-run (expect empty output)
-  
-  5.  Commit the transaction with no-network (not touching devices)
-  
+  5.  Commit the transaction with no-network (not touching devices) 
   6.  Reset reference count of the service instances (service re-deploy reconcile)
   
   ```
