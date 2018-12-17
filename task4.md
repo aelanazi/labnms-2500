@@ -125,6 +125,7 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 	 ![](./media/media/main.png)
 	 
 	 The changes:
+	 
 	 ![](./media/media/main2.png)
      
 2.   After clean up, check the `main.py` at 
