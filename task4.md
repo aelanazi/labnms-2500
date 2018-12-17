@@ -305,7 +305,7 @@ attribute mapping example for auto service instance creation
                 output.success = False
                 output.message = 'commit dry-run output not empty, stop reconcilation'
                 return
-            t.apply(flags=_ncs.maapi.COMMIT_NCS_NO_NETWORKING)
+              t.apply(flags=_ncs.maapi.COMMIT_NCS_NO_NETWORKING)
 
     ```
 
