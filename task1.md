@@ -3,8 +3,6 @@
 LABNMS-2500
 ===========
 
-[TOC]
-
 Task 1 Create L2VPN Service Package
 ----------------------------
  
