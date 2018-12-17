@@ -104,30 +104,11 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
     ![](./media/media/removeclass.png)
    
 
-1.  Remove service registration from Main class, delete this line `self.register_service('l2vpnreconcile-servicepoint', ServiceCallbacks)`:
+1.  Remove service registration from `Main` class, delete this line `self.register_service('l2vpnreconcile-servicepoint', ServiceCallbacks)`:
 
-    ![](./media/media/image18.tiff)
+    ![](./media/media/delete-reg.png)
 
-  -------------------------------------------------------------------------
-  class Main(ncs.application.Application):
   
-  def setup(self):
-  
-  \# The application class sets up logging for us. It is accessible
-  
-  \# through 'self.log' and is a ncs.log.Log instance.
-  
-  self.log.info('Main RUNNING')
-  
-  \# Service callbacks require a registration for a 'service point',
-  
-  \# as specified in the corresponding data model.
-  
-  \#
-  
-  self.register\_service('l2vpnreconcile-servicepoint', ServiceCallbacks)
-  -------------------------------------------------------------------------
-
 1.  Rename the auto generated action class name from
     DoubleAction(Action) to Reconcile(Action). Remove the contents of
     cb\_action (We will replace the contents at later steps):
