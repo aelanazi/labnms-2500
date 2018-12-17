@@ -431,43 +431,42 @@ NSO server.
     (`~/solution/l2vpnreconcile/src/yang/l2reconcile.yang`, and
     `~/solution/l2vpnreconcile/python/l2vpnreconcile/main.py`)**
 
-   ```
-   [nso@cl-lab-211 src]$ cd ~/ncs-run/packages
-   [nso@cl-lab-211 packages]$ ls -l
-   total 0
-   lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-   lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/ 
+    ```
+    [nso@cl-lab-211 src]$ cd ~/ncs-run/packages
+    [nso@cl-lab-211 packages]$ ls -l
+    total 0
+    lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+    lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/ 
 
-   [nso@cl-lab-211 packages]$ ln –s /home/nso/packages/l2vpnreconcile/
-   total 0
-   lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-   lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
-   lrwxrwxrwx. 1 nso nso 34 Dec  9 09:14 l2vpnreconcile -> /home/nso/packages/l2vpnreconcile/
-   [nso@cl-lab-211 packages]$ 
+    [nso@cl-lab-211 packages]$ ln –s /home/nso/packages/l2vpnreconcile/
+    total 0
+    lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+    lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
+    lrwxrwxrwx. 1 nso nso 34 Dec  9 09:14 l2vpnreconcile -> /home/nso/packages/l2vpnreconcile/
+    [nso@cl-lab-211 packages]$ 
 
-   [nso@cl-lab-211 packages]$ ncs_cli -u admin
+    [nso@cl-lab-211 packages]$ ncs_cli -u admin
 
-   admin connected from 128.107.235.22 using ssh on cl-lab-211
-   admin@ncs> request packages reload
-   >>> System upgrade is starting.
-   >>> Sessions in configure mode must exit to operational mode.
-   >>> No configuration changes can be performed until upgrade has completed.
-   >>> System upgrade has completed successfully.
-   reload-result {
+    admin connected from 128.107.235.22 using ssh on cl-lab-211
+    admin@ncs> request packages reload
+    >>> System upgrade is starting.
+    >>> Sessions in configure mode must exit to operational mode.
+    >>> No configuration changes can be performed until upgrade has completed.
+    >>> System upgrade has completed successfully.
+    reload-result {
       package L2Vpn
       result true
-   }
-   reload-result {
+    }
+    reload-result {
       package cisco-iosxr-cli-6.6
       result true
-   }
-   reload-result {
+    }
+    reload-result {
       package l2vpnreconcile
       result true
-   }
+    }
    [ok][2018-12-09 09:16:12]
-
-   ```
+    ```
 
 ### Test the action script to discover all pre-existing L2VPN services
 
