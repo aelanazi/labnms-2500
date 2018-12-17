@@ -52,36 +52,20 @@ Layer 2 Transport encapsulation on Bundle Ethernet sub-interfaces; you
 will also discover and reconcile pre-existing L2VPN services from the
 network.
 
-Figure 1 illustrates the network topology. The network is composed of
+The following figure illustrates the network topology. The network is composed of
 simulated NSO NETSIM ASR devices (Cisco IOS-XR). You will create L2VPN
 services from CE-PE. This lab focuses on PE configuration. To simulate
 the brownfield network, the PE devices are populated with pre-existing
 L2VPN services.
 
-![](./media/media/image3.tiff){width="4.779075896762905in"
-height="3.312594050743657in"}
-
- {#section .orghead2}
-
-[]{#_Ref484889939 .anchor}Figure 1 L2VPN network Topology
-
-NSO application is pre-installed on Linux VM, with the details as in
-**Table 1**. NSO runtime directory is set to /home/nso/ncs-run (NSO
+![](./media/media/topology.png)
+NSO application is pre-installed on Linux VM, with the details as following:
+![](./media/media/nso.png)
+NSO runtime directory is set to `/home/nso/ncs-run` (NSO
 runtime directory is to keep NSO’s database, state files, logs and other
 files. At any time if you need to start NSO, make sure that you are
 situated at NSO runtime directory)
 
-[]{#_Ref485393329 .anchor}Table 1 NSO server installation and setup
-details
-
-  Installed                          Details
-  ---------------------------------- ------------------------
-  NSO                                version 5.0.1
-  NSO Install type                   local
-  NSO Install location               /home/nso/ncs-5.0.1
-  NSO runtime directory              /home/nso/ncs-run
-  NSO packages: cisco-iosxr          version 6.6
-  Devices added to NSO application   asr9k0, asr9k1, asr9k2
 
 The lab contains 5 tasks.
 
@@ -107,6 +91,21 @@ You can choose to do all the tasks, or:
 -   Task0 and Task4 (\~80 minutes)
 
 -   All (\~180 minutes)
+
+
+[Task0 Verify Lab Setup](https://github.com/weiganghuang/labnms-2500/blob/master/task0.md)
+-----------------------------------
+[Task1 Create L2VPN Service Package](https://github.com/weiganghuang/labnms-2500/blob/master/task1.md)
+-------------------------------------
+
+[Task2 Service discovery and reconciliation A: Create L2Vpn service instances from pre-existing configuration](https://github.com/weiganghuang/labnms-2500/blob/master/task2.md)
+--------------------------------------------------
+
+[Task3 Service discovery and reconciliation B: Reset reference count](https://github.com/weiganghuang/labnms-2500/blob/master/task3.md)
+-----------------------------
+
+[Task4 (Extra Credit): Create an NSO action to discover pre-existing L2VPN service instances automatically](https://github.com/weiganghuang/labnms-2500/blob/master/task4.md)
+------------------------------
 
 Verify Lab Setup
 ----------------
