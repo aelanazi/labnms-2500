@@ -216,7 +216,17 @@ Continue editing file `main.py`.
       with ncs.maapi.Maapi() as m:
         with ncs.maapi.Session(m, uinfo.username, uinfo.context):
           with m.start_write_trans() as t:
-
+          try:                  
+            root = ncs.maagic.get_root(t) 
+            pe_device = self.getDevice(input.device_name, root);
+            int_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]        
+            if t.exists(int_path):
+              
+              bundleEths = ncs.maagic.get_node(t,int_path)  
+              if len(bundleEths) == 0:
+                output.success = True
+                output.message = "finish reconcile"  
+                return    
      ```
   
   @Action.action
