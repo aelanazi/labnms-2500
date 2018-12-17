@@ -182,28 +182,21 @@ Continue editing file `main.py`.
    from ncs.dp import Action
    import random
    import _ncs
-
    ```
 
-1.  []{#_Ref481346965 .anchor}We will create L2Vpn service instances in
-    cdb. Inside cb\_action, open write transaction after initialize
-    local variables pe\_device and srs:
+1. We will create L2Vpn service instances in NSO cdb. Inside `cb_action`, open write transaction after initialize local variables `pe_device` and `srs`:
+   
+   ```
+   @Action.action
+     def cb_action(self, uinfo, name, kp, input, output):
+    
+      pe_device = ''
+      srs = []
+      with ncs.maapi.Maapi() as m:
+        with ncs.maapi.Session(m, uinfo.username, uinfo.context):
+          with m.start_write_trans() as t:
 
-  -----------------------------------------------------------
-  @Action.action
-  
-  def cb\_action(self, uinfo, name, kp, input, output):
-  
-  pe\_device = ''
-  
-  srs = []
-  
-  with ncs.maapi.Maapi() as m:
-  
-  with ncs.maapi.Session(m, uinfo.username, uinfo.context):
-  
-  with m.start\_write\_trans() as t:
-  -----------------------------------------------------------
+   ```
 
 1.  Within the transaction block, continue walk through device model.
     Use maagic api to get the list of Bundle Ether sub-interfaces of the
@@ -224,9 +217,9 @@ Continue editing file `main.py`.
   ----------------------------------------------------------------------------------------------------------------------------------------
   @Action.action
   
-  def cb\_action(self, uinfo, name, kp, input, output):
+  def cb_action(self, uinfo, name, kp, input, output):
   
-  pe\_device = ''
+  pe_device = ''
   
   srs = []
   
@@ -234,19 +227,19 @@ Continue editing file `main.py`.
   
   with ncs.maapi.Session(m, uinfo.username, uinfo.context):
   
-  with m.start\_write\_trans() as t:
+  with m.start_write_trans() as t:
   
   try:
   
-  root = ncs.maagic.get\_root(t)
+  root = ncs.maagic.get_root(t)
   
-  pe\_device = self.getDevice(input.device\_name, root);
+  pe_device = self.getDevice(input.device_name, root);
   
-  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
+  int_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
   
-  if t.exists(int\_path):
+  if t.exists(int_path):
   
-  bundleEths = ncs.maagic.get\_node(t,int\_path)
+  bundleEths = ncs.maagic.get_node(t,int_path)
   
   if len(bundleEths) == 0:
   
@@ -295,7 +288,7 @@ attribute mapping example for auto service instance creation
     (no line breaks).**
 
 A couple of checks added to cover cases when the Bundle Ether
-sub-interface does not have stag (vlan\_id) populated, or when the
+sub-interface does not have stag (vlan_id) populated, or when the
 description is not populated properly.
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -305,7 +298,7 @@ description is not populated properly.
   
   description = bundleEther.description
   
-  stags = bundleEther.encapsulation.dot1q.vlan\_id
+  stags = bundleEther.encapsulation.dot1q.vlan_id
   
   if stags is None or len(stags)==0:
   
@@ -323,60 +316,60 @@ description is not populated properly.
   
   self.log.warning('vlan tag not configured, or does not match sub-interface id for Bundle-Ether-subinterface %s, use sub-interface id'%bundleEther.id)
   
-  order\_number = ''
+  order_number = ''
   
   customer = ''
   
   if description is None:
   
-  order\_number = self.getRs()
+  order_number = self.getRs()
   
   customer = 'ciscolive'
   
-  sr\_name = 'reconcile-'+ customer + '-'+order\_number
+  sr_name = 'reconcile-'+ customer + '-'+order_number
   
   else:
   
-  sr\_name = description + '-' + input.device\_name
+  sr_name = description + '-' + input.device_name
   
-  customer,order\_number = description.split('-')
+  customer,order_number = description.split('-')
   
-  sr\_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr\_name)
+  sr_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr_name)
   
-  if t.exists(sr\_path):
+  if t.exists(sr_path):
   
-  self.log.info('sr ' + sr\_name + 'exists, skipping')
+  self.log.info('sr ' + sr_name + 'exists, skipping')
   
   continue
   
-  sr\_node = ncs.maagic.get\_node(t, "/ncs:services/L2Vpn:L2Vpn")
+  sr_node = ncs.maagic.get_node(t, "/ncs:services/L2Vpn:L2Vpn")
   
-  obj = sr\_node.create(sr\_name)
+  obj = sr_node.create(sr_name)
   
-  obj.sr\_name = sr\_name
+  obj.sr_name = sr_name
   
-  obj.order\_number = order\_number
+  obj.order_number = order_number
   
-  obj.customer\_name = customer
+  obj.customer_name = customer
   -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 1.  Continue to create PE node for the service instance, set attributes
     of Bundle Ether port number (id) and stag.
 
   -------------------------------------------------
-  stag = bundleEther.encapsulation.dot1q.vlan\_id
+  stag = bundleEther.encapsulation.dot1q.vlan_id
   
-  pe\_path = sr\_path + '/pe-devices'
+  pe_path = sr_path + '/pe-devices'
   
-  pes_node = ncs.maagic.get\_node(t,pe\_path)
+  pes_node = ncs.maagic.get_node(t,pe_path)
   
-  pe\_obj = pes_node.create(input.device\_name)
+  pe_obj = pes_node.create(input.device_name)
   
-  pe\_obj.stag = bstag
+  pe_obj.stag = bstag
   
-  pe\_obj.Bundle\_Ether = id
+  pe_obj.Bundle_Ether = id
   
-  srs.append(sr\_name)
+  srs.append(sr_name)
   -------------------------------------------------
 
 1.  After all the Bundle-Ether-subinterfaces are processed, we perform
@@ -395,18 +388,18 @@ description is not populated properly.
   
   return
   
-  t.apply(flags=\_ncs.maapi.COMMIT\_NCs_NO\_NETWORKING)
+  t.apply(flags=_ncs.maapi.COMMIT_NCs_NO_NETWORKING)
   ------------------------------------------------------------------------
 
 1.  Now we are ready to reset the reference count as we have done at
     Task 3: (**Service discovery and reconciliation B: Reset )** at
     **Step 12** via ncs cli.
 
-    Add the following to reset reference count, and close cb\_action.
+    Add the following to reset reference count, and close cb_action.
     Function redeploySrs is defined later.
 
   -------------------------------------------------------
-  pe\_device.sync\_from()
+  pe_device.sync_from()
   
   self.redeploySrs(root,srs)
   
@@ -431,7 +424,7 @@ description is not populated properly.
 
 ### Define the helper functions used in reconcile action.
 
-In this step, we are defining the three functions used in cb\_action .
+In this step, we are defining the three functions used in cb_action .
 
 1.  Define function getDevice in Reconcile class. This is to return the
     device object from cdb, with name from the input parameter
@@ -466,11 +459,11 @@ In this step, we are defining the three functions used in cb\_action .
   
   def isDryRunEmpty(self,root):
   
-  input = root.services.commit\_dry\_run.get\_input()
+  input = root.services.commit_dry_run.get_input()
   
   input.outformat = "native"
   
-  result = root.services.commit\_dry\_run(input)
+  result = root.services.commit_dry_run(input)
   
   for dvc in result.native.device:
   
@@ -501,9 +494,9 @@ In this step, we are defining the three functions used in cb\_action .
   
   for sr in srs:
   
-  action = root.services.L2Vpn[sr].re\_deploy
+  action = root.services.L2Vpn[sr].re_deploy
   
-  input = action.get\_input()
+  input = action.get_input()
   
   reconcile = input.reconcile.create()
   
@@ -525,7 +518,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   import random
   
-  import \_ncs
+  import _ncs
   
   class Reconcile(Action):
   
@@ -557,19 +550,19 @@ In this step, we are defining the three functions used in cb\_action .
   
   for sr in srs:
   
-  \# action = root.services.L2Vpn[sr].un\_deploy
+  \# action = root.services.L2Vpn[sr].un_deploy
   
   \# self.log.info('undeploy %s' %sr)
   
-  \# input = action.get\_input()
+  \# input = action.get_input()
   
-  \# ignore = input.ignore\_refcount.create()
+  \# ignore = input.ignore_refcount.create()
   
   \# output = action(ignore)
   
-  action = root.services.L2Vpn[sr].re\_deploy
+  action = root.services.L2Vpn[sr].re_deploy
   
-  input = action.get\_input()
+  input = action.get_input()
   
   reconcile = input.reconcile.create()
   
@@ -579,11 +572,11 @@ In this step, we are defining the three functions used in cb\_action .
   
   def isDryRunEmpty(self,root):
   
-  input = root.services.commit\_dry\_run.get\_input()
+  input = root.services.commit_dry_run.get_input()
   
   input.outformat = "native"
   
-  result = root.services.commit\_dry\_run(input)
+  result = root.services.commit_dry_run(input)
   
   for dvc in result.native.device:
   
@@ -595,9 +588,9 @@ In this step, we are defining the three functions used in cb\_action .
   
   @Action.action
   
-  def cb\_action(self, uinfo, name, kp, input, output):
+  def cb_action(self, uinfo, name, kp, input, output):
   
-  pe\_device = ''
+  pe_device = ''
   
   srs = []
   
@@ -607,29 +600,29 @@ In this step, we are defining the three functions used in cb\_action .
   
   with ncs.maapi.Session(m, uinfo.username, uinfo.context):
   
-  with m.start\_write\_trans() as t:
+  with m.start_write_trans() as t:
   
   try:
   
-  root = ncs.maagic.get\_root(t)
+  root = ncs.maagic.get_root(t)
   
-  pe\_device = self.getDevice(input.device\_name, root);
+  pe_device = self.getDevice(input.device_name, root);
   
-  if pe\_device is None:
+  if pe_device is None:
   
   output.success = False
   
-  output.message = 'device ' + input.device\_name + 'not in system'
+  output.message = 'device ' + input.device_name + 'not in system'
   
   return
   
-  message = pe\_device.sync\_from()
+  message = pe_device.sync_from()
   
-  int\_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
+  int_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
   
-  if t.exists(int\_path):
+  if t.exists(int_path):
   
-  bundleEths = ncs.maagic.get\_node(t,int\_path)
+  bundleEths = ncs.maagic.get_node(t,int_path)
   
   if len(bundleEths) == 0:
   
@@ -645,7 +638,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   description = bundleEther.description
   
-  stags = bundleEther.encapsulation.dot1q.vlan\_id
+  stags = bundleEther.encapsulation.dot1q.vlan_id
   
   if stags is None or len(stags)==0:
   
@@ -663,51 +656,51 @@ In this step, we are defining the three functions used in cb\_action .
   
   self.log.warning('vlan tag not configured, or does not match sub-interface id for Bundle-Ether-subinterface %s, use sub-interface id'%bundleEther.id)
   
-  order\_number = ''
+  order_number = ''
   
   customer = ''
   
   if description is None:
   
-  order\_number = self.getRs()
+  order_number = self.getRs()
   
   customer = 'ciscolive'
   
-  sr\_name = 'reconcile-'+ customer + '-'+order\_number
+  sr_name = 'reconcile-'+ customer + '-'+order_number
   
   else:
   
-  sr\_name = description + '-' + input.device\_name
+  sr_name = description + '-' + input.device_name
   
-  customer,order\_number = description.split('-')
+  customer,order_number = description.split('-')
   
-  sr\_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr\_name)
+  sr_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr_name)
   
-  if t.exists(sr\_path):
+  if t.exists(sr_path):
   
-  self.log.info('sr ' + sr\_name + 'exists, skipping')
+  self.log.info('sr ' + sr_name + 'exists, skipping')
   
   continue
   
-  sr\_node = ncs.maagic.get\_node(t, "/ncs:services/L2Vpn:L2Vpn")
+  sr_node = ncs.maagic.get_node(t, "/ncs:services/L2Vpn:L2Vpn")
   
-  obj = sr\_node.create(sr\_name)
+  obj = sr_node.create(sr_name)
   
-  obj.order\_number = order\_number
+  obj.order_number = order_number
   
-  obj.customer\_name = customer
+  obj.customer_name = customer
   
-  pe\_path = sr\_path + '/pe-devices'
+  pe_path = sr_path + '/pe-devices'
   
-  pes_node = ncs.maagic.get\_node(t,pe\_path)
+  pes_node = ncs.maagic.get_node(t,pe_path)
   
-  pe\_obj = pes_node.create(input.device\_name)
+  pe_obj = pes_node.create(input.device_name)
   
-  pe\_obj.stag = bstag
+  pe_obj.stag = bstag
   
-  pe\_obj.Bundle\_Ether = id
+  pe_obj.Bundle_Ether = id
   
-  srs.append(sr\_name)
+  srs.append(sr_name)
   
   if len(srs) >0:
   
@@ -717,9 +710,9 @@ In this step, we are defining the three functions used in cb\_action .
   
   output.message = 'commit dry-run output not empty, stop reconcilation'
   
-  t.apply(flags=\_ncs.maapi.COMMIT\_NCs_NO\_NETWORKING)
+  t.apply(flags=_ncs.maapi.COMMIT_NCs_NO_NETWORKING)
   
-  message = pe\_device.sync\_from()
+  message = pe_device.sync_from()
   
   self.redeploySrs(root,srs)
   
@@ -745,7 +738,7 @@ In this step, we are defining the three functions used in cb\_action .
   
   self.log.info('Main RUNNING')
   
-  self.register\_action('reconcile', Reconcile)
+  self.register_action('reconcile', Reconcile)
   
   def teardown(self):
   
@@ -892,25 +885,25 @@ pre-existing L2VPN services in devices.
   
   Possible completions:
   
-  L\_3m\_318-L1111318-asr9k0 - Unique service name
+  L_3m_318-L1111318-asr9k0 - Unique service name
   
-  L\_att\_318-L1111318-asr9k0 - Unique service name
+  L_att_318-L1111318-asr9k0 - Unique service name
   
-  L\_comcast\_318-L1111318-asr9k0 - Unique service name
+  L_comcast_318-L1111318-asr9k0 - Unique service name
   
-  L\_ford\_318-L1111318-asr9k0 - Unique service name
+  L_ford_318-L1111318-asr9k0 - Unique service name
   
-  L\_mckesson\_318-L1111318-asr9k0 - Unique service name
+  L_mckesson_318-L1111318-asr9k0 - Unique service name
   
   ………
   
   admin@ncs>conf
   
-  admin@ncs% show services L2Vpn L\_3m\_318-L1111318-asr9k0
+  admin@ncs% show services L2Vpn L_3m_318-L1111318-asr9k0
   
   order-number L1111318;
   
-  customer-name L\_3m\_318;
+  customer-name L_3m_318;
   
   pe-devices asr9k0 {
   
@@ -937,7 +930,7 @@ pre-existing L2VPN services in devices.
   
   [edit]
   
-  admin@ncs% delete services L2Vpn L\_3m\_318-L1111318-asr9k0
+  admin@ncs% delete services L2Vpn L_3m_318-L1111318-asr9k0
   
   [ok][2017-06-05 06:17:50]
   
