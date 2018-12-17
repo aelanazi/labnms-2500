@@ -407,7 +407,19 @@ In this step, we are defining the three functions used in `cb_action` .
 In this step, we will compile the action package and deploy to NSO at
 NSO server.
 
-1.  Compile package l2vpnreconcile.
+1.  Compile package `l2vpnreconcile`.
+
+    ```
+    [nso@cl-lab-211 packages]$ cd ~/packages/l2vpnreconcile/src
+    [nso@cl-lab-211 src]$ make clean all
+    rm -rf ../load-dir java/src//
+    mkdir -p ../load-dir
+    mkdir -p java/src//
+    /home/nso/ncs-5.0.1/bin/ncsc  `ls l2vpnreconcile-ann.yang  > /dev/null 2>&1 && echo "-a l2vpnreconcile-ann.yang"` \
+              -c -o ../load-dir/l2vpnreconcile.fxs yang/l2vpnreconcile.yang
+    [nso@cl-lab-211 src]$
+
+    ```
 
   ----------------------------------------------------------------------------------------------------------------------------
   [nso@cl-lab-211 packages]$ cd ~/packages/l2vpnreconcile/src
