@@ -470,29 +470,23 @@ NSO server.
 
 ### Test the action script to discover all pre-existing L2VPN services
 
-In this step, you will run the reconcile-l2vpn action to discover the
-pre-existing L2VPN services in devices.
+In this step, you will test the L2Vpn service disco ery and reconcile action `reconcile-l2vpn` to discover the
+pre-existing L2VPN services.
 
-1.  Run action reconcile-l2vpn to discover L2VPN services for asr9k0.
+1.  Run action `reconcile-l2vpn` to discover L2VPN services for asr9k0.
 
--   Note: It takes about 1 to 2 minutes to finish the whole process.
+    **Note: It may take about 1 to 2 minutes to finish the whole process**.
 
-  -----------------------------------------------------------------
-  admin@ncs>request action reconcile-l2vpn device-name asr9k0
-  
-  message Successfully created the services.
-  
-  success true
-  
-  [ok][2017-06-03 11:38:21]
-  
-  admin@ncs>
-  
-  System message at 2017-06-03 11:38:21...
-  
-  Commit performed by admin via tcp using cli.
-  -----------------------------------------------------------------
+    ```
+    admin@ncs> request action reconcile-l2vpn device-name asr9k0
+    message Successfully created the services.
+    success true
+    [ok][2017-06-03 11:38:21]
+    admin@ncs>
+    System message at 2017-06-03 11:38:21...
+    Commit performed by admin via tcp using cli.
 
+    ```
 1.  Check the discovered L2Vpn services. note, in service instance
     creation code, we set description as the service instance name:
 
