@@ -110,37 +110,24 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 
   
 1.  Rename the auto generated action class name from
-    DoubleAction(Action) to Reconcile(Action). Remove the contents of
-    cb\_action (We will replace the contents at later steps):
+    `DoubleAction(Action)` to `Reconcile(Action)`. Remove the contents of
+    `cb_action` (We will replace the contents later):
 
-![](./media/media/image19.tiff){width="6.268055555555556in"
-height="2.3555555555555556in"}
+    ![](./media/media/rename.png)
+    
+    The class Reconcile should look like:
+    ![](./media/media/reconaction.png)
+  
 
-  -------------------------------------------------------
-  class Reconcile(Action):
-  
-  @Action.action
-  
-  def cb\_action(self, uinfo, name, kp, input, output):
-  -------------------------------------------------------
+1.  in Main function, change the action registration accordingly, 
+    replace `DoubleAction` with `Reconcile`.
 
-1.  in Main function, change the action registration accordingly, i.e,
-    replace DoubleAction with Reconcile.
-
-![](./media/media/image20.tiff){width="6.268055555555556in"
-height="3.8368055555555554in"}
-
-  -----------------------------------------------------------
-  class Main(ncs.application.Application):
-  
-  def setup(self):
-  
-  \# When using actions, this is how we register them:
-  
-  \#
-  
-  self.register\_action('l2vpnreconcile-action', Reconcile)
-  -----------------------------------------------------------
+	 ![](./media/media/main.png)
+	 
+	 The changes:
+	 ![](./media/media/main2.png)
+     
+2.   After clean up, check the `main.py` at 
 
 ### Implement the action call back function to reconcile pre-exisiting L2VPN service.
 
