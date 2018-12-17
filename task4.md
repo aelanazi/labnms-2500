@@ -390,7 +390,7 @@ In this step, we are defining the three functions used in `cb_action` .
 
     ```
 
-1.  The complete contents of main.py: [main](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main.py)
+1.  The complete contents of main.py: [main.py](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main.py)
 
 
 
