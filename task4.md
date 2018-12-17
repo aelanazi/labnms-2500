@@ -97,48 +97,16 @@ service call back class, which we don’t need. In addition, we want to
 rename the generic default action class `DoubleAction` to `Reconcile`.
 
 1.  Edit python file,
-    `/home/nso/packages/l2vpnreconcile/python/l2vpnreconcile/main.py` to
-    remove service related python script.Delete the  `Service Call Back Example` class (make sure
-    the whole class ServiceCallbacks is deleted)
+    `/home/nso/packages/l2vpnreconcile/python/l2vpnreconcile/main.py`.
+    Remove service related python script. Delete the  `Service Call Back Example` class (make sure
+    the whole class `ServiceCallbacks` is deleted)
 
-![](./media/media/image17.tiff){width="6.268055555555556in"
-height="4.91875in"}
+   ![](./media/media/removeclass.png)
+   
 
-  --------------------------------------------------------------------
-  \# ------------------------
-  
-  \# SERVICE CALLBACK EXAMPLE
-  
-  \# ------------------------
-  
-  class ServiceCallbacks(Service):
-  
-  \# The create() callback is invoked inside NCS FASTMAP and
-  
-  \# must always exist.
-  
-  @Service.create
-  
-  def cb\_create(self, tctx, root, service, proplist):
-  
-  self.log.info('Service create(service=', service.\_path, ')')
-  
-  ……
-  
-  ……
-  
-  \# @Service.post\_modification
-  
-  \# def cb\_post\_modification(self, tctx, op, kp, root, proplist):
-  
-  \# self.log.info('Service premod(service=', kp, ')')
-  --------------------------------------------------------------------
+1.  Remove service registration from Main class, delete the line `self.register_service('l2vpnreconcile-servicepoint', ServiceCallbacks)`:
 
-1.  Remove service registration from Main class, delete the highlighted
-    line:
-
-![](./media/media/image18.tiff){width="6.268055555555556in"
-height="4.454166666666667in"}
+    ![](./media/media/image18.tiff)
 
   -------------------------------------------------------------------------
   class Main(ncs.application.Application):
