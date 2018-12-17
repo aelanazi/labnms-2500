@@ -101,10 +101,10 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
     Remove service related python script. Delete the  `Service Call Back Example` class (make sure
     the whole class `ServiceCallbacks` is deleted)
 
-   ![](./media/media/removeclass.png)
+    ![](./media/media/removeclass.png)
    
 
-1.  Remove service registration from Main class, delete the line `self.register_service('l2vpnreconcile-servicepoint', ServiceCallbacks)`:
+1.  Remove service registration from Main class, delete this line `self.register_service('l2vpnreconcile-servicepoint', ServiceCallbacks)`:
 
     ![](./media/media/image18.tiff)
 
