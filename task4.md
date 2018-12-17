@@ -513,80 +513,30 @@ pre-existing L2VPN services.
 
     ```
 
-  -----------------------------------------------------------
-  admin@ncs>show services L2Vpn ?
-  
-  Possible completions:
-  
-  L_3m_318-L1111318-asr9k0 - Unique service name
-  
-  L_att_318-L1111318-asr9k0 - Unique service name
-  
-  L_comcast_318-L1111318-asr9k0 - Unique service name
-  
-  L_ford_318-L1111318-asr9k0 - Unique service name
-  
-  L_mckesson_318-L1111318-asr9k0 - Unique service name
-  
-  ………
-  
-  admin@ncs>conf
-  
-  admin@ncs% show services L2Vpn L_3m_318-L1111318-asr9k0
-  
-  order-number L1111318;
-  
-  customer-name L_3m_318;
-  
-  pe-devices asr9k0 {
-  
-  Bundle-Ether 100;
-  
-  stag 276;
-  
-  }
-  
-  [ok][2018-12-09 09:43:31]
-  
-  [edit]
-  -----------------------------------------------------------
-
 1.  Try to delete one of them to confirm that NSO is managing the
     lifecycle of reconciled services correctly.
+    ```
+    admin@ncs> conf
+    Entering configuration mode private
+    [ok][2017-06-05 06:17:35]
 
-  -------------------------------------------------------------
-  admin@ncs>conf
-  
-  Entering configuration mode private
-  
-  [ok][2017-06-05 06:17:35]
-  
-  [edit]
-  
-  admin@ncs% delete services L2Vpn L_3m_318-L1111318-asr9k0
-  
-  [ok][2017-06-05 06:17:50]
-  
-  [edit]
-  
-  admin@ncs% commit dry-run outformat native
-  
-  native {
-  
-  device {
-  
-  name asr9k0
-  
-  data no interface Bundle-Ether 100.276 l2transport
-  
-  }
-  
-  }
-  
-  [ok][2017-06-05 06:17:57]
-  
-  [edit]
-  -------------------------------------------------------------
+    [edit]
+    admin@ncs% delete services L2Vpn L_3m_318-L1111318-asr9k0
+    [ok][2017-06-05 06:17:50]
+
+    [edit]
+    admin@ncs% commit dry-run outformat native
+    native {
+      device {
+        name asr9k0
+        data no interface Bundle-Ether 100.276 l2transport
+      }
+    }
+    [ok][2017-06-05 06:17:57]
+
+    [edit]
+
+    ```
 
 1.  Commit the above delete operation. After that, we can see the device
     configuration of Bundle-Ether 100.276 is deleted:
