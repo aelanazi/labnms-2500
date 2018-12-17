@@ -244,68 +244,41 @@ attribute mapping example for auto service instance creation
     A couple of checks added to cover cases when the Bundle Ether sub-interface does not have stag (vlan_id) populated, or when the description is not populated properly.
 
     ```
-    ```
-  for bundleEther in bundleEths:
-  
-  id , bstag = bundleEther.id.split('.')
-  
-  description = bundleEther.description
-  
-  stags = bundleEther.encapsulation.dot1q.vlan_id
-  
-  if stags is None or len(stags)==0:
-  
-  continue
-  
-  stag = 0
-  
-  for stag in stags:
-  
-  if int(stag) == int(bstag):
-  
-  break
-  
-  if stag == 0:
-  
-  self.log.warning('vlan tag not configured, or does not match sub-interface id for Bundle-Ether-subinterface %s, use sub-interface id'%bundleEther.id)
-  
-  order_number = ''
-  
-  customer = ''
-  
-  if description is None:
-  
-  order_number = self.getRs()
-  
-  customer = 'ciscolive'
-  
-  sr_name = 'reconcile-'+ customer + '-'+order_number
-  
-  else:
-  
-  sr_name = description + '-' + input.device_name
-  
-  customer,order_number = description.split('-')
-  
-  sr_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr_name)
-  
-  if t.exists(sr_path):
-  
-  self.log.info('sr ' + sr_name + 'exists, skipping')
-  
-  continue
-  
-  sr_node = ncs.maagic.get_node(t, "/ncs:services/L2Vpn:L2Vpn")
-  
-  obj = sr_node.create(sr_name)
-  
-  obj.sr_name = sr_name
-  
-  obj.order_number = order_number
-  
-  obj.customer_name = customer
-  -------------------------------------------------------------------------------------------------------------------------------------------------------
+    ....
+             for bundleEther in bundleEths:
+                id , bstag = bundleEther.id.split('.')
+                description = bundleEther.description
+                stags = bundleEther.encapsulation.dot1q.vlan_id              
+                if stags is  None or len(stags)==0:
+                  continue 
+                stag = 0
+                for stag in stags: 
+                  if int(stag) == int(bstag):                 
+                    break
+                if stag == 0:
+                  self.log.warning('vlan tag not configured, or does not match sub-interface id for Bundle-Ether-subinterface %s, use sub-interface id'%bundleEther.id)
 
+                order_number = ''
+                customer = ''
+                if description is None:
+                  order_number = self.getRs()
+                  customer = 'ciscolive'
+                  sr_name = 'reconcile-'+ customer + '-'+order_number
+                else:
+                  sr_name = description + '-'  + input.device_name
+                  customer,order_number = description.split('-')
+                sr_path = 'ncs:services/L2Vpn:L2Vpn{%s}' %(sr_name)
+                if t.exists(sr_path):
+                    self.log.info('sr ' + sr_name + 'exists, skipping')
+                    continue
+                sr_node = ncs.maagic.get_node(t, "/ncs:services/L2Vpn:L2Vpn")
+                obj = sr_node.create(sr_name)
+                obj.sr_name = sr_name
+                obj.order_number = order_number
+                obj.customer_name = customer
+
+    ```
+  
 1.  Continue to create PE node for the service instance, set attributes
     of Bundle Ether port number (id) and stag.
 
