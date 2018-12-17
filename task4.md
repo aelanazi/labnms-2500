@@ -199,22 +199,26 @@ Continue editing file `main.py`.
    ```
 
 1.  Within the transaction block, continue walk through device model.
-    Use maagic api to get the list of Bundle Ether sub-interfaces of the
+    Use NSO's maagic api to get the list of Bundle Ether sub-interfaces of the
     pe-device, via the xpath
-    ncs:devices/ncs:device{device-name}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether
+    `ncs:devices/ncs:device{device-name}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether`
+    
+    **Note: Helper fundtion `getDevice` is defined later. **
 
--   **Note: Make sure the green highlighted line is entered as one line.
-    (no line breaks).**
+    We add check (the if len(bundleEths) == 0: block) to cover the case when the device has no Bundle Ether sub-interfaces, in which, there is no need to create any service instances, the block will return with message of reconciliation finished.
+    
+	```
+   @Action.action
+     def cb_action(self, uinfo, name, kp, input, output):
+    
+      pe_device = ''
+      srs = []
+      with ncs.maapi.Maapi() as m:
+        with ncs.maapi.Session(m, uinfo.username, uinfo.context):
+          with m.start_write_trans() as t:
 
--   **Note: The yellow highlighted line is invoking a function that is
-    defined later. **
-
-> We add check (the if len(bundleEths) == 0: block) to cover the case
-> when the device has no Bundle Ether sub-interfaces, in which, there is
-> no need to create any service instances, the block will return with
-> message of reconciliation finished.
-
-  ----------------------------------------------------------------------------------------------------------------------------------------
+   ```
+  
   @Action.action
   
   def cb_action(self, uinfo, name, kp, input, output):
