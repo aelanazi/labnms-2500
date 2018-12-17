@@ -228,84 +228,23 @@ Continue editing file `main.py`.
                 output.message = "finish reconcile"  
                 return    
      ```
-  
-  @Action.action
-  
-  def cb_action(self, uinfo, name, kp, input, output):
-  
-  pe_device = ''
-  
-  srs = []
-  
-  with ncs.maapi.Maapi() as m:
-  
-  with ncs.maapi.Session(m, uinfo.username, uinfo.context):
-  
-  with m.start_write_trans() as t:
-  
-  try:
-  
-  root = ncs.maagic.get_root(t)
-  
-  pe_device = self.getDevice(input.device_name, root);
-  
-  int_path = '/ncs:devices/ncs:device{%s}/config/cisco-ios-xr:interface/Bundle-Ether-subinterface/Bundle-Ether' %input["device-name"]
-  
-  if t.exists(int_path):
-  
-  bundleEths = ncs.maagic.get_node(t,int_path)
-  
-  if len(bundleEths) == 0:
-  
-  output.success = True
-  
-  output.message = "finish reconcile"
-  
-  return
-  ----------------------------------------------------------------------------------------------------------------------------------------
 
 1.  For each Bundle Ether sub-interface in device config, create one
     L2Vpn service instance. Similar to manual service instance creation
-    as in **Task 2: Step 10, item 37,** we use device attributes to
-    populate service instance attributes. Use interface description as
+    we use device attributes to
+    populate service instance attributes. Use interface description plus pe device name as
     sr-name for L2Vpn service instance, and set attributes order-number
-    and customer-name. (Refer **Table 9**)
-
-[]{#_Ref499630490 .anchor}Table 9 NSO Device (cisco-iosxr) to L2Vpn
+    and customer-name. 
+    
+    NSO Device (cisco-iosxr) to L2Vpn
 attribute mapping example for auto service instance creation
 
-  ---------------------------------------------------------------------------------------------------------------------------------------------
-  Pre-existing Bundle Ether sub-interface configuration
-  ------------------------------------------------------------ --------------------------------------------------------------------------------
-  interface Bundle-Ether l2transport
-  
-  description <*customer name*>–<*order-number*>
-  
-  encapsulation dot1q <*stag*>
-  
-  exit
+    ![](./media/media/pythonattr.png)
 
-  PE device name
+    A couple of checks added to cover cases when the Bundle Ether sub-interface does not have stag (vlan_id) populated, or when the description is not populated properly.
 
-  Input parameter of l2vpnreconcile action
-
-  device attribute
-
-  id *<id.stag>*
-
-  description <*customer name*>–<*order-number*>
-
-  dot1aq vlan-id *<stag>*
-  ---------------------------------------------------------------------------------------------------------------------------------------------
-
--   **Note: Make sure the green highlighted line is entered as one line.
-    (no line breaks).**
-
-A couple of checks added to cover cases when the Bundle Ether
-sub-interface does not have stag (vlan_id) populated, or when the
-description is not populated properly.
-
-  -------------------------------------------------------------------------------------------------------------------------------------------------------
+    ```
+    ```
   for bundleEther in bundleEths:
   
   id , bstag = bundleEther.id.split('.')
