@@ -207,8 +207,8 @@ Continue editing file `main.py`.
 
     We add check (the if len(bundleEths) == 0: block) to cover the case when the device has no Bundle Ether sub-interfaces, in which, there is no need to create any service instances, the block will return with message of reconciliation finished.
     
-	```
-   @Action.action
+    ```
+    @Action.action
      def cb_action(self, uinfo, name, kp, input, output):
     
       pe_device = ''
@@ -217,7 +217,7 @@ Continue editing file `main.py`.
         with ncs.maapi.Session(m, uinfo.username, uinfo.context):
           with m.start_write_trans() as t:
 
-   ```
+     ```
   
   @Action.action
   
