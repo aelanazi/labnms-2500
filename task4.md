@@ -465,7 +465,7 @@ NSO server.
       package l2vpnreconcile
       result true
     }
-   [ok][2018-12-09 09:16:12]
+    [ok][2018-12-09 09:16:12]
     ```
 
 ### Test the action script to discover all pre-existing L2VPN services
