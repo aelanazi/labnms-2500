@@ -160,7 +160,7 @@ Flow of reconcile L2Vpn services
       d.  Parse description to get customer name and order number
       e.  Get encapsulation dot1q vlan id
       f.  Create a L2Vpn service instance with:
-          i.  sr-name: description-pedevice
+          i.  sr-name: description-pe-device
           ii. pe-devices: the pe-device
           iii. pe-device port number: x
           iv. pe-device port stag: y
@@ -174,19 +174,16 @@ Flow of reconcile L2Vpn services
 
 Continue editing file `main.py`.
 
-1.  Import additional packages (on top of main.py)
+1. Import additional packages, `random` and `_ncs` (on top of `main.py`)
 
-  -------------------------------------
-  import ncs
-  
-  from ncs.application import Service
-  
-  from ncs.dp import Action
-  
-  import random
-  
-  import \_ncs
-  -------------------------------------
+   ```
+   import ncs
+   from ncs.application import Service
+   from ncs.dp import Action
+   import random
+   import _ncs
+
+   ```
 
 1.  []{#_Ref481346965 .anchor}We will create L2Vpn service instances in
     cdb. Inside cb\_action, open write transaction after initialize
