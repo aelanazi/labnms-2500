@@ -140,17 +140,17 @@ Creating service instances from device model is a reverse process as
 compare to creating a service package. You now need to map device NED
 attributes to service attributes. 
 
-After a sync-from operation, the pre-existing configurations are brought
+After a `sync-from` operation, the pre-existing configurations are brought
 into NSO’s device model. To create L2Vpn service instances, we need to
 open a write transaction of cdb, walk through device model, populate
 service instance attributes and commit the service instances to cdb.
 
-The logic flow is illustrated as pseudo code in the following table. We
+The logic flow is illustrated as pseudo code in the following. We
 will take several steps to go through the implementation.
 
-Table 8 Flow of reconcile L2Vpn services
+Flow of reconcile L2Vpn services
 
-  -------------------------------------------------------------------------------------------------------------------------------
+  ```
   1.  Start write transaction of cdb
   
   2.  From cdb device model, get all Bundle-Ether-subinterfaces of the pe-device (passed in as input parameter of the action)
@@ -187,9 +187,9 @@ Table 8 Flow of reconcile L2Vpn services
   
   6.  Reset reference count of the service instances (service re-deploy reconcile)
   
-  -------------------------------------------------------------------------------------------------------------------------------
+  ```
 
-Continue editing file main.py.
+Continue editing file `main.py`.
 
 1.  Import additional packages (on top of main.py)
 
