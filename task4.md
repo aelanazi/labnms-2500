@@ -539,26 +539,20 @@ pre-existing L2VPN services.
     ```
 
 1.  Commit the above delete operation. After that, we can see the device
-    configuration of Bundle-Ether 100.276 is deleted:
+    configuration of `Bundle-Ether 100.276` is deleted:
+    ```
+    admin@ncs% commit
+    Commit complete.
+    [ok][2017-04-30 13:12:49]
 
-  --------------------------------------------------------------------------------------------------------------------
-  admin@ncs% commit
-  
-  Commit complete.
-  
-  [ok][2017-04-30 13:12:49]
-  
-  [edit]
-  
-  admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.276
-  
-  -----------------------------------------------------------------------------------------------------------\^
-  
-  syntax error: element does not exist
-  
-  [error]$[2017-04-30 13:13:22]
-  
-  [edit]
-  --------------------------------------------------------------------------------------------------------------------
+    [edit]
+    admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.276
+    -----------------------------------------------------------------------------------------------------------^
+    syntax error: element does not exist
+    [error][2017-04-30 13:13:22]
+
+    [edit]
+
+    ```
 
 **Congratulations! You have successfully finished this lab.**
