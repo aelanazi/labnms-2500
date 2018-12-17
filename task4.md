@@ -128,18 +128,17 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 	 
 	 ![](./media/media/main2.png)
      
-2.   After clean up, check the `main.py` at ![main-clean.py](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main-clean.py)
+2.   After clean up, check the `main.py` at [main-clean.py](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main-clean.py)
 
 ### Implement the action call back function to reconcile pre-exisiting L2VPN service.
 
 In this step, you will add python code to action call back function
-cb\_action. Inside cb\_action, you will create L2Vpn service instances
+`cb_action`. Inside `cb_action`, you will create L2Vpn service instances
 from device model, and reset reference count of the service instances.
 
 Creating service instances from device model is a reverse process as
 compare to creating a service package. You now need to map device NED
-attributes to service attributes. (Refer **Table 7 NSO Ned (cisco-iosxr)
-to L2Vpn attribute mapping example). **
+attributes to service attributes. 
 
 After a sync-from operation, the pre-existing configurations are brought
 into NSO’s device model. To create L2Vpn service instances, we need to
