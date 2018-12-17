@@ -475,7 +475,7 @@ pre-existing L2VPN services.
 
 1.  Run action `reconcile-l2vpn` to discover L2VPN services for asr9k0.
 
-    **Note: It may take about 1 to 2 minutes to finish the whole process**.
+    **Note: It may take up to 1 to 2 minutes to finish the whole process**.
 
     ```
     admin@ncs> request action reconcile-l2vpn device-name asr9k0
@@ -487,8 +487,31 @@ pre-existing L2VPN services.
     Commit performed by admin via tcp using cli.
 
     ```
-1.  Check the discovered L2Vpn services. note, in service instance
-    creation code, we set description as the service instance name:
+1.  Check the discovered L2Vpn services. Note, in service instance
+    creation code, we set `description-pe device-name` as the service instance name:
+    
+    ```
+    admin@ncs> show services L2Vpn ?
+    Possible completions:
+    L_3m_318-L1111318-asr9k0           - Unique service name
+    L_att_318-L1111318-asr9k0          - Unique service name
+    L_comcast_318-L1111318-asr9k0      - Unique service name
+    L_ford_318-L1111318-asr9k0         - Unique service name
+    L_mckesson_318-L1111318-asr9k0     - Unique service name
+    ………
+    admin@ncs> conf
+    admin@ncs% show services L2Vpn L_3m_318-L1111318-asr9k0
+    order-number  L1111318;
+    customer-name L_3m_318;
+    pe-devices asr9k0 {
+        Bundle-Ether 100;
+        stag         276;
+    }
+    [ok][2018-12-09 09:43:31]
+
+    [edit]
+
+    ```
 
   -----------------------------------------------------------
   admin@ncs>show services L2Vpn ?
