@@ -421,97 +421,53 @@ NSO server.
 
     ```
 
-  ----------------------------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211 packages]$ cd ~/packages/l2vpnreconcile/src
-  
-  [nso@cl-lab-211 src]$ make clean all
-  
-  rm -rf ../load-dir java/src//
-  
-  mkdir -p ../load-dir
-  
-  mkdir -p java/src//
-  
-  /home/nso/ncs-5.0.1/bin/ncsc \`ls l2vpnreconcile-ann.yang >/dev/null 2>&1 && echo "-a l2vpnreconcile-ann.yang"\` \\
-  
-  -c -o ../load-dir/l2vpnreconcile.fxs yang/l2vpnreconcile.yang
-  
-  [nso@cl-lab-211 src]$
-  ----------------------------------------------------------------------------------------------------------------------------
-
-1.  Add a symbolic link to l2vpnreconcile at ~/ncs-run/packages/, and
+1.  Add a symbolic link to `l2vpnreconcile` at `~/ncs-run/packages/`, and
     reload packages from ncs cli.
-
--   **Note: Make sure there is no compilation errors, nor packages
+    
+    **Note: Make sure there is no compilation errors, nor packages
     reload errors. Final version of files l2vpnreconcile.yang and
-    main.py are available at ~/solution/l2vpnreconcile directory for
+    main.py are available at `~/solution/l2vpnreconcile` directory for
     your reference.
-    (~/solution/l2vpnreconcile/src/yang/l2reconcile.yang, and
-    ~/solution/l2vpnreconcile/python/l2vpnreconcile/main.py)**
+    (`~/solution/l2vpnreconcile/src/yang/l2reconcile.yang`, and
+    `~/solution/l2vpnreconcile/python/l2vpnreconcile/main.py`)**
 
-  -----------------------------------------------------------------------------------------------------------------------
-  [nso@cl-lab-211 src]$ cd ~/ncs-run/packages
-  
-  [nso@cl-lab-211 packages]$ ls -l
-  
-  total 0
-  
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-  
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
-  
-  [nso@cl-lab-211 packages]$ ln –s /home/nso/packages/l2vpnreconcile/
-  
-  total 0
-  
-  lrwxrwxrwx. 1 nso nso 54 Dec 9 04:46 cisco-iosxr-cli-6.6 ->/home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
-  
-  lrwxrwxrwx. 1 nso nso 25 Dec 9 08:19 L2Vpn ->/home/nso/packages/L2Vpn/
-  
-  lrwxrwxrwx. 1 nso nso 34 Dec 9 09:14 l2vpnreconcile ->/home/nso/packages/l2vpnreconcile/
-  
-  [nso@cl-lab-211 packages]$
-  
-  [nso@cl-lab-211 packages]$ ncs_cli -u admin
-  
-  admin connected from 128.107.235.22 using ssh on cl-lab-211
-  
-  admin@ncs>request packages reload
-  
-  >>>System upgrade is starting.
-  
-  >>>Sessions in configure mode must exit to operational mode.
-  
-  >>>No configuration changes can be performed until upgrade has completed.
-  
-  >>>System upgrade has completed successfully.
-  
-  reload-result {
-  
-  package L2Vpn
-  
-  result true
-  
-  }
-  
-  reload-result {
-  
-  package cisco-iosxr-cli-6.6
-  
-  result true
-  
-  }
-  
-  reload-result {
-  
-  package l2vpnreconcile
-  
-  result true
-  
-  }
-  
-  [ok][2018-12-09 09:16:12]
-  -----------------------------------------------------------------------------------------------------------------------
+   ```
+   [nso@cl-lab-211 src]$ cd ~/ncs-run/packages
+   [nso@cl-lab-211 packages]$ ls -l
+   total 0
+   lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+   lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/ 
+
+   [nso@cl-lab-211 packages]$ ln –s /home/nso/packages/l2vpnreconcile/
+   total 0
+   lrwxrwxrwx. 1 nso nso 54 Dec  9 04:46 cisco-iosxr-cli-6.6 -> /home/nso/ncs-5.0.1/packages/neds/cisco-iosxr-cli-6.6/
+   lrwxrwxrwx. 1 nso nso 25 Dec  9 08:19 L2Vpn -> /home/nso/packages/L2Vpn/
+   lrwxrwxrwx. 1 nso nso 34 Dec  9 09:14 l2vpnreconcile -> /home/nso/packages/l2vpnreconcile/
+   [nso@cl-lab-211 packages]$ 
+
+   [nso@cl-lab-211 packages]$ ncs_cli -u admin
+
+   admin connected from 128.107.235.22 using ssh on cl-lab-211
+   admin@ncs> request packages reload
+   >>> System upgrade is starting.
+   >>> Sessions in configure mode must exit to operational mode.
+   >>> No configuration changes can be performed until upgrade has completed.
+   >>> System upgrade has completed successfully.
+   reload-result {
+      package L2Vpn
+      result true
+   }
+   reload-result {
+      package cisco-iosxr-cli-6.6
+      result true
+   }
+   reload-result {
+      package l2vpnreconcile
+      result true
+   }
+   [ok][2018-12-09 09:16:12]
+
+   ```
 
 ### Test the action script to discover all pre-existing L2VPN services
 
