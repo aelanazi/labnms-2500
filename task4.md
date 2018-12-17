@@ -311,35 +311,28 @@ attribute mapping example for auto service instance creation
 
 
 1.  Now we are ready to reset the reference count as we have done at
-    Task 3: (**Service discovery and reconciliation B: Reset )** at
-    **Step 12** via ncs cli.
+    Task 3: (**Service discovery and reconciliation B: Reset )** via ncs cli.
 
-    Add the following to reset reference count, and close cb_action.
-    Function redeploySrs is defined later.
+    Add the following to reset reference count, and close `cb_action`.
+    Helper function `redeploySrs` is defined later.
+    
+    ```
+              pe_device.sync_from()
+              
+              self.redeploySrs(root,srs)
+              time.sleep(100)
+              output.success = True
+              output.message = "Successfully created the services."
+              
+          except Exception as e:
+            self.log.error(str(e))
+            output.success = False
+            output.message = str(e)
 
-  -------------------------------------------------------
-  pe_device.sync_from()
-  
-  self.redeploySrs(root,srs)
-  
-  time.sleep(100)
-  
-  output.success = True
-  
-  output.message = "Successfully created the services."
-  
-  except Exception as e:
-  
-  self.log.error(str(e))
-  
-  output.success = False
-  
-  output.message = str(e)
-  
-  finally:
-  
-  self.log.info('Context: %s' % uinfo.context)
-  -------------------------------------------------------
+          finally:
+            self.log.info('Context: %s' % uinfo.context)
+
+    ```
 
 ### Define the helper functions used in reconcile action.
 
