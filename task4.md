@@ -128,7 +128,7 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 	 
 	 ![](./media/media/main2.png)
      
-2.   After clean up, check the `main.py` at 
+2.   After clean up, check the `main.py` at ![main-clean.py](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main-clean.py)
 
 ### Implement the action call back function to reconcile pre-exisiting L2VPN service.
 
