@@ -279,24 +279,19 @@ attribute mapping example for auto service instance creation
 
     ```
   
-1.  Continue to create PE node for the service instance, set attributes
+1. Continue to create PE node for the service instance, set attributes
     of Bundle Ether port number (id) and stag.
 
-  -------------------------------------------------
-  stag = bundleEther.encapsulation.dot1q.vlan_id
-  
-  pe_path = sr_path + '/pe-devices'
-  
-  pes_node = ncs.maagic.get_node(t,pe_path)
-  
-  pe_obj = pes_node.create(input.device_name)
-  
-  pe_obj.stag = bstag
-  
-  pe_obj.Bundle_Ether = id
-  
-  srs.append(sr_name)
-  -------------------------------------------------
+   ```
+                stag = bundleEther.encapsulation.dot1q.vlan_id 
+                pe_path = sr_path + '/pe-devices'
+                pes_node = ncs.maagic.get_node(t,pe_path)
+                pe_obj = pes_node.create(input.device_name)
+                pe_obj.stag = bstag
+                pe_obj.Bundle_Ether = id
+                srs.append(sr_name)              
+
+   ```
 
 1.  After all the Bundle-Ether-subinterfaces are processed, we perform
     dry-run action to make sure the output is empty (outside the for
