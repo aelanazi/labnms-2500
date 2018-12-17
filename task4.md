@@ -336,11 +336,22 @@ attribute mapping example for auto service instance creation
 
 ### Define the helper functions used in reconcile action.
 
-In this step, we are defining the three functions used in cb_action .
+In this step, we are defining the three functions used in `cb_action` .
 
-1.  Define function getDevice in Reconcile class. This is to return the
+1.  Define function `getDevice` in `Reconcile` class. This is to return the
     device object from cdb, with name from the input parameter
-    (device-name)
+    (`device-name`)
+    ```
+    class Reconcile(Action):
+   
+      def getDevice(self,name, root):
+        if root.devices is None or name is None:
+          return None
+        for device in root.devices.device:
+          if name == device.name:
+          return device
+        return None 
+    ```
 
   ------------------------------------------
   class Reconcile(Action):
