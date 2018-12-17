@@ -3,7 +3,7 @@
 LABNMS-2500
 ===========
 
-
+[TOC]
 
 Task 1 Create L2VPN Service Package
 ----------------------------
@@ -48,7 +48,6 @@ key of the list. Each L2Vpn contains leaf nodes of `order-number` and
 `customer-name`. In addition, it contains a list of `pe-devices`, each with
 a `Bundle-Ether` port and an `stag` (service tag).
 
-[toc]
 
 ### Create Service Skeleton 
 
