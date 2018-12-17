@@ -353,27 +353,22 @@ In this step, we are defining the three functions used in `cb_action` .
         return None 
     ```
 
-  ------------------------------------------
-  class Reconcile(Action):
-  
-  def getDevice(self,name, root):
-  
-  if root.devices is None or name is None:
-  
-  return None
-  
-  for device in root.devices.device:
-  
-  if name == device.name:
-  
-  return device
-  
-  return None
-  ------------------------------------------
-
-1.  Define function isDryRunEmpty in Reconcile class, this is to make
+1.  Define function `isDryRunEmpty` in `Reconcile` class, this is to make
     sure the service instances we created match to the pre-existing
     configuration.
+    ```
+    class Reconcile(Action):
+      …………
+      def isDryRunEmpty(self,root):
+        input = root.services.commit_dry_run.get_input()
+        input.outformat = "native"
+        result = root.services.commit_dry_run(input)
+        for dvc in result.native.device:
+          if dvc.data is not None:
+            return False
+        return True
+
+    ```
 
   -----------------------------------------------------
   class Reconcile(Action):
