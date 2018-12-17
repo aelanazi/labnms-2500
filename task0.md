@@ -127,7 +127,10 @@ Follow the following instruction.
      ```
 
 You have finished Task 0: Verify Lab Setup. Now you are ready to move on
-to the next Task: Create a service package.
+to the next Task: Create a service package:
+
+ [Task1 Create L2VPN Service Package](https://github.com/weiganghuang/labnms-2500/blob/master/task1.md)
+------
 
   
 

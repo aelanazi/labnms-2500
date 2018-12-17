@@ -156,4 +156,7 @@ manage the lifecycle of L2Vpn service instances.
 The next task is to extend the service discovery process from manual to
 automatic. It is recommended to go through the task and learn how to
 create massive service instances from pre-existing configurations, and
-reset ref-count automatically.
+reset ref-count automatically:
+
+[Task4 (Extra Credit): Create an NSO action to discover pre-existing L2VPN service instances automatically](https://github.com/weiganghuang/labnms-2500/blob/master/task4.md)
+------------------------------

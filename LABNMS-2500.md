@@ -85,17 +85,8 @@ The lab contains 5 tasks.
     automatically, through NSO’s northbound api MAAPI (Management Agent
     API), and Maggic API.
 
-You can choose to do all the tasks, or:
 
--   Task0 and Task1: (\~60 minutes)
-
--   Task0 and Task2 and Task3 (\~60 minutes)
-
--   Task0 and Task4 (\~80 minutes)
-
--   All (\~180 minutes)
-
-To start the lab, click the following links
+To start the lab, click the following links for instructions.
 
  [Task0 Verify Lab Setup](https://github.com/weiganghuang/labnms-2500/blob/master/task0.md)
 -----------------------------------

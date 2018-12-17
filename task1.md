@@ -476,5 +476,8 @@ service instance.
 
 You have completed Task1. In this task, you created, deployed and tested
 L2Vpn service package. Next, you will learn service discovery and
-reconcile when dealing with brownfield network.
+reconcile when dealing with brownfield network:
+
+[Task2 Service discovery and reconciliation A: Create L2Vpn service instances from pre-existing configuration](https://github.com/weiganghuang/labnms-2500/blob/master/task2.md)
+--------------------------------------------------
 

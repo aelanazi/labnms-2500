@@ -271,6 +271,9 @@ device configuration. This implies that NSO is not managing the
 lifecycle of service instances of pre-existing configuration.
 
 In next Task, you will learn to complete service reconciliation by
-resetting the reference count of pre-existing services.
+resetting the reference count of pre-existing services:
+
+[Task3 Service discovery and reconciliation B: Reset reference count](https://github.com/weiganghuang/labnms-2500/blob/master/task3.md)
+-----------------------------
 
  
