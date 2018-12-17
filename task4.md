@@ -115,7 +115,8 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 
     ![](./media/media/rename.png)
     
-    The class Reconcile should look like:
+    The class `Reconcile` should look like:
+    
     ![](./media/media/reconaction.png)
   
 
