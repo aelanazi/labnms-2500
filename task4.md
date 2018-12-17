@@ -280,7 +280,7 @@ attribute mapping example for auto service instance creation
     ```
   
 1. Continue to create PE node for the service instance, set attributes
-    of Bundle Ether port number (id) and stag.
+    of Bundle Ether port number (`id`) and `stag`.
 
    ```
                 stag = bundleEther.encapsulation.dot1q.vlan_id 
@@ -296,21 +296,19 @@ attribute mapping example for auto service instance creation
 1.  After all the Bundle-Ether-subinterfaces are processed, we perform
     dry-run action to make sure the output is empty (outside the for
     loop). Commit the service instances only if the dry run result is
-    empty. Function isDryRunEmpty is defined later.
+    empty. 
+    Helper function `isDryRunEmpty` is defined later.
+    
+    ```
+            if len(srs) > 0:
+              if not self.isDryRunEmpty(root):                 
+                output.success = False
+                output.message = 'commit dry-run output not empty, stop reconcilation'
+                return
+            t.apply(flags=_ncs.maapi.COMMIT_NCS_NO_NETWORKING)
 
-  ------------------------------------------------------------------------
-  if len(srs) >0:
-  
-  if not self.isDryRunEmpty(root):
-  
-  output.success = False
-  
-  output.message = 'commit dry-run output not empty, stop reconcilation'
-  
-  return
-  
-  t.apply(flags=_ncs.maapi.COMMIT_NCs_NO_NETWORKING)
-  ------------------------------------------------------------------------
+    ```
+
 
 1.  Now we are ready to reset the reference count as we have done at
     Task 3: (**Service discovery and reconciliation B: Reset )** at
