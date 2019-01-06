@@ -103,6 +103,19 @@ the file back to NSO server.**
 1.  Change “`name`” to “`sr-name`”:
 
     ![](./media/media/sr-name.png)
+    ```
+    augment /ncs:services {
+        list L2Vpn {
+            description "This is an RFS skeleton service";
+            uses ncs:service-data;
+            ncs:servicepoint L2Vpn-servicepoint;
+            key sr-name;
+            leaf sr-name {
+                tailf:info "Unique service name";
+                tailf:cli-allow-range;
+                type string;
+            }
+    ```
 
 1.  Add other service attributes: `order-number`, `customer-name`, and
     `pe-devices` after `sr-name` block. Note, attribute `pe-devices` is a list
