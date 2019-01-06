@@ -82,6 +82,47 @@ the file back to NSO server.**
     
     ![](./media/media/actionyang.png)
 
+    ```
+    module l2vpnreconcile {
+
+      namespace "http://example.com/l2vpnreconcile";
+      prefix l2vpnreconcile;
+
+      import ietf-inet-types { prefix inet; }
+      import tailf-common { prefix tailf; }
+      import tailf-ncs { prefix ncs; }
+
+      description
+        "Bla bla...";
+
+      revision 2016-01-01 {
+        description
+          "Initial revision.";
+      }
+
+      container action {
+        tailf:action reconcile-l2vpn {
+        tailf:actionpoint reconcile;
+        input {
+          leaf device-name {
+            type leafref {
+              path "/ncs:devices/ncs:device/ncs:name" ;
+            }
+        }
+      }
+      output {
+        leaf message {
+          type string;
+        }
+        leaf success {
+          type boolean;
+        }
+      }
+    }
+  }
+}
+
+    ```
     **Note: Check
     ~/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang for
     reference.**
