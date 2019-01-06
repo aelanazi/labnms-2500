@@ -374,8 +374,8 @@ Now you are ready to deploy the service package to NSO application.
 
     ```
     [nso@cl-lab-211 ~]$ ncs_cli -u admin
-
     admin connected from 128.107.235.22 using ssh on cl-lab-211
+    admin@ncs> request packages reload 
     >>> System upgrade is starting.
     >>> Sessions in configure mode must exit to operational mode.
     >>> No configuration changes can be performed until upgrade has completed.
