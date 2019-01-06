@@ -122,6 +122,22 @@ the file back to NSO server.**
     with `device-name` as the key. We use leaf reference (`leafref`) points
     to NSO’s device model: (`/ncs:devices/ncs:device/ncs:name`)
     ![](./media/media/other-attr.png)
+    ```
+    
+            leaf order-number {
+                type string;
+            }
+            leaf customer-name {
+                type string;
+            }
+            list pe-devices {
+                key device-name;
+                leaf device-name {
+                    type leafref {
+                        path "/ncs:devices/ncs:device/ncs:name";
+                    }
+                }
+    ```
   
 1.  Continue adding attributes of pe-device element. (inside the list `pe-devices` block)
 
