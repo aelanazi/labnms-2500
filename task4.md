@@ -109,18 +109,18 @@ the file back to NSO server.**
               path "/ncs:devices/ncs:device/ncs:name" ;
             }
         }
-      }
-      output {
-        leaf message {
-          type string;
+       }
+       output {
+         leaf message {
+           type string;
+         }
+         leaf success {
+           type boolean;
+         }
         }
-        leaf success {
-          type boolean;
-        }
+       }
       }
     }
-  }
-}
 
     ```
     **Note: Check
