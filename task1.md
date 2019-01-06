@@ -141,7 +141,27 @@ the file back to NSO server.**
   
 1.  Continue adding attributes of pe-device element. (inside the list `pe-devices` block)
 
-    ![](./media/media/pe-attr.png)  
+    ![](./media/media/pe-attr.png) 
+    ```
+            list pe-devices {
+                key device-name;
+                leaf device-name {
+                    type leafref {
+                        path "/ncs:devices/ncs:device/ncs:name";
+                    }
+                }
+                leaf Bundle-Ether {
+                    type string;
+                }
+                leaf stag {
+                    type uint16 {
+                        range 1..4095;
+                    }
+                }
+            }
+        }
+    }
+    ``` 
 
 1.  Complete content of the file is available at [L2Vpn.yang](https://github.com/weiganghuang/labnms-2500/blob/master/solution/L2Vpn/src/yang/L2Vpn.yang)
 
