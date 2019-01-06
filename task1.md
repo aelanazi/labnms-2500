@@ -487,7 +487,7 @@ service instance.
     followed by `config` from your NSO’s VM, linux prompt.
 
 	 ```
-	 admin@ncs% delete service L2Vpn test
+	 admin@ncs% delete services L2Vpn test
 	 [ok][2017-04-29 08:42:24]
 
 	 admin@ncs% commit dry-run outformat native
