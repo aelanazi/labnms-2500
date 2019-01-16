@@ -27,6 +27,7 @@ In this lab, the PE devices (asr9k0, asr9k1 and asr9k2) all have
 pre-existing L2VPN services that are configured out-of-band. They are synced to NSO’s device model via NSO’s
 `sync-from` operation.
 
+Pre-existing L2VPN configuration on PE devices:
 ![Pre-existing L2VPN configuration on PE devices](./media/media/preconfig.png)
 
 In this task, you will create L2Vpn service instances to match the
