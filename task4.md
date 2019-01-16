@@ -567,7 +567,7 @@ pre-existing L2VPN services.
     ```
 
 1.  Try to delete one of them to confirm that NSO is managing the
-    lifecycle of reconciled services correctly.
+    lifecycle of reconciled services.
     ```
     admin@ncs> conf
     Entering configuration mode private
