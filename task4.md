@@ -156,6 +156,13 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
     
     The class `Reconcile` should look like:
     
+    ```
+    class Reconcile(Action):
+    	@Action.action
+    	def cb_action(self, uinfo, name, kp, input, output):
+
+    ```
+    
     ![](./media/media/reconaction.png)
   
 
