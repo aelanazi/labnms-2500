@@ -180,8 +180,6 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
         self.register_action('l2vpnreconcile-action', Reconcile)
 
 	 ```
-	 
-	 ![](./media/media/main2.png)
      
 2.   The cleaned `main.py` is available at [main-clean.py](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/python/l2vpnreconcile/main-clean.py)
 
