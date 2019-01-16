@@ -28,6 +28,8 @@ pre-existing L2VPN services that are configured out-of-band. They are synced to 
 `sync-from` operation.
 
 Pre-existing L2VPN configuration on PE devices:
+
+
 ![Pre-existing L2VPN configuration on PE devices](./media/media/preconfig.png)
 
 In this task, you will create L2Vpn service instances to match the
