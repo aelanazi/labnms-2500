@@ -102,7 +102,6 @@ the file back to NSO server.**
 
 1.  Change “`name`” to “`sr-name`”:
 
-    ![](./media/media/sr-name.png)
     ```
     augment /ncs:services {
         list L2Vpn {
