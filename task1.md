@@ -140,7 +140,6 @@ the file back to NSO server.**
   
 1.  Continue adding attributes of pe-device element. (inside the list `pe-devices` block)
 
-    ![](./media/media/pe-attr.png) 
     ```
             list pe-devices {
                 key device-name;
