@@ -120,7 +120,7 @@ the file back to NSO server.**
     `pe-devices` after `sr-name` block. Note, attribute `pe-devices` is a list
     with `device-name` as the key. We use leaf reference (`leafref`) points
     to NSO’s device model: (`/ncs:devices/ncs:device/ncs:name`)
-    ![](./media/media/other-attr.png)
+    
     ```
     
             leaf order-number {
