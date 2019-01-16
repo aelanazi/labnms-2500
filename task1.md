@@ -285,8 +285,6 @@ format. This output is the starting point of the mapping template.
 
     ![](./media/media/xml.png)
 
-    ![](./media/media/template.png)
-
 
 1.  Next you need to plant the service attributes to replace the sample
     parameters used to create the Bundle Ether sub-interface
