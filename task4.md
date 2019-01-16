@@ -162,8 +162,6 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
     	def cb_action(self, uinfo, name, kp, input, output):
 
     ```
-    
-    ![](./media/media/reconaction.png)
   
 
 1.  in Main function, change the action registration accordingly, 
@@ -171,7 +169,17 @@ rename the generic default action class `DoubleAction` to `Reconcile`.
 
 	 ![](./media/media/main.png)
 	 
-	 The changes:
+	 As following:
+	 
+	 ```
+	 class Main(ncs.application.Application):
+    	def setup(self):
+
+        # When using actions, this is how we register them:
+        #
+        self.register_action('l2vpnreconcile-action', Reconcile)
+
+	 ```
 	 
 	 ![](./media/media/main2.png)
      
