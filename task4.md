@@ -80,7 +80,6 @@ the file back to NSO server.**
 
     The contents of l2vpnreconcile.yang should look like the following, available at [l2vpnreconcile.yang](https://github.com/weiganghuang/labnms-2500/blob/master/solution/l2vpnreconcile/src/yang/l2vpnreconcile.yang)
     
-    ![](./media/media/actionyang.png)
     ```
     module l2vpnreconcile {
 
