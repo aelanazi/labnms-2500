@@ -511,9 +511,10 @@ service instance.
 
 	```
 	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100
------------------------------------------------------------------------------------------------------------^
-   syntax error: element does not exist
-   [error][2019-01-17 10:43:28]
+	
+    -----------------------------------------------------------------------------------------------------------^
+    syntax error: element does not exist
+    [error][2019-01-17 10:43:28]
   
   	```
 
