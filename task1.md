@@ -510,11 +510,11 @@ service instance.
     removed. (from the putty terminal, you opened at **4**):
 
 	```
-	cl-lab-211\# show running-config interface Bundle-Ether 100.100
+	admin@ncs% show devices device asr9k0 config cisco-ios-xr:interface Bundle-Ether-subinterface Bundle-Ether 100.100
+-----------------------------------------------------------------------------------------------------------^
+   syntax error: element does not exist
+   [error][2019-01-17 10:43:28]
   
-  	------------------------------------------------------------\^
-  
-  	syntax error: "100.100" is not a valid value.
   	```
 
 You have completed Task1. In this task, you created, deployed and tested
