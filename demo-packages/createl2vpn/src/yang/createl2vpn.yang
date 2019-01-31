@@ -1,0 +1,45 @@
+module createl2vpn {
+
+  namespace "http://example.com/createl2vpn";
+  prefix createl2vpn;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision 2016-01-01 {
+    description
+      "Initial revision.";
+  }
+
+  container action {
+    tailf:action l2vpninstances {
+      tailf:actionpoint l2vpninstances;
+      input {
+        leaf device-name {
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name" ;
+          }
+        }
+      }
+
+      output {
+        leaf message {
+          type string;
+        }
+        leaf success {
+          type boolean;
+        }
+      }
+    }
+  }
+}
