@@ -1,4 +1,4 @@
-![](./media/media/image2.png)
+![](./media/media/image2.png)LABNMS-2500
 
 LABNMS-2500
 ===========
@@ -13,33 +13,29 @@ start server.
 
 Note, jump start server is shared. You should login with your own user id. Each lab user will have his/her own NSO application VM.
 
-  * Jump start window server: 128.107.235.22
+  * Jump start window server: <em>check your lab tile</em>
 
-    * login: WEIGANG\labuser[1-20]
-    * password: c1sco123\#
+    * login: <em>check your lab tile</em>
+    * password: <em>check your lab tile</em>
   
   * NSO VM for each server, (putty from Jump start server)
-    *  IP:   172.23.123.2[11-30]        
-    *  user: nso
-    *  password: cisco123           
+    *  IP:   <em>check your lab tile</em>       
+    *  user: <em>check your lab tile</em>
+    *  password: <em>check your lab tile</em>           
 
 ### Access Lab Setup. 
 
-1.  Access lab jump start server via Remote Desk Top. Launch Remote Desk Top, enter credentials (Jump start server, username is
-    WEIGANG\\labuser1, WEIGANG\\labuser2, and etc) 
+1.  Access lab jump start server via Remote Desk Top. Launch Remote Desk Top, enter credentials (<em>check your lab tile</em>) 
     
 2.  Access NSO application VM from Jump Start windows server, 
     
-    click ![](./media/media/putty.png) from desktop, to open a putty connection, enter NSO VM IP address (172.23.123.211, ....)
+    click ![](./media/media/putty.png) from desktop, to open a putty connection, enter NSO VM IP address (<em>check your lab tile</em>)
     
     **Make sure you entered the ip address assigned to you.
-    (172.23.123.211 for labuser1, 172.23.123.212 for labuser2, ….)**
+    **
 
 
-3.  Enter credentials as listed in **Table 2 Lab access information:**
-    (nso/cisco123):
-
-  ![](./media/media/image9.png)
+3.  Enter credentials as listed in your lab Tile
 
 ### Validate the setup
 
@@ -129,7 +125,7 @@ Follow the following instruction.
 You have finished Task 0: Verify Lab Setup. Now you are ready to move on
 to the next Task: Create a service package:
 
- [Task1 Create L2VPN Service Package](https://github.com/weiganghuang/labnms-2500/blob/master/task1.md)
+ [Task1 Create L2VPN Service Package](https://github.com/weiganghuang/LABNMS-2500/blob/master/task1.md)
 ------
 
   
