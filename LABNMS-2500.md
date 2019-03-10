@@ -1,4 +1,4 @@
-![](./media/media/image2.png)
+![](https://github.com/weiganghuang/labnms-2500/blob/master/media/media/image2.png)
 
 # LABNMS-2500
 
